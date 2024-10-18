@@ -1,8 +1,8 @@
 enum ProjectType {
-  Landing_page,
-  Aplicacion_web,
-  Aplicacion_de_escritorio,
-  Aplicacion_movil
+  LANDING_PAGE,
+  WEB_APPLICATION,
+  DESKTOP_APPLICATION,
+  MOBILE_APPLICATION
 }
 
 enum Languages { Javascript, Typescript, HTML, CSS }
@@ -31,7 +31,7 @@ class CreateProjectData {
   CreateProjectData(
       {String name = "",
       String description = "",
-      ProjectType type = ProjectType.Landing_page,
+      ProjectType type = ProjectType.LANDING_PAGE,
       List<Languages>? languages,
       List<Frameworks>? frameworks,
       double budget = 0.0,

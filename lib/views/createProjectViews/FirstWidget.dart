@@ -13,53 +13,62 @@ class CreateProjectApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CreateProjectToolbar(),
-      body: Container(
-          padding: EdgeInsets.symmetric(vertical: 0, horizontal: 30),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Column(children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Nombre del proyecto",
-                    style: TextStyle(fontSize: 20.0),
+      appBar: const CreateProjectToolbar(),
+      body: SingleChildScrollView(
+        child: Container(
+            padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 30),
+            child: Column(
+              children: [
+                Column(children: [
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Nombre del proyecto",
+                      style: TextStyle(fontSize: 20.0),
+                    ),
                   ),
-                ),
-                TextFormField(
-                  controller: nameController,
-                  decoration: InputDecoration(),
-                  keyboardType: TextInputType.text,
-                )
-              ]),
-              Column(children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Descripcion del proyecto",
-                    style: TextStyle(fontSize: 20.0),
+                  TextFormField(
+                    controller: nameController,
+                    decoration: const InputDecoration(),
+                    keyboardType: TextInputType.text,
+                  )
+                ]),
+                const SizedBox(height: 80),
+                Column(children: [
+                  const Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Descripcion del proyecto",
+                      style: TextStyle(fontSize: 20.0),
+                    ),
                   ),
-                ),
-                TextFormField(
-                  controller: descController,
-                  decoration: InputDecoration(),
-                  keyboardType: TextInputType.text,
+                  TextFormField(
+                    controller: descController,
+                    decoration: const InputDecoration(),
+                    keyboardType: TextInputType.text,
+                  )
+                ]),
+                const SizedBox(height: 80),
+                ProjectTypeWidget(
+                  onTypeChanged: (ProjectType? newType){
+                    projectData.type=newType!;
+                  },
                 )
-              ]),
-              ProjectTypeWidget()
-            ],
-          )),
+              ],
+            )
+        ),
+      ),
       floatingActionButton: Container(
         width: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-          child: Text("Siguiente",
+          child: const Text("Siguiente",
               style: TextStyle(fontSize: 20.0, color: Colors.white)),
           onPressed: () {
             projectData.name = nameController.text;
             projectData.description = descController.text;
+
             Navigator.push(
                 context,
                 MaterialPageRoute(
@@ -74,16 +83,75 @@ class CreateProjectApp extends StatelessWidget {
 }
 
 class ProjectTypeWidget extends StatefulWidget {
-  const ProjectTypeWidget({super.key});
+  final ValueChanged<ProjectType?> onTypeChanged;
+  const ProjectTypeWidget(
+      {
+        super.key,
+        required this.onTypeChanged
+      });
 
   @override
   State<ProjectTypeWidget> createState() => _ProjectTypeWidgetState();
 }
 
 class _ProjectTypeWidgetState extends State<ProjectTypeWidget> {
+  ProjectType? _type = ProjectType.LANDING_PAGE;
+
+
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Column(
+      children: [
+        const Align(
+          alignment: Alignment.centerLeft,
+          child: Text("Tipo de proyecto",style: TextStyle(fontSize: 20.0)),
+        ),
+        RadioListTile(
+            title: const Text("Landing Page"),
+            value: ProjectType.LANDING_PAGE,
+            groupValue: _type,
+            onChanged: (ProjectType? value){
+              setState(() {
+                _type=value;
+              });
+              widget.onTypeChanged(value);
+            }
+        ),
+        RadioListTile(
+            title: const Text("Aplicación Web"),
+            value: ProjectType.WEB_APPLICATION,
+            groupValue: _type,
+            onChanged: (ProjectType? value){
+              setState(() {
+                _type=value;
+              });
+              widget.onTypeChanged(value);
+            }
+        ),
+        RadioListTile(
+            title: const Text("Aplicación de Escritorio"),
+            value: ProjectType.DESKTOP_APPLICATION,
+            groupValue: _type,
+            onChanged: (ProjectType? value){
+              setState(() {
+                _type=value;
+              });
+              widget.onTypeChanged(value);
+            }
+        ),
+        RadioListTile(
+            title: const Text("Aplicación Móvil"),
+            value: ProjectType.MOBILE_APPLICATION,
+            groupValue: _type,
+            onChanged: (ProjectType? value){
+              setState(() {
+                _type=value;
+              });
+              widget.onTypeChanged(value);
+            }
+        )
+      ],
+    );
   }
 }
 

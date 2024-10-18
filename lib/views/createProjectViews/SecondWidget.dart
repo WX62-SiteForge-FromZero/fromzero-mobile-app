@@ -13,7 +13,8 @@ class ProjectLanguagesWidget extends StatelessWidget {
         child: Column(
           children: [
             Text(this.projectData.name),
-            Text(this.projectData.description)
+            Text(this.projectData.description),
+            Text(this.projectData.type.name)
           ],
         ),
       ),
