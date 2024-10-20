@@ -5,6 +5,7 @@ class ProjectDetailsWidget extends StatelessWidget {
   final CreateProjectData projectData = CreateProjectData();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController descController = TextEditingController();
+  final TextEditingController budgetController = TextEditingController();
 
   final Function(CreateProjectData) onUpdatedProjectData;
   final Function(int) onUpdateSection;
@@ -48,6 +49,51 @@ class ProjectDetailsWidget extends StatelessWidget {
           )
         ]),
         const SizedBox(height: 80),
+        Column(
+          children: [
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Presupuesto del proyecto",
+                style: TextStyle(fontSize: 20.0),
+              ),
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    controller: budgetController,
+                    decoration: const InputDecoration(),
+                    keyboardType:
+                        TextInputType.numberWithOptions(decimal: true),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return "Ingresa un numero";
+                      }
+                      if (double.tryParse(value) == null) {
+                        return "Ingrese un numero valido";
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                DropdownButton(
+                    value: Currency.PEN,
+                    items: Currency.values
+                        .map<DropdownMenuItem<Currency>>((Currency value) {
+                      return DropdownMenuItem<Currency>(
+                        value: value,
+                        child: Text(value.name),
+                      );
+                    }).toList(),
+                    onChanged: (Currency? value) {
+                      projectData.currency = value!;
+                    })
+              ],
+            )
+          ],
+        ),
+        const SizedBox(height: 80),
         ProjectTypeWidget(
           onTypeChanged: (ProjectType? newType) {
             projectData.type = newType!;
@@ -61,6 +107,9 @@ class ProjectDetailsWidget extends StatelessWidget {
               child: const Text("Siguiente",
                   style: TextStyle(fontSize: 20.0, color: Colors.white)),
               onPressed: () {
+                projectData.name = nameController.text;
+                projectData.description = descController.text;
+                projectData.budget = double.tryParse(budgetController.text)!;
                 onUpdatedProjectData(projectData);
                 onUpdateSection(2);
               }),

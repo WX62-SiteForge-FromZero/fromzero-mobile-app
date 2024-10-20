@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fromzero_company_app/models/project_model.dart';
 
-class MethodologiesWidget extends StatelessWidget {
+class MethodologiesWidget extends StatefulWidget {
   final CreateProjectData projectData;
   final Function(CreateProjectData) onUpdatedProjectData;
   final Function(int) onUpdateSection;
@@ -13,29 +13,153 @@ class MethodologiesWidget extends StatelessWidget {
       required this.onUpdateSection});
 
   @override
+  State<MethodologiesWidget> createState() => _MethodologiesWidgetState();
+}
+
+class _MethodologiesWidgetState extends State<MethodologiesWidget> {
+  //List<Methodology>? methodologies;
+  bool defaultMethodologies = true;
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(this.projectData.name),
-        Text(this.projectData.description),
-        Text(this.projectData.type.name),
-        Container(
-          color: Colors.lightBlue,
-          child: Column(
-            children: this.projectData.languages.map((language) {
-              return Text(language.name);
-            }).toList(),
-          ),
+        Row(
+          children: [
+            Text("Ingresa methodologias"),
+            Column(
+              children: [
+                Text("Elegir metodologóas por defecto"),
+                Switch(
+                    value: defaultMethodologies,
+                    onChanged: (value) {
+                      setState(() {
+                        defaultMethodologies = value;
+                        if (value == true) {
+                          widget.projectData.methodologies = [];
+                        }
+                        /*widget.onUpdatedProjectData(widget.projectData);*/
+                      });
+                    })
+              ],
+            )
+          ],
         ),
         Container(
-          color: Colors.orange,
-          child: Column(
-            children: this.projectData.frameworks.map((framework) {
-              return Text(framework.name);
-            }).toList(),
-          ),
+          child: defaultMethodologies
+              ? Container(
+                  child: Center(
+                    child: Column(
+                      children: [
+                        Text("Metodologías por defecto"),
+                        Text(
+                            "Se elegirán entregables por defecto en base al tipo de proyecto que eligió.")
+                      ],
+                    ),
+                  ),
+                )
+              : SetMethodologiesWidget(
+                  onAddMethodology: (String name, String description) {
+                    widget.projectData.methodologies
+                        .add(Methodology(name, description));
+                  },
+                ),
+        ),
+        SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+              child: const Text("Siguiente",
+                  style: TextStyle(fontSize: 20.0, color: Colors.white)),
+              onPressed: () {
+                widget.onUpdatedProjectData(widget.projectData);
+                widget.onUpdateSection(4);
+              }),
         )
       ],
     );
+  }
+}
+
+class SetMethodologiesWidget extends StatefulWidget {
+  final Function(String, String) onAddMethodology;
+
+  const SetMethodologiesWidget({super.key, required this.onAddMethodology});
+
+  @override
+  State<SetMethodologiesWidget> createState() => _SetMethodologiesWidgetState();
+}
+
+class _SetMethodologiesWidgetState extends State<SetMethodologiesWidget> {
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController descController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(children: [
+      Expanded(
+        child: Column(
+          children: [
+            Column(
+              children: [
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Nombre de entregable",
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                ),
+                TextFormField(
+                  controller: nameController,
+                  decoration: const InputDecoration(),
+                  keyboardType: TextInputType.text,
+                )
+              ],
+            ),
+            Column(
+              children: [
+                const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Descripcion de entregable",
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                ),
+                TextFormField(
+                  controller: descController,
+                  decoration: const InputDecoration(),
+                  keyboardType: TextInputType.text,
+                )
+              ],
+            ),
+          ],
+        ),
+      ),
+      SizedBox(
+          width: 60,
+          child: IconButton(
+              color: Colors.lightBlue,
+              icon: Icon(
+                Icons.add,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                if (nameController.text != "" && descController.text != "") {
+                  widget.onAddMethodology(
+                      nameController.text, descController.text);
+                  nameController.text = "";
+                  descController.text = "";
+                }
+              })
+          /*ElevatedButton(
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
+                child: const Text("",
+                    style: TextStyle(fontSize: 20.0, color: Colors.white)),
+                onPressed: () {
+                  widget.onUpdatedProjectData(widget.projectData);
+                  widget.onUpdateSection(4);
+                }),*/
+          )
+    ]);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fromzero_company_app/views/createProjectViews/FirstWidget.dart';
+import 'package:fromzero_company_app/views/createProjectViews/FourthWidget.dart';
 import 'package:fromzero_company_app/views/createProjectViews/SecondWidget.dart';
 import 'package:fromzero_company_app/views/createProjectViews/ThirdWidget.dart';
 import '../../models/project_model.dart';
@@ -43,7 +44,7 @@ class _CreateProjectAppState extends State<CreateProjectApp> {
           onUpdatedProjectData: updateProjectData,
           onUpdateSection: updateCurrentSection);
     } else if (currentSection == 4) {
-      return Container(child: Text("Error"));
+      return ShowProjectData(projectData: projectData);
     } else {
       return Container(child: Center(child: Text("Error")));
     }
@@ -56,7 +57,7 @@ class _CreateProjectAppState extends State<CreateProjectApp> {
         title: Text("Crear proyecto", style: TextStyle(fontSize: 40.0)),
         backgroundColor: Colors.lightBlue,
         bottom: PreferredSize(
-          preferredSize: Size.fromHeight(100),
+          preferredSize: Size.fromHeight(50),
           child: Align(
             alignment: Alignment.centerLeft,
             child: Padding(
@@ -67,15 +68,17 @@ class _CreateProjectAppState extends State<CreateProjectApp> {
                       "Detalles del proyecto",
                       style: TextStyle(fontSize: 20.0),
                     ),
-                    IconButton(
-                        icon: Icon(Icons.arrow_back),
-                        onPressed: () {
-                          if (currentSection <= 4 && currentSection != 1) {
-                            setState(() {
-                              currentSection--;
-                            });
-                          }
-                        })
+                    currentSection != 1
+                        ? IconButton(
+                            icon: Icon(Icons.arrow_back),
+                            onPressed: () {
+                              if (currentSection <= 4 && currentSection != 1) {
+                                setState(() {
+                                  currentSection--;
+                                });
+                              }
+                            })
+                        : Container()
                   ],
                 )),
           ),
