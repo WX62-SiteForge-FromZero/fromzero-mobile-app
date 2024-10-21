@@ -31,6 +31,7 @@ class _CreateProjectAppState extends State<CreateProjectApp> {
   Widget currentWidget() {
     if (currentSection == 1) {
       return ProjectDetailsWidget(
+          projectData: projectData,
           onUpdatedProjectData: updateProjectData,
           onUpdateSection: updateCurrentSection);
     } else if (currentSection == 2) {
@@ -64,10 +65,6 @@ class _CreateProjectAppState extends State<CreateProjectApp> {
                 padding: EdgeInsets.only(left: 16.0, bottom: 8.0),
                 child: Row(
                   children: [
-                    Text(
-                      "Detalles del proyecto",
-                      style: TextStyle(fontSize: 20.0),
-                    ),
                     currentSection != 1
                         ? IconButton(
                             icon: Icon(Icons.arrow_back),
@@ -78,7 +75,11 @@ class _CreateProjectAppState extends State<CreateProjectApp> {
                                 });
                               }
                             })
-                        : Container()
+                        : Container(),
+                    Text(
+                      "Detalles del proyecto",
+                      style: TextStyle(fontSize: 20.0),
+                    ),
                   ],
                 )),
           ),

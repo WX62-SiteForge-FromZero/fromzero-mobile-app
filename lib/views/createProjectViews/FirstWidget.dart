@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fromzero_company_app/models/project_model.dart';
 
 class ProjectDetailsWidget extends StatelessWidget {
-  final CreateProjectData projectData = CreateProjectData();
+  final CreateProjectData projectData;
   final TextEditingController nameController = TextEditingController();
   final TextEditingController descController = TextEditingController();
   final TextEditingController budgetController = TextEditingController();
@@ -12,6 +12,7 @@ class ProjectDetailsWidget extends StatelessWidget {
 
   ProjectDetailsWidget(
       {super.key,
+      required this.projectData,
       required this.onUpdatedProjectData,
       required this.onUpdateSection});
 
@@ -33,7 +34,7 @@ class ProjectDetailsWidget extends StatelessWidget {
             keyboardType: TextInputType.text,
           )
         ]),
-        const SizedBox(height: 80),
+        const SizedBox(height: 40),
         Column(children: [
           const Align(
             alignment: Alignment.centerLeft,
@@ -48,7 +49,7 @@ class ProjectDetailsWidget extends StatelessWidget {
             keyboardType: TextInputType.text,
           )
         ]),
-        const SizedBox(height: 80),
+        const SizedBox(height: 40),
         Column(
           children: [
             const Align(
@@ -59,47 +60,32 @@ class ProjectDetailsWidget extends StatelessWidget {
               ),
             ),
             Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Expanded(
+                SizedBox(
+                  width: 200,
+                  //Expanded(
                   child: TextFormField(
                     controller: budgetController,
                     decoration: const InputDecoration(),
                     keyboardType:
                         TextInputType.numberWithOptions(decimal: true),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Ingresa un numero";
-                      }
-                      if (double.tryParse(value) == null) {
-                        return "Ingrese un numero valido";
-                      }
-                      return null;
-                    },
                   ),
                 ),
-                DropdownButton(
-                    value: Currency.PEN,
-                    items: Currency.values
-                        .map<DropdownMenuItem<Currency>>((Currency value) {
-                      return DropdownMenuItem<Currency>(
-                        value: value,
-                        child: Text(value.name),
-                      );
-                    }).toList(),
-                    onChanged: (Currency? value) {
-                      projectData.currency = value!;
-                    })
+                BudgetCurrencyWidget(onCurrencyChanged: (Currency? value) {
+                  projectData.currency = value!;
+                })
               ],
             )
           ],
         ),
-        const SizedBox(height: 80),
+        const SizedBox(height: 40),
         ProjectTypeWidget(
           onTypeChanged: (ProjectType? newType) {
             projectData.type = newType!;
           },
         ),
-        const SizedBox(height: 80),
+        const SizedBox(height: 40),
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(
@@ -109,13 +95,51 @@ class ProjectDetailsWidget extends StatelessWidget {
               onPressed: () {
                 projectData.name = nameController.text;
                 projectData.description = descController.text;
-                projectData.budget = double.tryParse(budgetController.text)!;
+                double? parsedBudget = double.tryParse(budgetController.text);
+                if (parsedBudget == null ||
+                    projectData.name == "" ||
+                    projectData.description == "") {
+                  return;
+                }
+                projectData.budget = parsedBudget;
                 onUpdatedProjectData(projectData);
                 onUpdateSection(2);
               }),
         )
       ],
     );
+  }
+}
+
+class BudgetCurrencyWidget extends StatefulWidget {
+  final ValueChanged<Currency?> onCurrencyChanged;
+
+  const BudgetCurrencyWidget({super.key, required this.onCurrencyChanged});
+
+  @override
+  State<BudgetCurrencyWidget> createState() => _BudgetCurrencyWidgetState();
+}
+
+class _BudgetCurrencyWidgetState extends State<BudgetCurrencyWidget> {
+  Currency? _currency = Currency.PEN;
+
+  @override
+  Widget build(BuildContext context) {
+    return DropdownButton(
+        value: _currency,
+        items:
+            Currency.values.map<DropdownMenuItem<Currency>>((Currency value) {
+          return DropdownMenuItem<Currency>(
+            value: value,
+            child: Text(value.name),
+          );
+        }).toList(),
+        onChanged: (Currency? value) {
+          setState(() {
+            _currency = value;
+          });
+          widget.onCurrencyChanged(value);
+        });
   }
 }
 

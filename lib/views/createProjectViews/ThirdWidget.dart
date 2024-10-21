@@ -17,7 +17,6 @@ class MethodologiesWidget extends StatefulWidget {
 }
 
 class _MethodologiesWidgetState extends State<MethodologiesWidget> {
-  //List<Methodology>? methodologies;
   bool defaultMethodologies = true;
 
   @override
@@ -25,11 +24,23 @@ class _MethodologiesWidgetState extends State<MethodologiesWidget> {
     return Column(
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Text("Ingresa methodologias"),
-            Column(
+            if (!defaultMethodologies)
+              Expanded(
+                  child: Text(
+                "Ingresa metodologias",
+                style: TextStyle(fontSize: 20),
+                textAlign: TextAlign.center,
+              )),
+            Expanded(
+                child: Column(
               children: [
-                Text("Elegir metodologóas por defecto"),
+                Text(
+                  "Elegir metodologías por defecto",
+                  style: TextStyle(fontSize: 20),
+                  textAlign: TextAlign.center,
+                ),
                 Switch(
                     value: defaultMethodologies,
                     onChanged: (value) {
@@ -38,11 +49,10 @@ class _MethodologiesWidgetState extends State<MethodologiesWidget> {
                         if (value == true) {
                           widget.projectData.methodologies = [];
                         }
-                        /*widget.onUpdatedProjectData(widget.projectData);*/
                       });
                     })
               ],
-            )
+            ))
           ],
         ),
         Container(
@@ -51,9 +61,16 @@ class _MethodologiesWidgetState extends State<MethodologiesWidget> {
                   child: Center(
                     child: Column(
                       children: [
-                        Text("Metodologías por defecto"),
                         Text(
-                            "Se elegirán entregables por defecto en base al tipo de proyecto que eligió.")
+                          "Metodologías por defecto",
+                          style: TextStyle(fontSize: 25),
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                          "Se elegirán entregables por defecto en base al tipo de proyecto que eligió.",
+                          style: TextStyle(fontSize: 25),
+                          textAlign: TextAlign.center,
+                        )
                       ],
                     ),
                   ),
@@ -137,29 +154,23 @@ class _SetMethodologiesWidgetState extends State<SetMethodologiesWidget> {
       ),
       SizedBox(
           width: 60,
-          child: IconButton(
-              color: Colors.lightBlue,
-              icon: Icon(
-                Icons.add,
-                color: Colors.black,
-              ),
-              onPressed: () {
-                if (nameController.text != "" && descController.text != "") {
-                  widget.onAddMethodology(
-                      nameController.text, descController.text);
-                  nameController.text = "";
-                  descController.text = "";
-                }
-              })
-          /*ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-                child: const Text("",
-                    style: TextStyle(fontSize: 20.0, color: Colors.white)),
-                onPressed: () {
-                  widget.onUpdatedProjectData(widget.projectData);
-                  widget.onUpdateSection(4);
-                }),*/
-          )
+          child: Container(
+              decoration: BoxDecoration(
+                  color: Colors.lightBlue, shape: BoxShape.circle),
+              child: IconButton(
+                  icon: Icon(
+                    Icons.add,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    if (nameController.text != "" &&
+                        descController.text != "") {
+                      widget.onAddMethodology(
+                          nameController.text, descController.text);
+                      nameController.text = "";
+                      descController.text = "";
+                    }
+                  })))
     ]);
   }
 }
