@@ -5,6 +5,7 @@ class CreateDeliverableWidget extends StatelessWidget {
   final Deliverable newDeliverable = Deliverable();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController descController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   CreateDeliverableWidget({super.key});
 
@@ -12,40 +13,49 @@ class CreateDeliverableWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
+        padding: EdgeInsets.all(60),
         child: Form(
+            key: formKey,
             child: Column(
-          children: [
-            TextFormField(
-              controller: nameController,
-              decoration: InputDecoration(labelText: "Nombre del entregable"),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Este campo es obligatorio";
-                }
-                return null;
-              },
-            ),
-            TextFormField(
-              controller: descController,
-              decoration:
-                  InputDecoration(labelText: "Descripcion del entregable"),
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return "Este campo es obligatorio";
-                }
-                return null;
-              },
-            ),
-            DatePickerWidget(
-              context: context,
-            ),
-            SizedBox(height: 80),
-            ElevatedButton(
-              child: Text("Crear Entregable"),
-              onPressed: onPressed,
-            )
-          ],
-        )),
+              children: [
+                TextFormField(
+                  controller: nameController,
+                  decoration: InputDecoration(labelText: "Nombre del entregable"),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Este campo es obligatorio";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 80),
+                TextFormField(
+                  controller: descController,
+                  decoration: InputDecoration(labelText: "Descripcion del entregable"),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Este campo es obligatorio";
+                    }
+                    return null;
+                  },
+                ),
+                SizedBox(height: 80),
+                DatePickerWidget(
+                  context: context,
+                ),
+                SizedBox(height: 80),
+                ElevatedButton(
+                  child: Text("Crear Entregable"),
+                  onPressed: () {
+                    if (!formKey.currentState!.validate()) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("No valido")));
+                    }
+                    //Post de entregable
+                    // y volver a Lista
+                  },
+                )
+              ],
+            )),
       ),
     );
   }
@@ -69,21 +79,26 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
         child: Column(
       children: [
         ElevatedButton(
-          child: Text("Seleccione fecha limite para este entregable"),
-          onPressed: () => selectDeadline,
-        )
+          child: Text(
+            "Seleccione fecha limite para este entregable",
+            textAlign: TextAlign.center,
+          ),
+          onPressed: () {
+            selectDeadline();
+          },
+        ),
+        deadline != null ? Text("Fecha límite de entrega: " + deadline.toString()) : Container()
       ],
     ));
   }
 
   Future<void> selectDeadline() async {
-    final DateTime? selected = await showDatePicker(
-        context: widget.context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime(2023),
-        lastDate: DateTime(2050));
+    final DateTime? selected =
+        await showDatePicker(context: widget.context, initialDate: DateTime.now(), firstDate: DateTime(2023), lastDate: DateTime(2050));
     if (selected != null) {
-      setState(() {});
+      setState(() {
+        deadline = selected;
+      });
     }
   }
 }
