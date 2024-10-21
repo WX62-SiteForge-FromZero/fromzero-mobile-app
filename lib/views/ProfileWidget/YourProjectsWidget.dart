@@ -6,37 +6,74 @@ class YourProjectsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-          child: Column(
-            children: [
-              Text("Tus Proyectos",
-                style: TextStyle(fontSize: 36,
-                    fontWeight: FontWeight.bold
-                ),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      appBar: AppBar(
+        title: Text("Tus proyectos"),
+      ),
+      body: ListView(
+        children: [
+          // Primer ListTile con contenido
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0), // Espacio a los lados
+            child: ListTile(
+              title: Text("Proyecto de juego de Ajedrez"),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Primer contenedor
-                  Container(
-                    height: 150,
-                    width: 300,
-                    color: Colors.teal,
-                    child: Center(
-                      child: Text("Plataforma",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                        ),
-                      ),
+                  Text("Este proyecto se debe realizar en java"),
+                  const SizedBox(height: 10), // Espacio entre subtítulo y botón
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red, // Color del botón
+                      foregroundColor: Colors.white, // Color del texto del botón
                     ),
-                  )
-
+                    onPressed: () {
+                      // Acción del botón
+                    },
+                    child: Text("Ver candidatos"),
+                  ),
                 ],
-              )
-            ],
-          )),
+              ),
+              tileColor: Colors.grey[300], // Fondo gris claro
+            ),
+          ),
+
+          const SizedBox(height: 20), // Espacio en blanco entre ListTiles
+
+          // Segundo ListTile vacío
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: ListTile(
+              title: Text(""),
+              subtitle: Text(""),
+              tileColor: Colors.grey[300],
+            ),
+          ),
+
+          const SizedBox(height: 20), // Espacio en blanco entre ListTiles
+
+          // Tercer ListTile vacío
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: ListTile(
+              title: Text(""),
+              subtitle: Text(""),
+              tileColor: Colors.grey[300],
+            ),
+          ),
+
+          const SizedBox(height: 20), // Espacio en blanco entre ListTiles
+
+          // Cuarto ListTile vacío
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: ListTile(
+              title: Text(""),
+              subtitle: Text(""),
+              tileColor: Colors.grey[300],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
