@@ -9,13 +9,20 @@ class EditProfileWidget extends StatefulWidget {
 
 class _EditProfileWidgetState extends State<EditProfileWidget> {
   bool _isEditing = false; // Controla el estado de edición
-  String _country = "Perú"; // Valor inicial del país
+  String _country = "Perú";
+  String _razonSocial = "2024252658";
+  String _telefono = "987654321";
+  String _correo = "correo@gmail.com";
+  String _sitioWeb = "geekit.pe";
+  String _sector = "Ropa";
+  String _descripcion =
+      "Geskit es una plataforma donde puedes encontrar ropa y diseños que en el mercado actual no puedes encontrar con facilidad.";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 50, // Establece la altura del AppBar
+        toolbarHeight: 30, // Establece la altura del AppBar
         backgroundColor: Colors.blue, // Cambia el color de la AppBar si lo deseas
         leading: IconButton(
           icon: const Icon(Icons.menu), // Ícono de menú
@@ -52,10 +59,16 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                           // Acción del botón
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue, // Color del botón
+                          backgroundColor: const Color(0xFF004CFF), // Color del botón
                           padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                         ),
-                        child: Text("Proyecto"),
+                        child: Text(
+                          "Proyecto",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold, // Texto en negrita (bold)
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -68,12 +81,12 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                   1: FlexColumnWidth(2),
                 },
                 children: [
-                  _buildTableRow("País", _isEditing ? _buildCountryField() : Text(_country)),
-                  _buildTableRow("Razón Social", Text("2024252658")),
-                  _buildTableRow("Teléfono", Text("987654321")),
-                  _buildTableRow("Correo", Text("correo@gmail.com")),
-                  _buildTableRow("Sitio web", Text("geekit.pe")),
-                  _buildTableRow("Sector", Text("Ropa")),
+                  _buildTableRow("País", _isEditing ? _buildTextField(_country, (value) => _country = value) : Text(_country)),
+                  _buildTableRow("Razón Social", _isEditing ? _buildTextField(_razonSocial, (value) => _razonSocial = value) : Text(_razonSocial)),
+                  _buildTableRow("Teléfono", _isEditing ? _buildTextField(_telefono, (value) => _telefono = value) : Text(_telefono)),
+                  _buildTableRow("Correo", _isEditing ? _buildTextField(_correo, (value) => _correo = value) : Text(_correo)),
+                  _buildTableRow("Sitio web", _isEditing ? _buildTextField(_sitioWeb, (value) => _sitioWeb = value) : Text(_sitioWeb)),
+                  _buildTableRow("Sector", _isEditing ? _buildTextField(_sector, (value) => _sector = value) : Text(_sector)),
                 ],
               ),
               const SizedBox(height: 16), // Espacio antes de la descripción
@@ -82,9 +95,10 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
               const SizedBox(height: 8),
-              Text(
-                "Geskit es una plataforma donde puedes encontrar ropa y diseños "
-                    "que en el mercado actual no puedes encontrar con facilidad.",
+              _isEditing
+                  ? _buildTextField(_descripcion, (value) => _descripcion = value, maxLines: 3)
+                  : Text(
+                _descripcion,
                 textAlign: TextAlign.justify,
                 style: TextStyle(fontSize: 16),
               ),
@@ -98,7 +112,16 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                         _isEditing = true; // Activar el modo de edición
                       });
                     },
-                    child: Text('Editar Cambios'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF004CFF), // Color del botón
+                    ),
+                    child: Text(
+                      'Editar Cambios',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold, // Texto en negrita (bold)
+                      ),
+                    ),
                   ),
                   ElevatedButton(
                     onPressed: () {
@@ -107,10 +130,19 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                       });
                       // Aquí puedes agregar lógica para guardar los cambios permanentemente
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Cambios guardados: $_country')),
+                        SnackBar(content: Text('Cambios guardados')),
                       );
                     },
-                    child: Text('Guardar Cambios'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF004CFF), // Color del botón
+                    ),
+                    child: Text(
+                      'Guardar Cambios',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold, // Texto en negrita (bold)
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -121,16 +153,16 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
     );
   }
 
-  Widget _buildCountryField() {
+  // Función para crear campos de texto editables
+  Widget _buildTextField(String initialValue, Function(String) onChanged, {int maxLines = 1}) {
     return TextField(
+      controller: TextEditingController(text: initialValue),
+      onChanged: onChanged,
+      maxLines: maxLines,
       decoration: InputDecoration(
-        hintText: 'Ingrese el país',
+        border: OutlineInputBorder(),
+        contentPadding: EdgeInsets.all(8.0),
       ),
-      onChanged: (value) {
-        setState(() {
-          _country = value; // Actualiza el valor del país
-        });
-      },
     );
   }
 
