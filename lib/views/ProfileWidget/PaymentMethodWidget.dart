@@ -11,11 +11,10 @@ class PaymentMethodWidget extends StatelessWidget {
       ),
       body: ListView(
         children: [
-          // Simulación de una tarjeta de crédito o débito
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Card(
-              elevation: 4, // Sombra de la tarjeta
+              elevation: 4,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(12.0), // Esquinas redondeadas
               ),
@@ -33,10 +32,10 @@ class PaymentMethodWidget extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      "**** **** **** 1234", // Número de tarjeta (últimos 4 dígitos)
+                      "**** **** **** 1234",
                       style: TextStyle(
                         fontSize: 16,
-                        letterSpacing: 2, // Espaciado entre caracteres
+                        letterSpacing: 2,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -48,14 +47,14 @@ class PaymentMethodWidget extends StatelessWidget {
                           style: TextStyle(fontSize: 12),
                         ),
                         Text(
-                          "12/25", // Fecha de caducidad
+                          "12/25",
                           style: TextStyle(fontSize: 12),
                         ),
                       ],
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      "CVV: ***", // CVV (oculto)
+                      "CVV: ***",
                       style: TextStyle(fontSize: 12),
                     ),
                   ],
@@ -64,41 +63,36 @@ class PaymentMethodWidget extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 16), // Espacio entre la tarjeta y el ListTile
+          const SizedBox(height: 16),
 
-          // ListTile para Editar Tarjeta con esquinas redondeadas y un icono de tacho de basura
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(12.0), // Esquinas redondeadas
+              borderRadius: BorderRadius.circular(12.0),
               child: Container(
-                color: Colors.grey[200], // Fondo gris claro
+                color: Colors.grey[200],
                 child: ListTile(
                   title: Text(
                     "Editar Tarjeta",
-                    style: TextStyle(fontWeight: FontWeight.bold), // Título en negrita
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                   trailing: IconButton(
                     icon: Icon(
-                      Icons.delete, // Icono de tacho de basura
-                      color: Colors.red, // Color rojo
+                      Icons.delete,
+                      color: Colors.red,
                     ),
                     onPressed: () {
-                      // Acción al presionar el icono
-                      // Aquí puedes agregar la lógica para eliminar la tarjeta
                     },
                   ),
                   onTap: () {
-                    // Acción al presionar el ListTile
                   },
                 ),
               ),
             ),
           ),
 
-          const SizedBox(height: 4), // Espacio entre el ListTile y los campos de entrada
+          const SizedBox(height: 4),
 
-          // Campo de entrada para Nombre y Apellidos
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
@@ -107,25 +101,24 @@ class PaymentMethodWidget extends StatelessWidget {
                 Text(
                   "Nombre y Apellidos",
                   style: TextStyle(
-                    fontSize: 11, // Tamaño de fuente más pequeño
+                    fontSize: 11,
                   ),
                 ),
                 const SizedBox(height: 0),
                 TextField(
                   decoration: InputDecoration(
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.0), // Esquinas redondeadas
-                      borderSide: BorderSide(color: Colors.grey), // Color del borde
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: BorderSide(color: Colors.grey),
                     ),
                     hintText: 'Agregar Nombre y Apellidos',
                     filled: true, // Rellenar el fondo
-                    fillColor: Colors.grey[300], // Color de fondo del campo
+                    fillColor: Colors.grey[300],
                   ),
-                  style: TextStyle(fontSize: 11), // Tamaño de fuente más pequeño para el campo
+                  style: TextStyle(fontSize: 11),
                 ),
-                const SizedBox(height: 4), // Espacio entre los campos
+                const SizedBox(height: 4),
 
-                // Campo de entrada para Número de Tarjeta
                 Text(
                   "Número de Tarjeta",
                   style: TextStyle(
@@ -146,9 +139,8 @@ class PaymentMethodWidget extends StatelessWidget {
                   style: TextStyle(fontSize: 11),
                 ),
 
-                const SizedBox(height: 4), // Espacio entre los campos
+                const SizedBox(height: 4),
 
-                // Fila para Fecha de Vencimiento y CVV
                 Row(
                   children: [
                     Expanded(
@@ -177,7 +169,7 @@ class PaymentMethodWidget extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(width: 16), // Espacio entre los campos
+                    const SizedBox(width: 16),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -207,9 +199,8 @@ class PaymentMethodWidget extends StatelessWidget {
                   ],
                 ),
 
-                const SizedBox(height: 4), // Espacio entre los campos
+                const SizedBox(height: 4),
 
-                // Campo de entrada para Correo Electrónico
                 Text(
                   "Correo Electrónico",
                   style: TextStyle(
@@ -230,27 +221,25 @@ class PaymentMethodWidget extends StatelessWidget {
                   style: TextStyle(fontSize: 11),
                 ),
 
-                const SizedBox(height: 16), // Espacio entre el correo y el botón
+                const SizedBox(height: 16),
 
-                // Botón de Pagar
                 SizedBox(
-                  width: double.infinity, // Ancho completo
+                  width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      // Acción al presionar el botón de Pagar
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF004CFF), // Color del botón
-                      padding: EdgeInsets.symmetric(vertical: 12.0), // Padding del botón
+                      backgroundColor: Color(0xFF004CFF),
+                      padding: EdgeInsets.symmetric(vertical: 12.0),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0), // Esquinas redondeadas
+                        borderRadius: BorderRadius.circular(12.0),
                       ),
                     ),
                     child: Text(
                       "Pagar",
                       style: TextStyle(
-                        color: Colors.white, // Color del texto
-                        fontSize: 16, // Tamaño del texto
+                        color: Colors.white,
+                        fontSize: 16,
                       ),
                     ),
                   ),

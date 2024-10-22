@@ -1,23 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fromzero_company_app/views/ProfileWidget/EditProfileWidget.dart';
+import 'package:fromzero_company_app/views/ProfileWidget/PaymentMethodWidget.dart';
 
 class MenuWidget extends StatelessWidget {
   const MenuWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: const Text("Profile", style: TextStyle(color: Colors.black)),
-        centerTitle: true,
-        elevation: 0,
-      ),
-      body: SingleChildScrollView(
+    return Drawer(
+      child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(vertical: 20),
         child: Column(
           children: [
+            DrawerHeader(
+                child: Text("Menu",style: TextStyle(fontSize: 40),)),
             const ProfilePic(),
             const SizedBox(height: 20),
             ProfileMenu(
@@ -93,7 +90,27 @@ class ProfileMenu extends StatelessWidget {
           ),
           backgroundColor: const Color(0xFFF5F6F9),
         ),
-        onPressed: press,
+        onPressed: (){
+          if(text=="Payment Methods"){
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context)=>PaymentMethodWidget()
+                )
+            );
+          }else if(text=="Edit Profile"){
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context)=>EditProfileWidget()
+                )
+            );
+          }else if(text=="Chat"){
+
+          }else if(text=="Log Out"){
+            Navigator.pop(context);
+          }
+        },
         child: Row(
           children: [
             SvgPicture.asset(

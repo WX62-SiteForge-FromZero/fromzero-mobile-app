@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fromzero_company_app/views/ProfileWidget/MenuWidget.dart';
+import 'package:fromzero_company_app/views/ProfileWidget/ProfileWidget.dart';
 import 'package:fromzero_company_app/views/createProjectViews/CreateProjectWidget.dart';
 import 'package:fromzero_company_app/views/searchProjectsViews/ProjectMainList.dart';
 
@@ -20,6 +22,11 @@ class _NavbarState extends State<Navbar> {
 
   Text setViewTitle() {
     switch (selectedView) {
+      case 0:
+        return const Text(
+          "Perfil",
+          style: TextStyle(fontSize: 35),
+        );
       case 1:
         return const Text(
           "Buscar Desarrolladores",
@@ -27,12 +34,7 @@ class _NavbarState extends State<Navbar> {
         );
       case 2:
         return const Text(
-          "Destacados",
-          style: TextStyle(fontSize: 35),
-        );
-      case 3:
-        return const Text(
-          "Publicar Proyecto",
+          "Proyectos Destacados",
           style: TextStyle(fontSize: 35),
         );
       default:
@@ -46,17 +48,28 @@ class _NavbarState extends State<Navbar> {
   @override
   Widget build(BuildContext context) {
     final views = [
-      const CreateProjectApp(), // Vista de Crear Proyecto
-      const DeveloperListScreen(), // Nueva Vista de Búsqueda de Desarrolladores
-      const Center(child: Text("Destacados")), // Placeholder para Destacados
-      const Center(child: Text("Publicar")), // Placeholder para Publicar
+      const ProfileWidget(),
+      const DeveloperListScreen(),
+      const Center(child: Text("Destacados")),
+      const CreateProjectApp(),
     ];
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightBlue,
+        leading: Builder(
+            builder: (BuildContext aContext){
+              return IconButton(
+                icon: Icon(Icons.menu),
+                onPressed: (){
+                  Scaffold.of(aContext).openDrawer();
+                },
+              );
+            }
+        ),
         title: setViewTitle(),
       ),
+      drawer: const MenuWidget(),
       body: IndexedStack(
         index: selectedView,
         children: views,

@@ -7,12 +7,6 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-/*
-import 'package:fromzero_company_app/views/ProfileWidget/MenuWidget.dart';
-import 'package:fromzero_company_app/main.dart';
-import 'package:fromzero_company_app/views/ProfileWidget/ProfileWidget.dart';
-import 'package:fromzero_company_app/views/ProfileWidget/YourProjectsWidget.dart';
-*/
 import 'package:fromzero_company_app/navbar.dart';
 
 

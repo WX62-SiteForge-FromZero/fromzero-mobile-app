@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fromzero_company_app/views/ProfileWidget/YourProjectsWidget.dart';
 
 class ProfileWidget extends StatelessWidget {
   const ProfileWidget({super.key});
@@ -6,28 +7,16 @@ class ProfileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        toolbarHeight: 28, // Establece la altura del AppBar
-        backgroundColor: Colors.white, // Cambia el color de la AppBar si lo deseas
-        leading: IconButton(
-          icon: const Icon(Icons.menu), // Ícono de menú
-          onPressed: () {
-            // Acción al presionar el ícono de menú
-          },
-        ),
-        // Título eliminado
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Fila con el icono de perfil y el nombre
               Row(
                 children: [
                   const ProfilePic(),
-                  const SizedBox(width: 20), // Espacio entre la imagen y el texto
+                  const SizedBox(width: 20),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -38,25 +27,35 @@ class ProfileWidget extends StatelessWidget {
                           fontSize: 24,
                         ),
                       ),
-                      const SizedBox(height: 10), // Espacio entre el nombre y el botón
+                      const SizedBox(height: 10),
                       ElevatedButton(
                         onPressed: () {
-                          // Acción del botón
+
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context)=>
+                                      YourProjectsWidget()
+                              )
+                          );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue, // Color del botón
+                          backgroundColor: Colors.blue,
                           padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                         ),
-                        child: Text("Proyecto"),
+                        child: Text("Ver Proyectos",style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black
+                        ),),
                       ),
                     ],
                   ),
                 ],
               ),
-              const SizedBox(height: 20), // Espacio antes de la tabla
+              const SizedBox(height: 20),
               Table(
                 columnWidths: const {
-                  0: FlexColumnWidth(1), // Ajusta el tamaño de la columna
+                  0: FlexColumnWidth(1),
                   1: FlexColumnWidth(2),
                 },
                 children: [
@@ -68,7 +67,7 @@ class ProfileWidget extends StatelessWidget {
                   _buildTableRow("Sector", "Ropa"),
                 ],
               ),
-              const SizedBox(height: 16), // Espacio antes de la descripción
+              const SizedBox(height: 16),
               Text(
                 "Descripción",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),

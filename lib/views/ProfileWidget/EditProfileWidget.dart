@@ -22,15 +22,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 30, // Establece la altura del AppBar
-        backgroundColor: Colors.blue, // Cambia el color de la AppBar si lo deseas
-        leading: IconButton(
-          icon: const Icon(Icons.menu), // Ícono de menú
-          onPressed: () {
-            // Acción al presionar el ícono de menú
-          },
-        ),
-        // Título eliminado
+        title: Text("Editar perfil"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -38,11 +30,10 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Fila con el icono de perfil y el nombre
               Row(
                 children: [
                   const ProfilePic(),
-                  const SizedBox(width: 20), // Espacio entre la imagen y el texto
+                  const SizedBox(width: 20),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -57,10 +48,10 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20), // Espacio antes de la tabla
+              const SizedBox(height: 20),
               Table(
                 columnWidths: const {
-                  0: FlexColumnWidth(1), // Ajusta el tamaño de la columna
+                  0: FlexColumnWidth(1),
                   1: FlexColumnWidth(2),
                 },
                 children: [
@@ -72,7 +63,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                   _buildTableRow("Sector", _isEditing ? _buildTextField(_sector, (value) => _sector = value) : Text(_sector)),
                 ],
               ),
-              const SizedBox(height: 16), // Espacio antes de la descripción
+              const SizedBox(height: 16),
               Text(
                 "Descripción",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
@@ -92,38 +83,37 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                   ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        _isEditing = true; // Activar el modo de edición
+                        _isEditing = true;
                       });
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF004CFF), // Color del botón
+                      backgroundColor: const Color(0xFF004CFF),
                     ),
                     child: Text(
                       'Editar Cambios',
                       style: TextStyle(
                         color: Colors.white,
-                        fontWeight: FontWeight.bold, // Texto en negrita (bold)
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                   ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        _isEditing = false; // Guardar cambios y desactivar el modo de edición
+                        _isEditing = false;
                       });
-                      // Aquí puedes agregar lógica para guardar los cambios permanentemente
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Cambios guardados')),
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF004CFF), // Color del botón
+                      backgroundColor: const Color(0xFF004CFF),
                     ),
                     child: Text(
                       'Guardar Cambios',
                       style: TextStyle(
                         color: Colors.white,
-                        fontWeight: FontWeight.bold, // Texto en negrita (bold)
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
@@ -136,7 +126,6 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
     );
   }
 
-  // Función para crear campos de texto editables
   Widget _buildTextField(String initialValue, Function(String) onChanged, {int maxLines = 1}) {
     return TextField(
       controller: TextEditingController(text: initialValue),

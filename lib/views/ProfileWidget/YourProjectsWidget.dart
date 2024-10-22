@@ -1,7 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:fromzero_company_app/views/ProfileWidget/AcceptDeveloperWidget.dart';
+import 'package:fromzero_company_app/views/deliverableViews/DeliverablesWidget.dart';
 
 class YourProjectsWidget extends StatelessWidget {
   const YourProjectsWidget({super.key});
+
+  void checkDeliverables(BuildContext context){
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context)=>
+                DeliverablesSchedule()
+        )
+    );
+  }
+
+  void checkDevelopers(BuildContext context){
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context)=>
+                AcceptDeveloperWidget()
+        )
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +53,16 @@ class YourProjectsWidget extends StatelessWidget {
                     ),
                     onPressed: () {
                       // Acción del botón
+                      checkDevelopers(context);
                     },
                     child: Text("Ver candidatos"),
                   ),
                 ],
               ),
-              tileColor: Colors.grey[300], // Fondo gris claro
+              tileColor: Colors.grey[300],
+              onTap: (){
+                checkDeliverables(context);
+              },// Fondo gris claro
             ),
           ),
 
@@ -62,12 +88,16 @@ class YourProjectsWidget extends StatelessWidget {
                     ),
                     onPressed: () {
                       // Acción del botón
+                      checkDevelopers(context);
                     },
                     child: Text("Ver candidatos"),
                   ),
                 ],
               ),
-              tileColor: Colors.grey[300], // Fondo gris claro
+              tileColor: Colors.grey[300],
+              onTap: (){
+                checkDeliverables(context);
+              },// Fondo gris claro
             ),
           ),
 

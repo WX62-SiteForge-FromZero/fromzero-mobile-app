@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 class AcceptDeveloperWidget extends StatelessWidget {
   const AcceptDeveloperWidget({super.key});
 
+  void goBackToProject(BuildContext context){
+    Navigator.pop(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,6 +68,7 @@ class AcceptDeveloperWidget extends StatelessWidget {
                           ),
                           onPressed: () {
                             // Acción del botón Aceptar
+                            goBackToProject(context);
                           },
                           child: const Text(
                             "Aceptar",
@@ -86,6 +91,7 @@ class AcceptDeveloperWidget extends StatelessWidget {
                           ),
                           onPressed: () {
                             // Acción del botón Rechazar
+                            goBackToProject(context);
                           },
                           child: const Text(
                             "Rechazar",
@@ -144,7 +150,9 @@ class AcceptDeveloperWidget extends StatelessWidget {
                             backgroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(vertical: 12), // Aumentar el padding vertical
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            goBackToProject(context);
+                          },
                           child: const Text(
                             "Aceptar",
                             style: TextStyle(fontSize: 12),
@@ -163,7 +171,9 @@ class AcceptDeveloperWidget extends StatelessWidget {
                             backgroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(vertical: 12), // Aumentar el padding vertical
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            goBackToProject(context);
+                          },
                           child: const Text(
                             "Rechazar",
                             style: TextStyle(fontSize: 12),
@@ -221,7 +231,9 @@ class AcceptDeveloperWidget extends StatelessWidget {
                             backgroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(vertical: 12), // Aumentar el padding vertical
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            goBackToProject(context);
+                          },
                           child: const Text(
                             "Aceptar",
                             style: TextStyle(fontSize: 12),
@@ -240,7 +252,9 @@ class AcceptDeveloperWidget extends StatelessWidget {
                             backgroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(vertical: 12), // Aumentar el padding vertical
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            goBackToProject(context);
+                          },
                           child: const Text(
                             "Rechazar",
                             style: TextStyle(fontSize: 12),
@@ -298,7 +312,9 @@ class AcceptDeveloperWidget extends StatelessWidget {
                             backgroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(vertical: 12), // Aumentar el padding vertical
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            goBackToProject(context);
+                          },
                           child: const Text(
                             "Aceptar",
                             style: TextStyle(fontSize: 12),
@@ -317,7 +333,9 @@ class AcceptDeveloperWidget extends StatelessWidget {
                             backgroundColor: Colors.white,
                             padding: const EdgeInsets.symmetric(vertical: 12), // Aumentar el padding vertical
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            goBackToProject(context);
+                          },
                           child: const Text(
                             "Rechazar",
                             style: TextStyle(fontSize: 12),

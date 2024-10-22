@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fromzero_company_app/models/deliverable_model.dart';
-
 import 'CreateDeliverableWidget.dart';
 import 'DeliverableDetails.dart';
-/*import 'package:fromzero_company_app/views/CreateDeliverableWidget.dart';
-import 'package:fromzero_company_app/views/DeliverableDetails.dart';*/
+
 
 List<Deliverable> deliverablesList = [
   Deliverable(id: 1, name: "Entregable1", description: "Descripcion1", date: DateTime(2024, 10, 21), state: DeliverableState.PENDIENTE, projectId: 1),
@@ -30,7 +28,6 @@ class DeliverablesSchedule extends StatefulWidget {
 }
 
 class _DeliverablesScheduleState extends State<DeliverablesSchedule> {
-  //bool showDeliverable = false;
   int currentSection = 1;
   Deliverable deliverable = Deliverable();
 
@@ -41,7 +38,6 @@ class _DeliverablesScheduleState extends State<DeliverablesSchedule> {
         goBackToDeliverables: () {
           setState(() {
             deliverable = Deliverable();
-            //showDeliverable=false;
             currentSection = 1;
           });
         },
@@ -51,7 +47,6 @@ class _DeliverablesScheduleState extends State<DeliverablesSchedule> {
         onUpdatedDeliverable: (Deliverable newValue) {
           setState(() {
             deliverable = newValue;
-            //showDeliverable=true;
             currentSection = 2;
           });
         },
@@ -69,7 +64,7 @@ class _DeliverablesScheduleState extends State<DeliverablesSchedule> {
         appBar: AppBar(
           title: Text(
             "Cronograma de entregables",
-            style: TextStyle(fontSize: 30),
+            style: TextStyle(fontSize: 20),
           ),
           backgroundColor: Colors.lightBlue,
           toolbarHeight: 100,
