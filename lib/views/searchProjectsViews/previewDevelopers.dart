@@ -14,34 +14,27 @@ class PreviewDeveloper extends StatelessWidget {
         foregroundColor: Colors.black,
         elevation: 0,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: Center(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Center(
-              child: CircleAvatar(
-                backgroundImage: NetworkImage(developer['profileImgUrl']),
-                radius: 60,
-              ),
+            CircleAvatar(
+              backgroundImage: NetworkImage(developer['profileImgUrl']),
+              radius: 60,
             ),
             const SizedBox(height: 16),
-            Center(
-              child: Text(
-                '${developer['firstName']} ${developer['lastName']}',
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+            Text(
+              '${developer['firstName']} ${developer['lastName']}',
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 8),
-            Center(
-              child: Text(
-                developer['description'],
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 16),
-              ),
+            Text(
+              developer['description'],
+              textAlign: TextAlign.center,
+              style: const TextStyle(fontSize: 16),
             ),
             const SizedBox(height: 24),
             ElevatedButton(
@@ -57,8 +50,12 @@ class PreviewDeveloper extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.blue,
+                padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
               ),
-              child: const Text('Ver Proyectos'),
+              child: const Text(
+                'Ver Proyectos',
+                style: TextStyle(fontSize: 18),
+              ),
             ),
           ],
         ),
