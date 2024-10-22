@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:fromzero_company_app/views/DeliverablesWidget.dart';
+import 'package:fromzero_company_app/navbar.dart';
 
 void main() {
-  runApp(MaterialApp(
-    home: DeliverablesSchedule(),
-  ));
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Navbar(),
+    );
+  }
 }
