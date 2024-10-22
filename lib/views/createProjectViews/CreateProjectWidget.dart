@@ -55,34 +55,30 @@ class _CreateProjectAppState extends State<CreateProjectApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Crear proyecto", style: TextStyle(fontSize: 40.0)),
         backgroundColor: Colors.lightBlue,
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(50),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-                padding: EdgeInsets.only(left: 16.0, bottom: 8.0),
-                child: Row(
-                  children: [
-                    currentSection != 1
-                        ? IconButton(
-                            icon: Icon(Icons.arrow_back),
-                            onPressed: () {
-                              if (currentSection <= 4 && currentSection != 1) {
-                                setState(() {
-                                  currentSection--;
-                                });
-                              }
-                            })
-                        : Container(),
-                    Text(
-                      "Detalles del proyecto",
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                  ],
-                )),
-          ),
+        title: Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+              padding: EdgeInsets.only(left: 16.0, bottom: 8.0),
+              child: Row(
+                children: [
+                  currentSection != 1
+                      ? IconButton(
+                      icon: Icon(Icons.arrow_back),
+                      onPressed: () {
+                        if (currentSection <= 4 && currentSection != 1) {
+                          setState(() {
+                            currentSection--;
+                          });
+                        }
+                      })
+                      : Container(),
+                  Text(
+                    "Detalles del proyecto",
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                ],
+              )),
         ),
       ),
       body: SingleChildScrollView(

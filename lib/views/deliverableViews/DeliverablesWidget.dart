@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:fromzero_company_app/models/deliverable_model.dart';
-import 'package:fromzero_company_app/views/CreateDeliverableWidget.dart';
-import 'package:fromzero_company_app/views/DeliverableDetails.dart';
+
+import 'CreateDeliverableWidget.dart';
+import 'DeliverableDetails.dart';
+/*import 'package:fromzero_company_app/views/CreateDeliverableWidget.dart';
+import 'package:fromzero_company_app/views/DeliverableDetails.dart';*/
 
 List<Deliverable> deliverablesList = [
   Deliverable(id: 1, name: "Entregable1", description: "Descripcion1", date: DateTime(2024, 10, 21), state: DeliverableState.PENDIENTE, projectId: 1),

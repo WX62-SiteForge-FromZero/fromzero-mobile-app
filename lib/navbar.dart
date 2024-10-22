@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fromzero_company_app/views/createProjectViews/CreateProjectWidget.dart';
 
 class Navbar extends StatefulWidget {
   const Navbar({super.key});
@@ -16,6 +17,14 @@ class _NavbarState extends State<Navbar> {
     });
   }
 
+  Text setViewTitle(){
+    if(selectedView==0){
+      return Text("Crear Proyecto",style: TextStyle(fontSize: 35),);
+    }else{
+      return Text("Toolbar");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -24,11 +33,13 @@ class _NavbarState extends State<Navbar> {
       // search
       // highlight
       // publish
+      const CreateProjectApp()
     ];
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("TOOLBAR"),
+        backgroundColor: Colors.lightBlue,
+        title: setViewTitle(),
       ),
       body: IndexedStack(
         index: selectedView,
