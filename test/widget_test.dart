@@ -7,7 +7,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+/*
+import 'package:fromzero_company_app/views/ProfileWidget/MenuWidget.dart';
+import 'package:fromzero_company_app/main.dart';
+import 'package:fromzero_company_app/views/ProfileWidget/ProfileWidget.dart';
+import 'package:fromzero_company_app/views/ProfileWidget/YourProjectsWidget.dart';
+*/
 import 'package:fromzero_company_app/navbar.dart';
+
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
@@ -17,7 +24,6 @@ void main() {
           home: Navbar(),
         )
     );
-
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);
     expect(find.text('1'), findsNothing);
