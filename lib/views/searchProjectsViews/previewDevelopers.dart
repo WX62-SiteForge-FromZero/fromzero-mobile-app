@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'developerProjects.dart';
 
 class PreviewDeveloper extends StatelessWidget {
   final Map<String, dynamic> developer;
@@ -43,59 +44,23 @@ class PreviewDeveloper extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.message),
-                  label: const Text('Mensaje'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => DeveloperProjectsScreen(
+                      developerId: developer['id'],
+                    ),
                   ),
-                ),
-                const SizedBox(width: 16),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProjectsScreen(developerId: developer['id']),
-                      ),
-                    );
-                  },
-                  child: const Text('Proyectos'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                  ),
-                ),
-              ],
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+              ),
+              child: const Text('Ver Proyectos'),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class ProjectsScreen extends StatelessWidget {
-  final int developerId;
-
-  const ProjectsScreen({Key? key, required this.developerId}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
-        title: const Text('Proyectos'),
-        elevation: 0,
-      ),
-      body: Center(
-        child: Text(
-          'Lista de proyectos del desarrollador con ID: $developerId',
-          style: const TextStyle(fontSize: 18),
         ),
       ),
     );
