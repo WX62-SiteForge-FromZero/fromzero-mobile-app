@@ -21,7 +21,7 @@ class _DeveloperListScreenState extends State<DeveloperListScreen> {
 
   Future<void> fetchDevelopers() async {
     try {
-      final response = await http.get(Uri.parse('http://localhost:3000/developers'));
+      final response = await http.get(Uri.parse('http://10.0.2.2:3000/developers'));
 
       if (response.statusCode == 200) {
         setState(() {

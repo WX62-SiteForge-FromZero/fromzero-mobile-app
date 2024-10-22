@@ -25,7 +25,7 @@ class _DeveloperProjectsScreenState extends State<DeveloperProjectsScreen> {
   Future<void> fetchProjects() async {
     try {
       final response = await http.get(
-        Uri.parse('http://localhost:3000/projects?developer.id=${widget.developerId}'),
+        Uri.parse('http://10.0.2.2:3000/projects?developer.id=${widget.developerId}'),
       );
 
       if (response.statusCode == 200) {
