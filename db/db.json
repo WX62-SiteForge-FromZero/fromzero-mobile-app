@@ -1,0 +1,32 @@
+{
+  "developers": [
+    {
+      "id": 1,
+      "ProfileId": "123",
+      "firstName": "Juan",
+      "lastName": "Perez",
+      "email": "juan.perez@example.com",
+      "description": "Desarrollador web con 5 años de experiencia.",
+      "country": "Perú",
+      "phone": "+51 987654321",
+      "completedProjects": 14,
+      "specialties": "JavaScript, Node.js, React",
+      "profileImgUrl": "https://via.placeholder.com/150",
+      "userId": 1
+    },
+    {
+      "id": 2,
+      "ProfileId": "456",
+      "firstName": "Carlos",
+      "lastName": "Beltran",
+      "email": "carlos.beltran@example.com",
+      "description": "Desarrollador móvil especializado en Flutter.",
+      "country": "Argentina",
+      "phone": "+54 987654321",
+      "completedProjects": 23,
+      "specialties": "Dart, Kotlin, Swift",
+      "profileImgUrl": "https://via.placeholder.com/150",
+      "userId": 2
+    }
+  ]
+}
