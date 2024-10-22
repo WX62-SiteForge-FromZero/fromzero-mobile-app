@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fromzero_company_app/views/ProfileWidget/AcceptDeveloperWidget.dart';
 import 'package:fromzero_company_app/views/ProfileWidget/EditProfileWidget.dart';
 import 'package:fromzero_company_app/views/ProfileWidget/MenuWidget.dart';
+import 'package:fromzero_company_app/views/ProfileWidget/PaymentMethodWidget.dart';
 import 'package:fromzero_company_app/views/ProfileWidget/ProfileWidget.dart';
 import 'package:fromzero_company_app/views/ProfileWidget/YourProjectsWidget.dart';
 
@@ -11,7 +12,8 @@ void main() {
     //home: MenuWidget(),
     //home: YourProjectsWidget(),
     //home: EditProfileWidget(),
-    home: AcceptDeveloperWidget(),
+    //home: AcceptDeveloperWidget(),
+    home: PaymentMethodWidget(),
   ) );
 }
 

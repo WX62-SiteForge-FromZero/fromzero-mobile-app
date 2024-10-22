@@ -1,57 +1,37 @@
+// This is a basic Flutter widget test.
+//
+// To perform an interaction with a widget in your test, use the WidgetTester
+// utility in the flutter_test package. For example, you can send tap and scroll
+// gestures. You can also use WidgetTester to find child widgets in the widget
+// tree, read text, and verify that the values of widget properties are correct.
+
 import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:fromzero_company_app/views/ProfileWidget/MenuWidget.dart';
 
-class EditProfileWidget extends StatefulWidget {
-  @override
-  _EditProfileWidgetState createState() => _EditProfileWidgetState();
-}
+import 'package:fromzero_company_app/main.dart';
+import 'package:fromzero_company_app/views/ProfileWidget/ProfileWidget.dart';
+import 'package:fromzero_company_app/views/ProfileWidget/YourProjectsWidget.dart';
 
-class _EditProfileWidgetState extends State<EditProfileWidget> {
-  final _formKey = GlobalKey<FormState>();
-  String _country = "Perú"; // Valor inicial del país
+void main() {
+  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+    // Build our app and trigger a frame.
+    await tester.pumpWidget(MaterialApp(
+      //home: MenuWidget(),
+      //home: ProfileWidget(),
+      //home: YourProjectsWidget(),
+    ));
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Editar Perfil'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              TextFormField(
-                initialValue: _country,
-                decoration: InputDecoration(labelText: 'País'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor ingrese un país';
-                  }
-                  return null;
-                },
-                onChanged: (value) {
-                  setState(() {
-                    _country = value; // Actualiza el valor del país
-                  });
-                },
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    // Aquí puedes manejar la lógica para guardar el perfil
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Perfil actualizado: $_country')),
-                    );
-                  }
-                },
-                child: Text('Guardar Cambios'),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+    // Verify that our counter starts at 0.
+    expect(find.text('0'), findsOneWidget);
+    expect(find.text('1'), findsNothing);
+
+    // Tap the '+' icon and trigger a frame.
+    await tester.tap(find.byIcon(Icons.add));
+    await tester.pump();
+
+    // Verify that our counter has incremented.
+    expect(find.text('0'), findsNothing);
+    expect(find.text('1'), findsOneWidget);
+  });
 }

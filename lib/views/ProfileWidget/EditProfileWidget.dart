@@ -53,23 +53,6 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                           fontSize: 24,
                         ),
                       ),
-                      const SizedBox(height: 10), // Espacio entre el nombre y el botón
-                      ElevatedButton(
-                        onPressed: () {
-                          // Acción del botón
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF004CFF), // Color del botón
-                          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-                        ),
-                        child: Text(
-                          "Proyecto",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold, // Texto en negrita (bold)
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ],

@@ -15,9 +15,12 @@ class YourProjectsWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0), // Espacio a los lados
             child: ListTile(
-              title: Text("Proyecto de juego de Ajedrez"),
+              title: Text(
+                "Proyecto de juego de Ajedrez",
+                textAlign: TextAlign.center,
+              ),
               subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text("Este proyecto se debe realizar en java"),
                   const SizedBox(height: 10), // Espacio entre subtítulo y botón
@@ -37,19 +40,38 @@ class YourProjectsWidget extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 20), // Espacio en blanco entre ListTiles
+          const SizedBox(height: 10), // Espacio en blanco entre ListTiles
 
-          // Segundo ListTile vacío
+          // Segundo ListTile con contenido
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: ListTile(
-              title: Text(""),
-              subtitle: Text(""),
-              tileColor: Colors.grey[300],
+              title: Text(
+                "Proyecto de Aplicación Móvil de compras",
+                textAlign: TextAlign.center,
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text("Este proyecto se debe realizar en Flutter"),
+                  const SizedBox(height: 10), // Espacio entre subtítulo y botón
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red, // Color del botón
+                      foregroundColor: Colors.white, // Color del texto del botón
+                    ),
+                    onPressed: () {
+                      // Acción del botón
+                    },
+                    child: Text("Ver candidatos"),
+                  ),
+                ],
+              ),
+              tileColor: Colors.grey[300], // Fondo gris claro
             ),
           ),
 
-          const SizedBox(height: 20), // Espacio en blanco entre ListTiles
+          const SizedBox(height: 10), // Espacio en blanco entre ListTiles
 
           // Tercer ListTile vacío
           Padding(
@@ -61,7 +83,7 @@ class YourProjectsWidget extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 20), // Espacio en blanco entre ListTiles
+          const SizedBox(height: 10), // Espacio en blanco entre ListTiles
 
           // Cuarto ListTile vacío
           Padding(
