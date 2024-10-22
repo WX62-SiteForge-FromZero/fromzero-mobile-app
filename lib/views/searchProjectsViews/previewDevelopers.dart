@@ -43,7 +43,7 @@ class PreviewDeveloper extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => DeveloperProjectsScreen(
-                      developerId: developer['id'],
+                      developerId: int.parse(developer['id'].toString()),
                     ),
                   ),
                 );
