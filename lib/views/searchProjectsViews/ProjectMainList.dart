@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:fromzero_company_app/views/searchProjectsViews/previewDevelopers.dart';
+import 'package:fromzero_app/views/searchProjectsViews/previewDevelopers.dart';
 
 class DeveloperListScreen extends StatefulWidget {
   const DeveloperListScreen({Key? key}) : super(key: key);

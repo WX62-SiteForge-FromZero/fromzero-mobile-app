@@ -1,11 +1,11 @@
 {
-    "name": "fromzero_company_app",
-    "short_name": "fromzero_company_app",
+    "name": "fromzero_app",
+    "short_name": "fromzero_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Fromzero Company App",
+    "description": "Fromzero App",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fromzero_company_app/views/ProfileWidget/AcceptDeveloperWidget.dart';
-import 'package:fromzero_company_app/views/deliverableViews/DeliverablesWidget.dart';
+import 'package:fromzero_app/views/ProfileWidget/AcceptDeveloperWidget.dart';
+import 'package:fromzero_app/views/deliverableViews/DeliverablesWidget.dart';
 
 class YourProjectsWidget extends StatelessWidget {
   const YourProjectsWidget({super.key});

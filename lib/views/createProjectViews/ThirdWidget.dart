@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fromzero_company_app/models/project_model.dart';
+import 'package:fromzero_app/models/project_model.dart';
 
 class MethodologiesWidget extends StatefulWidget {
   final CreateProjectData projectData;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fromzero_company_app/views/ProfileWidget/YourProjectsWidget.dart';
+import 'package:fromzero_app/views/ProfileWidget/YourProjectsWidget.dart';
 
 class ProfileWidget extends StatelessWidget {
   const ProfileWidget({super.key});

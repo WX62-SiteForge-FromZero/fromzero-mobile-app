@@ -1,6 +1,6 @@
-# fromzero_company_app
+# fromzero_app
 
-Fromzero Company App
+Fromzero App
 
 ## Getting Started
 

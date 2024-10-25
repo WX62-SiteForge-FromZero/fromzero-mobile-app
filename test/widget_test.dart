@@ -7,7 +7,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fromzero_company_app/navbar.dart';
+import 'package:fromzero_app/navbar.dart';
 
 
 void main() {

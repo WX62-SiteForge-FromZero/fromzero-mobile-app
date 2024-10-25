@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fromzero_company_app/models/deliverable_model.dart';
+import 'package:fromzero_app/models/deliverable_model.dart';
 import 'CreateDeliverableWidget.dart';
 import 'DeliverableDetails.dart';
 

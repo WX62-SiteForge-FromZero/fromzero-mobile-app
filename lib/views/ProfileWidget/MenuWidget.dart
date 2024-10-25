@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fromzero_company_app/views/ProfileWidget/EditProfileWidget.dart';
-import 'package:fromzero_company_app/views/ProfileWidget/PaymentMethodWidget.dart';
+import 'package:fromzero_app/views/ProfileWidget/EditProfileWidget.dart';
+import 'package:fromzero_app/views/ProfileWidget/PaymentMethodWidget.dart';
 
 class MenuWidget extends StatelessWidget {
   const MenuWidget({super.key});
@@ -19,22 +18,22 @@ class MenuWidget extends StatelessWidget {
             const SizedBox(height: 20),
             ProfileMenu(
               text: "Payment Methods",
-              icon: "assets/icons/credit_card.svg",
+              icon: Icons.credit_card,
               press: () => {},
             ),
             ProfileMenu(
               text: "Edit Profile",
-              icon: "assets/icons/edit.svg",
+              icon: Icons.edit,
               press: () => {},
             ),
             ProfileMenu(
               text: "Chat",
-              icon: "assets/icons/chat.svg",
+              icon: Icons.chat,
               press: () => {},
             ),
             ProfileMenu(
               text: "Log Out",
-              icon: "assets/icons/logout.svg",
+              icon: Icons.logout,
               press: () => {},
             ),
           ],
@@ -74,7 +73,8 @@ class ProfileMenu extends StatelessWidget {
     this.press,
   }) : super(key: key);
 
-  final String text, icon;
+  final String text;
+  final IconData icon;
   final VoidCallback? press;
 
   @override
@@ -113,10 +113,9 @@ class ProfileMenu extends StatelessWidget {
         },
         child: Row(
           children: [
-            SvgPicture.asset(
+            Icon(
               icon,
               color: Colors.black,
-              width: 22,
             ),
             const SizedBox(width: 20),
             Expanded(
