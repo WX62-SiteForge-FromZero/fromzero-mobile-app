@@ -1,0 +1,75 @@
+import 'dart:convert';
+
+import 'package:fromzero_app/api/baseUrl.dart';
+import 'package:http/http.dart' as http;
+
+class AuthService{
+  static const String url = "${BaseUrl.baseUrl}/auth";
+
+  Future<http.Response> login(String email, String password)async{
+    try{
+      final response = await http.post(
+        Uri.parse("$url/sign-in"),
+        body: jsonEncode({
+          'email': email,
+          'password': password
+        }),
+        headers: {'Content-Type':'application/json'}
+      );
+      if(response.statusCode==200){
+        return response;
+      }else if(response.statusCode==401){
+        throw Exception("Datos incorrectos");
+      }else{
+        throw Exception("Error");
+      }
+    }catch(e){
+      throw Exception("Error");
+    }
+  }
+
+  Future<http.Response> registerDeveloper(
+      String email,
+      String password,
+      String firstName,
+      String lastName
+      )async{
+    try{
+      final response = await http.post(
+        Uri.parse("$url/register-developer"),
+        body: jsonEncode({
+          'email':email,
+          'password':password,
+          'firstName':firstName,
+          'lastName':lastName
+        }),
+        headers: {'Content-Type':'application/json'}
+      );
+      return response;
+    }catch(e){
+      throw Exception("Error");
+    }
+  }
+
+  Future<http.Response> registerCompany(
+      String email,
+      String password,
+      String companyName
+      )async{
+    try{
+      final response = await http.post(
+        Uri.parse("$url/register-company"),
+        body: jsonEncode({
+          'mail':email,
+          'password':password,
+          'companyName':companyName
+        }),
+        headers: {'Content-Type':'application/json'}
+      );
+      return response;
+    }catch(e){
+      throw Exception("Error");
+    }
+  }
+
+}
