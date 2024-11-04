@@ -1,96 +1,39 @@
-enum ProjectType {
-  LANDING_PAGE,
-  WEB_APPLICATION,
-  DESKTOP_APPLICATION,
-  MOBILE_APPLICATION
-}
-
-enum Languages { Javascript, Typescript, HTML, CSS }
-
-enum Frameworks { Vue_Js, Angular, React }
-
-class Methodology {
+class Project {
+  int id;
   String name;
   String description;
+  String state;
+  double progress;
 
-  Methodology(this.name, this.description);
-}
+  // Company
+  int companyId;
+  // Developer
+  int developerId;
 
-enum Currency { PEN, USD }
+  List<dynamic> candidates;
+  List<dynamic> languages;
+  List<dynamic> frameworks;
+  String type;
+  String budget;
 
-class CreateProjectData {
-  String _name;
-  String _description;
-  ProjectType _type;
-  List<Languages> _languages;
-  List<Frameworks> _frameworks;
-  double _budget;
-  Currency _currency;
-  List<Methodology> _methodologies;
+  Project(this.id, this.name, this.description, this.state, this.progress,
+      this.companyId, this.developerId, this.candidates, this.languages,
+      this.frameworks, this.type, this.budget);
 
-  CreateProjectData(
-      {String name = "",
-      String description = "",
-      ProjectType type = ProjectType.LANDING_PAGE,
-      List<Languages>? languages,
-      List<Frameworks>? frameworks,
-      double budget = 0.0,
-      Currency currency = Currency.PEN,
-      List<Methodology>? methodologies})
-      : _name = name,
-        _description = description,
-        _type = type,
-        _languages = languages ?? [],
-        _frameworks = frameworks ?? [],
-        _budget = budget,
-        _currency = currency,
-        _methodologies = methodologies ?? [];
-
-  List<Methodology> get methodologies => _methodologies;
-
-  set methodologies(List<Methodology> value) {
-    _methodologies = value;
-  }
-
-  Currency get currency => _currency;
-
-  set currency(Currency value) {
-    _currency = value;
-  }
-
-  double get budget => _budget;
-
-  set budget(double value) {
-    _budget = value;
-  }
-
-  List<Frameworks> get frameworks => _frameworks;
-
-  set frameworks(List<Frameworks> value) {
-    _frameworks = value;
-  }
-
-  List<Languages> get languages => _languages;
-
-  set languages(List<Languages> value) {
-    _languages = value;
-  }
-
-  ProjectType get type => _type;
-
-  set type(ProjectType value) {
-    _type = value;
-  }
-
-  String get description => _description;
-
-  set description(String value) {
-    _description = value;
-  }
-
-  String get name => _name;
-
-  set name(String value) {
-    _name = value;
+  factory Project.fromJson(Map<String, dynamic>json){
+    return Project(
+      json['id'],
+      json['name'],
+      json['description'],
+      json['state'],
+      json['progress'],
+      json['companyId'],
+      json['developerId'],
+      json['candidates'],
+      json['languages'],
+      json['frameworks'],
+      json['type'],
+      json['budget']
+    );
   }
 }
