@@ -8,7 +8,7 @@ class Project {
   // Company
   int companyId;
   // Developer
-  int developerId;
+  int? developerId;
 
   List<dynamic> candidates;
   List<dynamic> languages;
@@ -27,8 +27,10 @@ class Project {
       json['description'],
       json['state'],
       json['progress'],
-      json['companyId'],
-      json['developerId'],
+      //json['companyId'],
+      //json['developerId'],
+      json['company']['id'],
+      json['developer']==null?null:json['developer']['id'],
       json['candidates'],
       json['languages'],
       json['frameworks'],

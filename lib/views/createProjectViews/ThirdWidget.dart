@@ -78,7 +78,7 @@ class _MethodologiesWidgetState extends State<MethodologiesWidget> {
               : SetMethodologiesWidget(
                   onAddMethodology: (String name, String description) {
                     widget.projectData.methodologies
-                        .add(Methodology(name, description));
+                        .add(MethodologyResource(name, description));
                   },
                 ),
         ),

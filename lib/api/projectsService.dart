@@ -13,19 +13,21 @@ class ProjectsService{
     try{
       // shared preferences
       int companyId=1;
-      String token = "";
+      String token = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJrZmNAZ21haWwuY29tIiwiaWF0IjoxNzMwNzM2NjQxLCJleHAiOjE3MzEzNDE0NDF9.LYPqg1JRCLPWSYFMmYfHR-iLmU_CL91o_yky-mPfOcEhE7N19BhBy_gxyyUZXV-j";
       final response = await http.post(
         Uri.parse("$url"),
         body: jsonEncode({
           'name':data.name,
           'description':data.description,
           'ownerId':companyId,
-          'languages':data.languages,
-          'frameworks':data.frameworks,
+          //'languages':data.languages,
+          'languages':data.languages.map((e)=>e.name).toList(),
+          //'frameworks':data.frameworks,
+          'frameworks':data.frameworks.map((e)=>e.name).toList(),
           'type':data.type.name,
           'budget':data.budget,
           'currency':data.currency.name,
-          'methodologies':data.methodologies
+          'methodologies':data.methodologies.map((e)=>e.toJson()).toList()
         }),
         headers: {
           'Content-Type':'application/json',
@@ -40,7 +42,7 @@ class ProjectsService{
 
   Future<List<Project>> getAllProjectsByState(String projectState)async{
     try {
-      String token = "";
+      String token = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJrZmNAZ21haWwuY29tIiwiaWF0IjoxNzMwNzM2NjQxLCJleHAiOjE3MzEzNDE0NDF9.LYPqg1JRCLPWSYFMmYfHR-iLmU_CL91o_yky-mPfOcEhE7N19BhBy_gxyyUZXV-j";
       final response = await http.get(
           Uri.parse("$url/by-state?state=$projectState"),
           headers: {

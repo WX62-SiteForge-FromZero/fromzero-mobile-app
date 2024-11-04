@@ -9,11 +9,18 @@ enum Languages { Javascript, Typescript, HTML, CSS }
 
 enum Frameworks { Vue_Js, Angular, React }
 
-class Methodology {
+class MethodologyResource {
   String name;
   String description;
 
-  Methodology(this.name, this.description);
+  MethodologyResource(this.name, this.description);
+
+  Map<String,dynamic> toJson(){
+    return {
+      'name':name,
+      'description':description
+    };
+  }
 }
 
 enum Currency { PEN, USD }
@@ -26,7 +33,7 @@ class CreateProjectData {
   List<Frameworks> _frameworks;
   double _budget;
   Currency _currency;
-  List<Methodology> _methodologies;
+  List<MethodologyResource> _methodologies;
 
   CreateProjectData(
       {String name = "",
@@ -36,7 +43,7 @@ class CreateProjectData {
       List<Frameworks>? frameworks,
       double budget = 0.0,
       Currency currency = Currency.PEN,
-      List<Methodology>? methodologies})
+      List<MethodologyResource>? methodologies})
       : _name = name,
         _description = description,
         _type = type,
@@ -46,9 +53,9 @@ class CreateProjectData {
         _currency = currency,
         _methodologies = methodologies ?? [];
 
-  List<Methodology> get methodologies => _methodologies;
+  List<MethodologyResource> get methodologies => _methodologies;
 
-  set methodologies(List<Methodology> value) {
+  set methodologies(List<MethodologyResource> value) {
     _methodologies = value;
   }
 
