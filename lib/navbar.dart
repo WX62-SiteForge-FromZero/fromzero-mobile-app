@@ -3,6 +3,8 @@ import 'package:fromzero_app/views/ProfileWidget/MenuWidget.dart';
 import 'package:fromzero_app/views/ProfileWidget/ProfileWidget.dart';
 import 'package:fromzero_app/views/applyToProjectViews/ListProjects.dart';
 import 'package:fromzero_app/views/createProjectViews/CreateProjectWidget.dart';
+import 'package:fromzero_app/views/highlightProjects/companyHighlightProjectsMain.dart';
+import 'package:fromzero_app/views/highlightProjects/developerHighlightProjectsMain.dart';
 import 'package:fromzero_app/views/searchProjectsViews/ProjectMainList.dart';
 
 class Navbar extends StatefulWidget {
@@ -52,7 +54,7 @@ class _NavbarState extends State<Navbar> {
       const ProfileWidget(),
       //const DeveloperListScreen(),
       const ApplyToProjects(),
-      const Center(child: Text("Destacados")),
+      const DeveloperHighlightProjectsMain(),
       const CreateProjectApp(),
     ];
 
