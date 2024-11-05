@@ -86,4 +86,46 @@ class ProjectsService{
     }
   }
 
+  Future<List<Project>> getProjectByCompanyId()async{
+    try{
+      Map<String, String> userData = await loadData();
+      String companyId = userData['profileId']!;
+      String token = userData['token']!;
+      final response = await http.get(
+        Uri.parse("$url/company/$companyId"),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+          }
+      );
+      final List<dynamic> jsonData = jsonDecode(response.body);
+      return jsonData.map((data)=>
+          Project.fromJson(data))
+          .toList();
+    }catch(e){
+      throw Exception("Error al obtener proyectos. $e");
+    }
+  }
+
+  Future<List<Project>> getProjectsByDeveloperId()async{
+    try{
+      Map<String, String> userData = await loadData();
+      String developerId = userData['profileId']!;
+      String token = userData['token']!;
+      final response = await http.get(
+          Uri.parse("$url/developer/$developerId"),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+          }
+      );
+      final List<dynamic> jsonData = jsonDecode(response.body);
+      return jsonData.map((data)=>
+          Project.fromJson(data))
+          .toList();
+    }catch(e){
+      throw Exception("Error al obtener proyectos$e");
+    }
+  }
+
 }

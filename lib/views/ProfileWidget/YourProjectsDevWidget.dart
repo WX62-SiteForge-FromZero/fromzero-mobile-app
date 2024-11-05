@@ -5,19 +5,19 @@ import 'package:fromzero_app/views/deliverableViews/DeliverablesWidget.dart';
 
 import '../../models/project_model.dart';
 
-class YourProjectsWidget extends StatefulWidget {
+class YourProjectsDevWidget extends StatefulWidget {
 
-  const YourProjectsWidget({super.key});
+  const YourProjectsDevWidget({super.key});
 
   @override
-  State<YourProjectsWidget> createState() => _YourProjectsWidgetState();
+  State<YourProjectsDevWidget> createState() => _YourProjectsDevWidgetState();
 }
 
-class _YourProjectsWidgetState extends State<YourProjectsWidget> {
+class _YourProjectsDevWidgetState extends State<YourProjectsDevWidget> {
   List<Project> projectList =[];
   Future<void> fetchProjectsByProfileId()async{
     var service = ProjectsService();
-    final response = await service.getProjectByCompanyId();
+    final response = await service.getProjectsByDeveloperId();
     setState(() {
       projectList=response;
     });
@@ -39,16 +39,6 @@ class _YourProjectsWidgetState extends State<YourProjectsWidget> {
     );
   }
 
-  void checkDevelopers(BuildContext context){
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context)=>
-                AcceptDeveloperWidget()
-        )
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,17 +55,7 @@ class _YourProjectsWidgetState extends State<YourProjectsWidget> {
                   children: [
                     Text(projectList[index].description),
                     const SizedBox(height: 10),
-                    projectList[index].candidates.length!=0?ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                        foregroundColor: Colors.white,
-                      ),
-                      onPressed: () {
-                        // Acción del botón
-                        checkDevelopers(context);
-                      },
-                      child: Text("Ver candidatos"),
-                    ):Text("Progreso: ${projectList[index].progress}%"),
+                    Text("Progreso: ${projectList[index].progress}%")
                   ],
                 ),
                 tileColor: Colors.grey[300],
@@ -84,7 +64,7 @@ class _YourProjectsWidgetState extends State<YourProjectsWidget> {
                 }
             );
           }
-      ):Text("Aún no has publicado proyectos",textAlign: TextAlign.center,),
+      ):Text("Aún están evaluando tu postulación",textAlign: TextAlign.center,),
     );
   }
 
