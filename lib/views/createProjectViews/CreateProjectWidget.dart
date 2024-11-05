@@ -3,7 +3,7 @@ import 'package:fromzero_app/views/createProjectViews/FirstWidget.dart';
 import 'package:fromzero_app/views/createProjectViews/FourthWidget.dart';
 import 'package:fromzero_app/views/createProjectViews/SecondWidget.dart';
 import 'package:fromzero_app/views/createProjectViews/ThirdWidget.dart';
-import '../../models/project_model.dart';
+import '../../models/create_project_model.dart';
 
 class CreateProjectApp extends StatefulWidget {
   const CreateProjectApp({super.key});

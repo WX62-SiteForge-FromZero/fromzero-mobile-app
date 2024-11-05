@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fromzero_app/models/project_model.dart';
+import 'package:fromzero_app/api/projectsService.dart';
+import 'package:fromzero_app/models/create_project_model.dart';
 
 class ShowProjectData extends StatelessWidget {
   final CreateProjectData projectData;
@@ -8,6 +9,28 @@ class ShowProjectData extends StatelessWidget {
     super.key,
     required this.projectData,
   });
+
+  Future<void> createProject(BuildContext context)async{
+    try{
+      var service = ProjectsService();
+      final response = await service.createProject(this.projectData);
+      if(response.statusCode == 201){
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+              content: Text("Proyecto publicado")
+          )
+        );
+      }else{
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+                content: Text("Ocurrió un error")
+            )
+        );
+      }
+    }catch(e){
+      throw Exception(e);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,7 +128,9 @@ class ShowProjectData extends StatelessWidget {
               style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
               child: const Text("Crear Proyecto",
                   style: TextStyle(fontSize: 25.0, color: Colors.white)),
-              onPressed: () {}),
+              onPressed: () {
+                createProject(context);
+              }),
         )
       ],
     );
