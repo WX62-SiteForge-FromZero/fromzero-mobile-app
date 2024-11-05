@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:fromzero_app/models/deliverable_model.dart';
+import 'package:fromzero_app/models/create_deliverable_model.dart';
 
 class CreateDeliverableWidget extends StatelessWidget {
-  final Deliverable newDeliverable = Deliverable();
+  final CreateDeliverableData newDeliverable = CreateDeliverableData();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController descController = TextEditingController();
   final formKey = GlobalKey<FormState>();
