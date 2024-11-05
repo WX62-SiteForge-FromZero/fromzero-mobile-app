@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:fromzero_app/views/LoginViews/CreateAccount.dart';
+import 'package:fromzero_app/views/LoginViews/Inicio.dart';
 import 'navbar.dart';
 
 void main(){
@@ -11,6 +13,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Navbar(),
+      //home: Inicio(),
+      //home: CreateAccountWidget(),
     );
   }
 }
