@@ -7,6 +7,11 @@ class MenuWidget extends StatelessWidget {
   final VoidCallback toggleLogin;
   const MenuWidget({super.key, required this.toggleLogin});
 
+  Future<void> clearPrefs()async{
+    await clearData();
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -36,10 +41,7 @@ class MenuWidget extends StatelessWidget {
             ProfileMenu(
               text: "Log Out",
               icon: Icons.logout,
-              press: (){
-                clearData();
-                toggleLogin;
-              },
+              press: toggleLogin,
             ),
           ],
         ),

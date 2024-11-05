@@ -7,6 +7,7 @@ import 'package:fromzero_app/api/usersService.dart';
 import 'package:fromzero_app/prefs/user_prefs.dart';
 
 
+
 class LoginWidget extends StatelessWidget {
   final VoidCallback toggleLogin;
   final TextEditingController emailController = TextEditingController();
@@ -118,7 +119,7 @@ class LoginWidget extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8.0),
                           borderSide: BorderSide(color: Colors.transparent), // Sin borde visible
                         ),
-                        suffixIcon: IconButton(
+                        /*suffixIcon: IconButton(
                           icon: Icon(
                             _obscurePassword ? Icons.visibility_off : Icons.visibility,
                             color: Colors.grey[600],
@@ -128,7 +129,7 @@ class LoginWidget extends StatelessWidget {
                               _obscurePassword = !_obscurePassword; // Alternar visibilidad
                             });
                           },
-                        ),
+                        ),*/
                       ),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
