@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fromzero_app/views/LoginViews/CreateAccount.dart';
 import 'package:fromzero_app/views/LoginViews/Inicio.dart';
+import 'package:fromzero_app/views/LoginViews/Login.dart';
 import 'navbar.dart';
 
 void main(){
@@ -15,6 +16,7 @@ class MyApp extends StatelessWidget {
       home: Navbar(),
       //home: Inicio(),
       //home: CreateAccountWidget(),
+      //home: LoginWidget(),
     );
   }
 }
