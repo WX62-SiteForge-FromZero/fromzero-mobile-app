@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
 class LoginWidget extends StatelessWidget {
+  final VoidCallback toggleLogin;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+
+  LoginWidget({super.key, required this.toggleLogin});
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +90,8 @@ class LoginWidget extends StatelessWidget {
                           );
                         } else {
                           // Acción para proceder al siguiente paso
+                          Navigator.pop(context);
+                          toggleLogin();
                         }
                       },
                     ),

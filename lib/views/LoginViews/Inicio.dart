@@ -3,6 +3,11 @@ import 'package:fromzero_app/views/LoginViews/CreateAccount.dart';
 import 'package:fromzero_app/views/LoginViews/Login.dart';
 
 class GetStartedScreen extends StatelessWidget {
+
+  final VoidCallback toggleLogin;
+
+  const GetStartedScreen({super.key, required this.toggleLogin});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +87,7 @@ class GetStartedScreen extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context)=>LoginWidget()
+                              builder: (context)=>LoginWidget(toggleLogin: toggleLogin,)
                           )
                       );
                     },

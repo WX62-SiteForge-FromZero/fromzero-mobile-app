@@ -3,7 +3,8 @@ import 'package:fromzero_app/views/ProfileWidget/EditProfileWidget.dart';
 import 'package:fromzero_app/views/ProfileWidget/PaymentMethodWidget.dart';
 
 class MenuWidget extends StatelessWidget {
-  const MenuWidget({super.key});
+  final VoidCallback toggleLogin;
+  const MenuWidget({super.key, required this.toggleLogin});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,7 @@ class MenuWidget extends StatelessWidget {
             ProfileMenu(
               text: "Log Out",
               icon: Icons.logout,
-              press: () => {},
+              press: toggleLogin,
             ),
           ],
         ),
@@ -108,7 +109,9 @@ class ProfileMenu extends StatelessWidget {
           }else if(text=="Chat"){
 
           }else if(text=="Log Out"){
-            Navigator.pop(context);
+            //Navigator.pop(context);
+            press?.call();
+
           }
         },
         child: Row(
