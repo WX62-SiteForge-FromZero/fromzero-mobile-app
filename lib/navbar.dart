@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fromzero_app/views/ProfileWidget/MenuWidget.dart';
 import 'package:fromzero_app/views/ProfileWidget/ProfileWidget.dart';
+import 'package:fromzero_app/views/applyToProjectViews/ListProjects.dart';
 import 'package:fromzero_app/views/createProjectViews/CreateProjectWidget.dart';
 import 'package:fromzero_app/views/searchProjectsViews/ProjectMainList.dart';
 
 class Navbar extends StatefulWidget {
-  const Navbar({super.key});
+  final VoidCallback toggleLogin;
+  const Navbar({super.key, required this.toggleLogin});
 
   @override
   State<Navbar> createState() => _NavbarState();
@@ -49,7 +51,8 @@ class _NavbarState extends State<Navbar> {
   Widget build(BuildContext context) {
     final views = [
       const ProfileWidget(),
-      const DeveloperListScreen(),
+      //const DeveloperListScreen(),
+      const ApplyToProjects(),
       const Center(child: Text("Destacados")),
       const CreateProjectApp(),
     ];
@@ -69,7 +72,7 @@ class _NavbarState extends State<Navbar> {
         ),
         title: setViewTitle(),
       ),
-      drawer: const MenuWidget(),
+      drawer: MenuWidget(toggleLogin: widget.toggleLogin,),
       body: IndexedStack(
         index: selectedView,
         children: views,

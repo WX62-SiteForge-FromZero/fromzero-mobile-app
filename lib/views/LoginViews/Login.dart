@@ -1,24 +1,51 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fromzero_app/api/authService.dart';
+import 'package:fromzero_app/api/profilesService.dart';
+import 'package:fromzero_app/api/usersService.dart';
+import 'package:fromzero_app/prefs/user_prefs.dart';
 
-void main() {
-  runApp(LoginWidget());
-}
 
-class LoginWidget extends StatefulWidget {
-  @override
-  _LoginWidgetState createState() => _LoginWidgetState();
-}
-
-class _LoginWidgetState extends State<LoginWidget> {
+class LoginWidget extends StatelessWidget {
+  final VoidCallback toggleLogin;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-  bool _obscurePassword = true; // Variable para controlar la visibilidad de la contraseña
+  final service = AuthService();
+  final userService = UsersService();
+  final profileService = ProfilesService();
+   bool _obscurePassword = true;
+  LoginWidget({super.key, required this.toggleLogin});
+
+  Future<void> login(BuildContext context)async{
+    final response = await service.login(emailController.text, passwordController.text);
+    if(response.statusCode==200){
+      Map<String,dynamic> data = jsonDecode(response.body);
+      String token = data['token'];
+      int userId = int.parse(data['id'].toString());
+      String email = data['email'];
+      Map<String,dynamic> rolesData = await userService.getUserById(userId,token);
+      String role = rolesData['role'];
+      String profileId="";
+      if(role=="COMPANY"){
+        profileId=await profileService.getCompanyProfileIdByEmail(email, token);
+      }else if(role=="DEVELOPER"){
+        profileId = await profileService.getDeveloperProfileIdByEmail(email, token);
+      }
+      await saveData(token, role, profileId);
+      Navigator.pop(context);
+      toggleLogin();
+    }else return;
+
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Sign In"),
+      ),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(20),
@@ -127,6 +154,9 @@ class _LoginWidgetState extends State<LoginWidget> {
                           );
                         } else {
                           // Acción para proceder al siguiente paso
+                          login(context);
+                          /*Navigator.pop(context);
+                          toggleLogin();*/
                         }
                       },
                     ),
@@ -136,8 +166,7 @@ class _LoginWidgetState extends State<LoginWidget> {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 
   Widget _buildInputContainer({required Widget child}) {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fromzero_app/models/project_model.dart';
+import 'package:fromzero_app/models/create_project_model.dart';
 
 class MethodologiesWidget extends StatefulWidget {
   final CreateProjectData projectData;
@@ -78,7 +78,7 @@ class _MethodologiesWidgetState extends State<MethodologiesWidget> {
               : SetMethodologiesWidget(
                   onAddMethodology: (String name, String description) {
                     widget.projectData.methodologies
-                        .add(Methodology(name, description));
+                        .add(MethodologyResource(name, description));
                   },
                 ),
         ),

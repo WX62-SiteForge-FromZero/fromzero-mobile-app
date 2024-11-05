@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(CreateAccountWidget());
-}
 
 class CreateAccountWidget extends StatefulWidget {
   @override
@@ -21,8 +18,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: Text("Create Account"),
         ),
@@ -210,8 +206,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 
   Widget _buildInputContainer({required Widget child}) {
