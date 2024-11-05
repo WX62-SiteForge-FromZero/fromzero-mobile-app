@@ -6,6 +6,8 @@ import 'package:fromzero_app/views/ProfileWidget/ProfileDevWidget.dart';
 import 'package:fromzero_app/views/ProfileWidget/ProfileWidget.dart';
 import 'package:fromzero_app/views/applyToProjectViews/ListProjects.dart';
 import 'package:fromzero_app/views/createProjectViews/CreateProjectWidget.dart';
+import 'package:fromzero_app/views/highlightProjects/companyHighlightProjectsMain.dart';
+import 'package:fromzero_app/views/highlightProjects/developerHighlightProjectsMain.dart';
 import 'package:fromzero_app/views/searchProjectsViews/ProjectMainList.dart';
 
 class Navbar extends StatefulWidget {
@@ -109,6 +111,7 @@ class _NavbarState extends State<Navbar> {
 
   @override
   Widget build(BuildContext context) {
+
     List<Widget> views =[];
 
     if(role=="COMPANY"){
@@ -117,7 +120,8 @@ class _NavbarState extends State<Navbar> {
           currentUser!=null?ProfileWidget(profile:currentUser,):Container(),
           const DeveloperListScreen(),
           //const ApplyToProjects(),
-          const Center(child: Text("Destacados")),
+          //const Center(child: Text("Destacados")),
+          const DeveloperHighlightProjectsMain(),
           const CreateProjectApp(),
         ];
       });
@@ -127,11 +131,13 @@ class _NavbarState extends State<Navbar> {
           currentUser!=null?ProfileDevWidget(profile: currentUser,):Container(),
           //const DeveloperListScreen(),
           const ApplyToProjects(),
-          const Center(child: Text("Destacados")),
+          //const Center(child: Text("Destacados")),
+          const DeveloperHighlightProjectsMain(),
           //const CreateProjectApp(),
         ];
       });
     }
+
 
     return Scaffold(
       appBar: AppBar(
