@@ -4,14 +4,19 @@ void main() {
   runApp(CreateAccountWidget());
 }
 
-class CreateAccountWidget extends StatelessWidget {
+class CreateAccountWidget extends StatefulWidget {
+  @override
+  _CreateAccountWidgetState createState() => _CreateAccountWidgetState();
+}
+
+class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController nameController = TextEditingController();
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   String? selectedProfile;
-
-  CreateAccountWidget({super.key});
+  bool _obscurePassword = true; // Variable para controlar la visibilidad de la contraseña
 
   @override
   Widget build(BuildContext context) {
@@ -29,69 +34,135 @@ class CreateAccountWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    "Create Account",
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
+                    "Create\nAccount", // Dividir el texto en dos líneas
+                    style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.left, // Alinear a la izquierda
                   ),
                   SizedBox(height: 40),
-                  TextFormField(
-                    controller: emailController,
-                    decoration: InputDecoration(labelText: "Email"),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Este campo es obligatorio";
-                      }
-                      return null;
-                    },
+                  _buildInputContainer(
+                    child: TextFormField(
+                      controller: emailController,
+                      decoration: _inputDecoration("Email"),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Este campo es obligatorio";
+                        }
+                        return null;
+                      },
+                    ),
                   ),
-                  SizedBox(height: 20),
-                  TextFormField(
-                    controller: nameController,
-                    decoration: InputDecoration(labelText: "Name"),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Este campo es obligatorio";
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 20),
-                  TextFormField(
-                    controller: passwordController,
-                    decoration: InputDecoration(labelText: "Password"),
-                    obscureText: true,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return "Este campo es obligatorio";
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 20),
-                  DropdownButtonFormField<String>(
-                    value: selectedProfile,
-                    hint: Text("Profile"),
-                    items: [
-                      DropdownMenuItem(
-                        child: Text("Usuario"),
-                        value: "Usuario",
+                  SizedBox(height: 10),
+                  // Mostrar campos de First Name y Last Name solo si "Desarrollador" es seleccionado
+                  if (selectedProfile == "Desarrollador") ...[
+                    _buildInputContainer(
+                      child: TextFormField(
+                        controller: firstNameController,
+                        decoration: _inputDecoration("First Name"),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Este campo es obligatorio";
+                          }
+                          return null;
+                        },
                       ),
-                      DropdownMenuItem(
-                        child: Text("Desarrollador"),
-                        value: "Desarrollador",
+                    ),
+                    SizedBox(height: 10),
+                    _buildInputContainer(
+                      child: TextFormField(
+                        controller: lastNameController,
+                        decoration: _inputDecoration("Last Name"),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Este campo es obligatorio";
+                          }
+                          return null;
+                        },
                       ),
-                    ],
-                    onChanged: (value) {
-                      selectedProfile = value;
-                    },
-                    validator: (value) {
-                      if (value == null) {
-                        return "Seleccione un perfil";
-                      }
-                      return null;
-                    },
+                    ),
+                    SizedBox(height: 10),
+                  ],
+                  _buildInputContainer(
+                    child: TextFormField(
+                      controller: passwordController,
+                      obscureText: _obscurePassword, // Usar la variable para el texto oculto
+                      decoration: InputDecoration(
+                        labelText: "Password",
+                        labelStyle: TextStyle(color: Colors.grey[800]), // Color gris oscuro para la letra
+                        filled: true,
+                        fillColor: Colors.grey[200],
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: BorderSide(color: Colors.transparent),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: BorderSide(color: Colors.transparent),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: BorderSide(color: Colors.transparent),
+                        ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword ? Icons.visibility_off : Icons.visibility,
+                            color: Colors.grey[600],
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword; // Alternar la visibilidad
+                            });
+                          },
+                        ),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Este campo es obligatorio";
+                        }
+                        return null;
+                      },
+                    ),
                   ),
-                  SizedBox(height: 40),
+                  SizedBox(height: 10),
+                  _buildInputContainer(
+                    child: Container( // Añadir un Container para quitar el subrayado
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200], // Fondo gris suave
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: DropdownButtonFormField<String>(
+                        value: selectedProfile,
+                        hint: Padding(
+                          padding: const EdgeInsets.only(left: 10.0), // Ajusta el valor según lo necesites
+                          child: Text("Profile"),
+                        ),
+                        decoration: InputDecoration(
+                          border: InputBorder.none, // Sin borde
+                        ),
+                        items: [
+                          DropdownMenuItem(
+                            child: Text("Usuario"),
+                            value: "Usuario",
+                          ),
+                          DropdownMenuItem(
+                            child: Text("Desarrollador"),
+                            value: "Desarrollador",
+                          ),
+                        ],
+                        onChanged: (value) {
+                          setState(() {
+                            selectedProfile = value; // Cambiar el estado seleccionado
+                          });
+                        },
+                        validator: (value) {
+                          if (value == null) {
+                            return "Seleccione un perfil";
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFF004CFF), // Color de fondo
@@ -108,7 +179,7 @@ class CreateAccountWidget extends StatelessWidget {
                       }
                     },
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 1),
                   TextButton(
                     onPressed: () {
                       // Acción para cancelar
@@ -123,6 +194,45 @@ class CreateAccountWidget extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildInputContainer({required Widget child}) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey[200], // Fondo gris suave
+        borderRadius: BorderRadius.circular(8.0),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(0, 3), // Cambia la posición de la sombra
+          ),
+        ],
+      ),
+      child: child,
+    );
+  }
+
+  InputDecoration _inputDecoration(String label) {
+    return InputDecoration(
+      labelText: label,
+      labelStyle: TextStyle(color: Colors.grey[800]), // Color gris oscuro para la letra
+      filled: true, // Para llenar el fondo
+      fillColor: Colors.grey[200], // Color de fondo del campo
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: BorderSide(color: Colors.transparent), // Sin borde visible
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: BorderSide(color: Colors.transparent), // Sin borde visible
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(8.0),
+        borderSide: BorderSide(color: Colors.transparent), // Sin borde visible
       ),
     );
   }
