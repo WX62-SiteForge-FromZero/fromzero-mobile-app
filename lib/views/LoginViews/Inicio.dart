@@ -1,17 +1,6 @@
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(Inicio());
-}
-
-class Inicio extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: GetStartedScreen(),
-    );
-  }
-}
+import 'package:fromzero_app/views/LoginViews/CreateAccount.dart';
+import 'package:fromzero_app/views/LoginViews/Login.dart';
 
 class GetStartedScreen extends StatelessWidget {
   @override
@@ -49,6 +38,12 @@ class GetStartedScreen extends StatelessWidget {
                 ),
                 onPressed: () {
                   // Aquí puedes agregar la funcionalidad del botón
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context)=>CreateAccountWidget()
+                      )
+                  );
                 },
                 child: const Text(
                   "Let's get started",
@@ -84,6 +79,12 @@ class GetStartedScreen extends StatelessWidget {
                     ),
                     onPressed: () {
                       // Acción al presionar el botón de flecha
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context)=>LoginWidget()
+                          )
+                      );
                     },
                   ),
                 ),

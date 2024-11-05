@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(LoginWidget());
-}
-
 class LoginWidget extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -11,8 +7,10 @@ class LoginWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Sign In"),
+      ),
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.all(20),
@@ -98,7 +96,6 @@ class LoginWidget extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
+      );
   }
 }

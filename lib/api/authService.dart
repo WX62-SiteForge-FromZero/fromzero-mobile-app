@@ -4,7 +4,7 @@ import 'package:fromzero_app/api/baseUrl.dart';
 import 'package:http/http.dart' as http;
 
 class AuthService{
-  static const String url = "${BaseUrl.baseUrl}/auth";
+  static const String url = "${BaseUrlApi.url}/auth";
 
   Future<http.Response> login(String email, String password)async{
     try{
