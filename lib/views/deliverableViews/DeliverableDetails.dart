@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fromzero_app/models/create_deliverable_model.dart';
 import 'package:fromzero_app/models/deliverable_model.dart';
 
 class DeliverableDetailsWidget extends StatelessWidget {
@@ -13,12 +14,12 @@ class DeliverableDetailsWidget extends StatelessWidget {
         child: Column(
       children: [
         Text(this.deliverable.name, style: TextStyle(fontSize: 20)),
-        Text(this.deliverable.date.toString(), style: TextStyle(fontSize: 20)),
-        Text(this.deliverable.state.name, style: TextStyle(fontSize: 20)),
+        Text(this.deliverable.date, style: TextStyle(fontSize: 20)),
+        Text(this.deliverable.state, style: TextStyle(fontSize: 20)),
         Text("Descripción", style: TextStyle(fontSize: 20)),
         Text(this.deliverable.description, style: TextStyle(fontSize: 20)),
         Text("Entrega del desarrollador", style: TextStyle(fontSize: 20)),
-        Text(this.deliverable.developerMessage, style: TextStyle(fontSize: 20)),
+        deliverable.developerMessage!=null?Text(this.deliverable.developerMessage!, style: TextStyle(fontSize: 20)):Text("No message"),
         Row(
           children: [
             Expanded(

@@ -12,9 +12,6 @@ class ProjectsService{
 
   Future<http.Response> createProject(CreateProjectData data)async{
     try{
-      // shared preferences
-      /*int companyId=1;
-      String token = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJrZmNAZ21haWwuY29tIiwiaWF0IjoxNzMwNzM2NjQxLCJleHAiOjE3MzEzNDE0NDF9.LYPqg1JRCLPWSYFMmYfHR-iLmU_CL91o_yky-mPfOcEhE7N19BhBy_gxyyUZXV-j";*/
       Map<String,String> userData = await loadData();
 
       String companyId = userData['profileId']!;
@@ -86,6 +83,48 @@ class ProjectsService{
       return response;
     }catch(e){
       throw Exception("Error al obtener proyectos. $e");
+    }
+  }
+
+  Future<List<Project>> getProjectByCompanyId()async{
+    try{
+      Map<String, String> userData = await loadData();
+      String companyId = userData['profileId']!;
+      String token = userData['token']!;
+      final response = await http.get(
+        Uri.parse("$url/company/$companyId"),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+          }
+      );
+      final List<dynamic> jsonData = jsonDecode(response.body);
+      return jsonData.map((data)=>
+          Project.fromJson(data))
+          .toList();
+    }catch(e){
+      throw Exception("Error al obtener proyectos. $e");
+    }
+  }
+
+  Future<List<Project>> getProjectsByDeveloperId()async{
+    try{
+      Map<String, String> userData = await loadData();
+      String developerId = userData['profileId']!;
+      String token = userData['token']!;
+      final response = await http.get(
+          Uri.parse("$url/developer/$developerId"),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+          }
+      );
+      final List<dynamic> jsonData = jsonDecode(response.body);
+      return jsonData.map((data)=>
+          Project.fromJson(data))
+          .toList();
+    }catch(e){
+      throw Exception("Error al obtener proyectos$e");
     }
   }
 

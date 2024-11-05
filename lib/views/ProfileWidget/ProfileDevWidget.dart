@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:fromzero_app/models/company_model.dart';
+import 'package:fromzero_app/models/developer_model.dart';
 import 'package:fromzero_app/views/ProfileWidget/YourProjectsWidget.dart';
 
-class ProfileWidget extends StatelessWidget {
-  final Company profile;
-  const ProfileWidget({super.key,required this.profile});
+import 'YourProjectsDevWidget.dart';
+
+class ProfileDevWidget extends StatelessWidget {
+  final Developer profile;
+  const ProfileDevWidget({super.key,required this.profile});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +24,7 @@ class ProfileWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        profile.companyName,
+                        profile.firstName+" "+profile.lastName,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 24,
@@ -36,7 +38,7 @@ class ProfileWidget extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context)=>
-                                      YourProjectsWidget()
+                                      YourProjectsDevWidget()
                               )
                           );
                         },
@@ -45,8 +47,8 @@ class ProfileWidget extends StatelessWidget {
                           padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                         ),
                         child: Text("Ver Proyectos",style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black
+                            fontSize: 20,
+                            color: Colors.black
                         ),),
                       ),
                     ],
@@ -63,9 +65,7 @@ class ProfileWidget extends StatelessWidget {
                   _buildTableRow("País", profile.country),
                   _buildTableRow("Correo", profile.email),
                   _buildTableRow("Teléfono", profile.phone),
-                  _buildTableRow("RUC", profile.ruc),
-                  _buildTableRow("Sitio web", profile.website),
-                  _buildTableRow("Sector", profile.sector),
+                  _buildTableRow("Especialidades", profile.specialties),
                 ],
               ),
               const SizedBox(height: 16),

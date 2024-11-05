@@ -41,7 +41,10 @@ class _ApplyToProjectsState extends State<ApplyToProjects> {
               itemCount: projectsList.length,
               itemBuilder: (BuildContext context, int index){
                 return ListTile(
-                  title: Text(projectsList[index].name),
+                  title: Text(
+                    projectsList[index].name,
+                    textAlign: TextAlign.center
+                  ),
                   subtitle: Column(
                     children: [
                       Text(projectsList[index].type),
@@ -64,7 +67,14 @@ class _ApplyToProjectsState extends State<ApplyToProjects> {
                 );
               }
           ):Text("Aún no se han publicados proyectos."),
-        )
+        ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.refresh),
+          backgroundColor: Colors.lightBlueAccent,
+          onPressed: (){
+              _fetchProjects();
+          }
+      ),
     );
   }
 }
