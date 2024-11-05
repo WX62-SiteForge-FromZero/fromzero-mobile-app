@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:fromzero_app/api/baseUrl.dart';
 import 'package:fromzero_app/models/create_project_model.dart';
+import 'package:fromzero_app/prefs/user_prefs.dart';
 import 'package:http/http.dart' as http;
 
 import '../models/project_model.dart';
@@ -12,8 +13,13 @@ class ProjectsService{
   Future<http.Response> createProject(CreateProjectData data)async{
     try{
       // shared preferences
-      int companyId=1;
-      String token = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJrZmNAZ21haWwuY29tIiwiaWF0IjoxNzMwNzM2NjQxLCJleHAiOjE3MzEzNDE0NDF9.LYPqg1JRCLPWSYFMmYfHR-iLmU_CL91o_yky-mPfOcEhE7N19BhBy_gxyyUZXV-j";
+      /*int companyId=1;
+      String token = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJrZmNAZ21haWwuY29tIiwiaWF0IjoxNzMwNzM2NjQxLCJleHAiOjE3MzEzNDE0NDF9.LYPqg1JRCLPWSYFMmYfHR-iLmU_CL91o_yky-mPfOcEhE7N19BhBy_gxyyUZXV-j";*/
+      Map<String,String> userData = await loadData();
+
+      String companyId = userData['profileId']!;
+      String token = userData['token']!;
+
       final response = await http.post(
         Uri.parse("$url"),
         body: jsonEncode({
