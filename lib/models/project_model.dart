@@ -4,12 +4,8 @@ class Project {
   String description;
   String state;
   double progress;
-
-  // Company
-  int companyId;
-  // Developer
-  int? developerId;
-
+  String companyId;
+  String? developerId;
   List<dynamic> candidates;
   List<dynamic> languages;
   List<dynamic> frameworks;
@@ -27,10 +23,8 @@ class Project {
       json['description'],
       json['state'],
       json['progress'],
-      //json['companyId'],
-      //json['developerId'],
-      json['company']['id'],
-      json['developer']==null?null:json['developer']['id'],
+      json['companyId'],
+      json['developerId'] ?? "",
       json['candidates'],
       json['languages'],
       json['frameworks'],

@@ -1,12 +1,42 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fromzero_app/api/authService.dart';
+import 'package:fromzero_app/api/profilesService.dart';
+import 'package:fromzero_app/api/usersService.dart';
+import 'package:fromzero_app/prefs/user_prefs.dart';
 
 class LoginWidget extends StatelessWidget {
   final VoidCallback toggleLogin;
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
-
+  final service = AuthService();
+  final userService = UsersService();
+  final profileService = ProfilesService();
   LoginWidget({super.key, required this.toggleLogin});
+
+  Future<void> login(BuildContext context)async{
+    final response = await service.login(emailController.text, passwordController.text);
+    if(response.statusCode==200){
+      Map<String,dynamic> data = jsonDecode(response.body);
+      String token = data['token'];
+      int userId = int.parse(data['id'].toString());
+      String email = data['email'];
+      Map<String,dynamic> rolesData = await userService.getUserById(userId,token);
+      String role = rolesData['role'];
+      String profileId="";
+      if(role=="COMPANY"){
+        profileId=await profileService.getCompanyProfileIdByEmail(email, token);
+      }else if(role=="DEVELOPER"){
+        profileId = await profileService.getDeveloperProfileIdByEmail(email, token);
+      }
+      await saveData(token, role, profileId);
+      Navigator.pop(context);
+      toggleLogin();
+    }else return;
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,8 +120,9 @@ class LoginWidget extends StatelessWidget {
                           );
                         } else {
                           // Acción para proceder al siguiente paso
-                          Navigator.pop(context);
-                          toggleLogin();
+                          login(context);
+                          /*Navigator.pop(context);
+                          toggleLogin();*/
                         }
                       },
                     ),

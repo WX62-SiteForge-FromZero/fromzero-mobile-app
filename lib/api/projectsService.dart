@@ -12,9 +12,6 @@ class ProjectsService{
 
   Future<http.Response> createProject(CreateProjectData data)async{
     try{
-      // shared preferences
-      /*int companyId=1;
-      String token = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJrZmNAZ21haWwuY29tIiwiaWF0IjoxNzMwNzM2NjQxLCJleHAiOjE3MzEzNDE0NDF9.LYPqg1JRCLPWSYFMmYfHR-iLmU_CL91o_yky-mPfOcEhE7N19BhBy_gxyyUZXV-j";*/
       Map<String,String> userData = await loadData();
 
       String companyId = userData['profileId']!;

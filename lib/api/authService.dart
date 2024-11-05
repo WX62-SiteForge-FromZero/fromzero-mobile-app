@@ -16,13 +16,7 @@ class AuthService{
         }),
         headers: {'Content-Type':'application/json'}
       );
-      if(response.statusCode==200){
-        return response;
-      }else if(response.statusCode==401){
-        throw Exception("Datos incorrectos");
-      }else{
-        throw Exception("Error");
-      }
+      return response;
     }catch(e){
       throw Exception("Error");
     }

@@ -51,8 +51,8 @@ class _NavbarState extends State<Navbar> {
   Widget build(BuildContext context) {
     final views = [
       const ProfileWidget(),
-      const DeveloperListScreen(),
-      //const ApplyToProjects(),
+      //const DeveloperListScreen(),
+      const ApplyToProjects(),
       const Center(child: Text("Destacados")),
       const CreateProjectApp(),
     ];
