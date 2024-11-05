@@ -10,6 +10,7 @@ class CreateAccountWidget extends StatefulWidget {
 }
 
 class _CreateAccountWidgetState extends State<CreateAccountWidget> {
+  final TextEditingController companyNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
@@ -80,6 +81,19 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                       ),
                     ),
                     SizedBox(height: 10),
+                  ]else if(selectedProfile == "Empresa")...[
+                    _buildInputContainer(
+                      child: TextFormField(
+                        controller: companyNameController,
+                        decoration: _inputDecoration("Company Name"),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Este campo es obligatorio";
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
                   ],
                   _buildInputContainer(
                     child: TextFormField(
@@ -140,8 +154,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                         ),
                         items: [
                           DropdownMenuItem(
-                            child: Text("Usuario"),
-                            value: "Usuario",
+                            child: Text("Empresa"),
+                            value: "Empresa",
                           ),
                           DropdownMenuItem(
                             child: Text("Desarrollador"),
@@ -176,6 +190,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                         );
                       } else {
                         // Acción para crear la cuenta
+
+                        //api
                       }
                     },
                   ),

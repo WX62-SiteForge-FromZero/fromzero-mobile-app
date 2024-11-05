@@ -22,11 +22,12 @@ class GetStartedScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Imagen PNG centrada
-            Image.asset(
-              'assets/icon.png', // Ruta de la imagen en assets
+            /*Image.asset(
+              'lib/assets/FromZero.png', // Ruta de la imagen en assets
               width: 100,        // Ancho de la imagen
               height: 100,       // Alto de la imagen
-            ),
+            ),*/
+            Image(image: AssetImage('lib/assets/FromZero.png')),
             const SizedBox(height: 100),
             // Texto de bienvenida en dos líneas
             const Text(
@@ -38,9 +39,11 @@ class GetStartedScreen extends StatelessWidget {
                 fontFamily: 'NunitoSans', // Fuente personalizada
               ),
             ),
-            const SizedBox(height: 80), // Aumentar el espacio entre el texto y el botón
+            const SizedBox(height: 80),
+            // Aumentar el espacio entre el texto y el botón
             // Botón de "Let's get started"
-            Center( // Centra el botón en la pantalla
+            Center(
+              // Centra el botón en la pantalla
               child: ElevatedButton(
                 child: const Text(
                   "Let's get started",

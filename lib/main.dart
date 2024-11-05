@@ -14,8 +14,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       //home: Navbar(),
-      //home: Inicio(),
-      home: CreateAccountWidget(),
+      home: Inicio(),
+      //home: CreateAccountWidget(),
       //home: LoginWidget(),
     );
   }
