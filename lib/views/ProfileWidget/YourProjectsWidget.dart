@@ -29,12 +29,12 @@ class _YourProjectsWidgetState extends State<YourProjectsWidget> {
     fetchProjectsByProfileId();
   }
 
-  void checkDeliverables(BuildContext context){
+  void checkDeliverables(BuildContext context,int projectId){
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context)=>
-                DeliverablesSchedule()
+                DeliverablesSchedule(projectId: projectId,)
         )
     );
   }
@@ -80,7 +80,7 @@ class _YourProjectsWidgetState extends State<YourProjectsWidget> {
                 ),
                 tileColor: Colors.grey[300],
                 onTap: (){
-                  checkDeliverables(context);
+                  checkDeliverables(context,projectList[index].id);
                 }
             );
           }
