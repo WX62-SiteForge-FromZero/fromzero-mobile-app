@@ -48,7 +48,9 @@ class ProjectsService{
 
   Future<List<Project>> getAllProjectsByState(String projectState)async{
     try {
-      String token = "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJrZmNAZ21haWwuY29tIiwiaWF0IjoxNzMwNzM2NjQxLCJleHAiOjE3MzEzNDE0NDF9.LYPqg1JRCLPWSYFMmYfHR-iLmU_CL91o_yky-mPfOcEhE7N19BhBy_gxyyUZXV-j";
+      Map<String, String> userData = await loadData();
+      String token = userData['token']!;
+
       final response = await http.get(
           Uri.parse("$url/by-state?state=$projectState"),
           headers: {
@@ -64,6 +66,27 @@ class ProjectsService{
       throw Exception("Error al obtener proyectos. $e");
     }
 
+  }
+
+  Future<http.Response> applyToProject(int projectId)async{
+    try {
+      Map<String, String> userData = await loadData();
+      String developerId = userData['profileId']!;
+      String token = userData['token']!;
+      final response = await http.patch(
+          Uri.parse('$url/$projectId/add-candidate'),
+          body: jsonEncode({
+            'developerId':developerId
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+          }
+      );
+      return response;
+    }catch(e){
+      throw Exception("Error al obtener proyectos. $e");
+    }
   }
 
 }

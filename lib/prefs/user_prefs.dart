@@ -5,6 +5,8 @@ Future<void> saveData(String token, String role, String profileId)async{
   await prefs.setString('token', token);
   await prefs.setString('role', role);
   await prefs.setString('profileId', profileId);
+  // await prefs.setString('companyId', profileId);
+  // await prefs.setString('developerId', profileId);
 }
 
 Future<Map<String,String>> loadData()async{
