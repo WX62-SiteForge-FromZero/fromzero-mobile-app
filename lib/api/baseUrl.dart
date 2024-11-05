@@ -1,3 +1,3 @@
-class BaseUrl{
-  static const String baseUrl="http://localhost:8080/v1/api";
+class BaseUrlApi{
+  static const String url="http://localhost:8080/v1/api";
 }

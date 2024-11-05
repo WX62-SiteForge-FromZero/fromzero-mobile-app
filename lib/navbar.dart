@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fromzero_app/views/ProfileWidget/MenuWidget.dart';
 import 'package:fromzero_app/views/ProfileWidget/ProfileWidget.dart';
+import 'package:fromzero_app/views/applyToProjectViews/ListProjects.dart';
 import 'package:fromzero_app/views/createProjectViews/CreateProjectWidget.dart';
 import 'package:fromzero_app/views/searchProjectsViews/ProjectMainList.dart';
 
@@ -49,7 +50,8 @@ class _NavbarState extends State<Navbar> {
   Widget build(BuildContext context) {
     final views = [
       const ProfileWidget(),
-      const DeveloperListScreen(),
+      //const DeveloperListScreen(),
+      const ApplyToProjects(),
       const Center(child: Text("Destacados")),
       const CreateProjectApp(),
     ];
