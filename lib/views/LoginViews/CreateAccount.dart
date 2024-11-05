@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fromzero_app/api/authService.dart';
 
 
 class CreateAccountWidget extends StatefulWidget {
@@ -15,6 +16,43 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   final formKey = GlobalKey<FormState>();
   String? selectedProfile;
   bool _obscurePassword = true; // Variable para controlar la visibilidad de la contraseña
+
+  Future<void> registerUser(BuildContext context)async{
+    var service = AuthService();
+    if(selectedProfile=="Empresa"){
+      final response = await service.registerCompany(
+          emailController.text,
+          passwordController.text,
+          companyNameController.text
+      );
+      if(response.statusCode==201){
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Usuario Empresa creado"))
+        );
+      }else{
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Ocurrió un error"))
+        );
+      }
+    }else {
+      final response = await service.registerDeveloper(
+          emailController.text,
+          passwordController.text,
+          firstNameController.text,
+          lastNameController.text
+      );
+      if(response.statusCode==201){
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Usuario Desarrollador creado"))
+        );
+      }else{
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("Ocurrió un error"))
+        );
+      }
+    }
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -178,7 +216,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                       backgroundColor: Color(0xFF004CFF), // Color de fondo
                       foregroundColor: Colors.white, // Color del texto
                     ),
-                    child: Text("Done"),
+                    child: Text("Registrarse"),
                     onPressed: () {
                       if (!formKey.currentState!.validate()) {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -186,12 +224,11 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                         );
                       } else {
                         // Acción para crear la cuenta
-
-                        //api
+                        registerUser(context);
                       }
                     },
                   ),
-                  SizedBox(height: 1),
+                  /*SizedBox(height: 1),
                   TextButton(
                     onPressed: () {
                       // Acción para cancelar
@@ -200,7 +237,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                       "Cancel",
                       style: TextStyle(color: Color(0xFF004CFF)),
                     ),
-                  ),
+                  ),*/
                 ],
               ),
             ),
