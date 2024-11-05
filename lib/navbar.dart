@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fromzero_app/prefs/user_prefs.dart';
 import 'package:fromzero_app/views/ProfileWidget/MenuWidget.dart';
 import 'package:fromzero_app/views/ProfileWidget/ProfileWidget.dart';
 import 'package:fromzero_app/views/applyToProjectViews/ListProjects.dart';
@@ -15,6 +16,21 @@ class Navbar extends StatefulWidget {
 
 class _NavbarState extends State<Navbar> {
   int selectedView = 0;
+  String role = "";
+
+  Future<void> setUser()async{
+    Map<String,String> userData = await loadData();
+    setState(() {
+      role=userData['role']!;
+
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setUser();
+  }
 
   void setView(int view) {
     setState(() {
@@ -23,39 +39,82 @@ class _NavbarState extends State<Navbar> {
   }
 
   Text setViewTitle() {
-    switch (selectedView) {
-      case 0:
-        return const Text(
-          "Perfil",
-          style: TextStyle(fontSize: 35),
-        );
-      case 1:
-        return const Text(
-          "Buscar Desarrolladores",
-          style: TextStyle(fontSize: 35),
-        );
-      case 2:
-        return const Text(
-          "Proyectos Destacados",
-          style: TextStyle(fontSize: 35),
-        );
-      default:
-        return const Text(
-          "Crear Proyecto",
-          style: TextStyle(fontSize: 35),
-        );
+
+    if(role=="COMPANY") {
+      switch (selectedView) {
+        case 0:
+          return const Text(
+            "Perfil",
+            style: TextStyle(fontSize: 35),
+          );
+        case 1:
+          return const Text(
+            "Buscar Desarrolladores",
+            style: TextStyle(fontSize: 35),
+          );
+        case 2:
+          return const Text(
+            "Proyectos Destacados",
+            style: TextStyle(fontSize: 35),
+          );
+        default:
+          return const Text(
+            "Crear Proyecto",
+            style: TextStyle(fontSize: 35),
+          );
+      }
+    }else{
+      // DEVELOPER
+      switch (selectedView) {
+        case 0:
+          return const Text(
+            "Perfil",
+            style: TextStyle(fontSize: 35),
+          );
+        case 1:
+          return const Text(
+            "Buscar Proyectos",
+            style: TextStyle(fontSize: 35),
+          );
+        /*case 2:
+          return const Text(
+            "Proyectos Destacados",
+            style: TextStyle(fontSize: 35),
+          );*/
+        default:
+          return const Text(
+            "Proyectos Destacados",
+            style: TextStyle(fontSize: 35),
+          );
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    final views = [
-      const ProfileWidget(),
-      //const DeveloperListScreen(),
-      const ApplyToProjects(),
-      const Center(child: Text("Destacados")),
-      const CreateProjectApp(),
-    ];
+    List<Widget> views =[];
+
+    if(role=="COMPANY"){
+      setState(() {
+        views = [
+          const ProfileWidget(),
+          const DeveloperListScreen(),
+          //const ApplyToProjects(),
+          const Center(child: Text("Destacados")),
+          const CreateProjectApp(),
+        ];
+      });
+    }else {
+      setState(() {
+        views = [
+          const ProfileWidget(),
+          //const DeveloperListScreen(),
+          const ApplyToProjects(),
+          const Center(child: Text("Destacados")),
+          //const CreateProjectApp(),
+        ];
+      });
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -84,7 +143,7 @@ class _NavbarState extends State<Navbar> {
             selectedView = index;
           });
         },
-        items: const [
+        items: (role=="COMPANY")?[
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: "Perfil",
@@ -101,6 +160,23 @@ class _NavbarState extends State<Navbar> {
             icon: Icon(Icons.drive_file_rename_outline),
             label: "Publicar",
           ),
+        ]:[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: "Perfil",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: "Buscar",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.star),
+            label: "Destacados",
+          ),
+          /*BottomNavigationBarItem(
+            icon: Icon(Icons.drive_file_rename_outline),
+            label: "Publicar",
+          ),*/
         ],
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.black,

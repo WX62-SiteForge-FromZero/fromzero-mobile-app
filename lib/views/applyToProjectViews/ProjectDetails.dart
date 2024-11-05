@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:fromzero_app/api/projectsService.dart';
 import 'package:fromzero_app/models/project_model.dart';
 
 class ProjectDetails extends StatelessWidget {
   final Project project;
 
   const ProjectDetails({super.key, required this.project});
+
+  Future<void> apply(BuildContext context)async{
+    final service = ProjectsService();
+    final response = await service.applyToProject(project.id);
+    if(response.statusCode==200){
+      ScaffoldMessenger.of(context)
+          .showSnackBar(
+          SnackBar(
+              content: Text("Has postulado al proyecto")
+          )
+      );
+      Navigator.pop(context);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +61,12 @@ class ProjectDetails extends StatelessWidget {
                         }))
               ],
             ),
+          ),
+          ElevatedButton(
+            child: Text("Postular"),
+            onPressed: (){
+              apply(context);
+            },
           )
 
           //Text("Procesos y metodologías"),

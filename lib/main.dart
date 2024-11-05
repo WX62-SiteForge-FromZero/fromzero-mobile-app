@@ -26,9 +26,9 @@ class _MyAppState extends State<MyApp> {
       if(isLoggedIn==true){
         cleatPrefs();
       }
-      print("Antes: $isLoggedIn");
+
       isLoggedIn=!isLoggedIn;
-      print("Despues: $isLoggedIn");
+
     });
   }
 
