@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:fromzero_app/api/profilesService.dart';
 import 'package:fromzero_app/prefs/user_prefs.dart';
 import 'package:fromzero_app/views/ProfileWidget/MenuWidget.dart';
+import 'package:fromzero_app/views/ProfileWidget/ProfileDevWidget.dart';
 import 'package:fromzero_app/views/ProfileWidget/ProfileWidget.dart';
 import 'package:fromzero_app/views/applyToProjectViews/ListProjects.dart';
 import 'package:fromzero_app/views/createProjectViews/CreateProjectWidget.dart';
@@ -17,13 +19,28 @@ class Navbar extends StatefulWidget {
 class _NavbarState extends State<Navbar> {
   int selectedView = 0;
   String role = "";
-
+  String profileId = "";
+  String token = "";
+  dynamic currentUser;
   Future<void> setUser()async{
     Map<String,String> userData = await loadData();
     setState(() {
       role=userData['role']!;
-
+      profileId=userData['profileId']!;
+      token = userData['token']!;
     });
+    var service = ProfilesService();
+    if(role=="COMPANY"){
+      final response = await service.getCompanyByProfileId(profileId, token);
+      setState(() {
+        currentUser=response;
+      });
+    }else{
+      final response = await service.getDeveloperByProfileId(profileId, token);
+      setState(() {
+        currentUser=response;
+      });
+    }
   }
 
   @override
@@ -97,7 +114,7 @@ class _NavbarState extends State<Navbar> {
     if(role=="COMPANY"){
       setState(() {
         views = [
-          const ProfileWidget(),
+          currentUser!=null?ProfileWidget(profile:currentUser,):Container(),
           const DeveloperListScreen(),
           //const ApplyToProjects(),
           const Center(child: Text("Destacados")),
@@ -107,7 +124,7 @@ class _NavbarState extends State<Navbar> {
     }else {
       setState(() {
         views = [
-          const ProfileWidget(),
+          currentUser!=null?ProfileDevWidget(profile: currentUser,):Container(),
           //const DeveloperListScreen(),
           const ApplyToProjects(),
           const Center(child: Text("Destacados")),
