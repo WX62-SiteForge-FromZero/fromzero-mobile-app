@@ -6,8 +6,7 @@ import 'package:fromzero_app/views/ProfileWidget/ProfileDevWidget.dart';
 import 'package:fromzero_app/views/ProfileWidget/ProfileWidget.dart';
 import 'package:fromzero_app/views/applyToProjectViews/ListProjects.dart';
 import 'package:fromzero_app/views/createProjectViews/CreateProjectWidget.dart';
-import 'package:fromzero_app/views/highlightProjects/companyHighlightProjectsMain.dart';
-import 'package:fromzero_app/views/highlightProjects/developerHighlightProjectsMain.dart';
+import 'package:fromzero_app/views/highlightProjects/highlightProjectsWidget.dart';
 import 'package:fromzero_app/views/searchProjectsViews/ProjectMainList.dart';
 
 class Navbar extends StatefulWidget {
@@ -95,11 +94,6 @@ class _NavbarState extends State<Navbar> {
             "Buscar Proyectos",
             style: TextStyle(fontSize: 35),
           );
-        /*case 2:
-          return const Text(
-            "Proyectos Destacados",
-            style: TextStyle(fontSize: 35),
-          );*/
         default:
           return const Text(
             "Proyectos Destacados",
@@ -119,9 +113,7 @@ class _NavbarState extends State<Navbar> {
         views = [
           currentUser!=null?ProfileWidget(profile:currentUser,):Container(),
           const DeveloperListScreen(),
-          //const ApplyToProjects(),
-          //const Center(child: Text("Destacados")),
-          const DeveloperHighlightProjectsMain(),
+          const HighlightProjects(),
           const CreateProjectApp(),
         ];
       });
@@ -129,11 +121,8 @@ class _NavbarState extends State<Navbar> {
       setState(() {
         views = [
           currentUser!=null?ProfileDevWidget(profile: currentUser,):Container(),
-          //const DeveloperListScreen(),
           const ApplyToProjects(),
-          //const Center(child: Text("Destacados")),
-          const DeveloperHighlightProjectsMain(),
-          //const CreateProjectApp(),
+          const HighlightProjects(),
         ];
       });
     }
@@ -196,10 +185,6 @@ class _NavbarState extends State<Navbar> {
             icon: Icon(Icons.star),
             label: "Destacados",
           ),
-          /*BottomNavigationBarItem(
-            icon: Icon(Icons.drive_file_rename_outline),
-            label: "Publicar",
-          ),*/
         ],
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.black,
