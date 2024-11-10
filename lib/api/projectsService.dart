@@ -82,6 +82,28 @@ class ProjectsService{
     }
   }
 
+  Future<http.Response> setDeveloperToProject(int projectId,String developerId, bool accepted)async{
+    try{
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String token = prefs.getString("token")??"";
+
+      final response = await http.patch(
+        Uri.parse("$url/$projectId/set-developer"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
+        body: jsonEncode({
+          'developerId':developerId,
+          'accepted':accepted
+        })
+      );
+      return response;
+    }catch(e){
+      throw Exception("$e");
+    }
+  }
+
   Future<List<Project>> getProjectsByCompanyId()async{
     try{
       SharedPreferences prefs = await SharedPreferences.getInstance();

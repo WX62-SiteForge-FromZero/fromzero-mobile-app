@@ -1,41 +1,20 @@
 enum DeliverableState { PENDIENTE, ESPERANDO_REVISION, RECHAZADO, COMPLETADO }
 
 class CreateDeliverableData {
-  int _id;
   String _name;
   String _description;
   DateTime _date;
-  DeliverableState _state;
   int _projectId;
-  String _developerMessage;
 
   CreateDeliverableData({
-    int id = 0,
     String name = "",
     String description = "",
     DateTime? date,
-    DeliverableState state=DeliverableState.PENDIENTE,
     int projectId = 0,
-    String developerMessage = "",
-  })  : _id = id,
-        _name = name,
+  })  : _name = name,
         _description = description,
         _date = date ?? DateTime.now(),
-        _state=state,
-        _projectId = projectId,
-        _developerMessage = developerMessage;
-
-  DeliverableState get state => _state;
-
-  set state(DeliverableState value) {
-    _state = value;
-  }
-
-  String get developerMessage => _developerMessage;
-
-  set developerMessage(String value) {
-    _developerMessage = value;
-  }
+        _projectId = projectId;
 
   int get projectId => _projectId;
 
@@ -59,11 +38,5 @@ class CreateDeliverableData {
 
   set name(String value) {
     _name = value;
-  }
-
-  int get id => _id;
-
-  set id(int value) {
-    _id = value;
   }
 }

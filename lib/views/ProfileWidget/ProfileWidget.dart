@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fromzero_app/models/company_model.dart';
-import 'package:fromzero_app/views/ProfileWidget/YourProjectsWidget.dart';
 import 'package:fromzero_app/views/projectsViews/projectsList.dart';
 
 class ProfileWidget extends StatelessWidget {
@@ -45,7 +44,6 @@ class ProfileWidget extends StatelessWidget {
                               MaterialPageRoute(
                                   builder: (context)=>
                                       ProjectsList()
-                                      //YourProjectsWidget()
 
                               )
                           );

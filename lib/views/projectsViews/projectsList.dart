@@ -53,17 +53,26 @@ class _ProjectsListState extends State<ProjectsList> {
         context,
         MaterialPageRoute(
             builder: (context)=>
-                DeliverablesSchedule(projectId: projectId,)
+                DeliverablesSchedule(
+                  projectId: projectId,
+                  role: role,
+                )
         )
     );
   }
 
-  void checkDevelopers(BuildContext context){
+  void checkDevelopers(BuildContext context,int projectId,List<dynamic> candidates){
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context)=>
-                AcceptDeveloperWidget()
+                AcceptDeveloperWidget(
+                  projectId: projectId,
+                  candidates: candidates,
+                  refreshProjects: (){
+                    _fetchProjects();
+                  },
+                )
         )
     );
   }
@@ -81,17 +90,20 @@ class _ProjectsListState extends State<ProjectsList> {
                   children: [
                     Text(projectList[index].description),
                     const SizedBox(height: 10),
-                    projectList[index].candidates.length!=0?ElevatedButton(
+                    projectList[index].developerId==""?ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
                         foregroundColor: Colors.white,
                       ),
                       onPressed: () {
-                        // Acción del botón
-                        checkDevelopers(context);
+                        checkDevelopers(
+                            context,
+                            projectList[index].id,
+                            projectList[index].candidates
+                        );
                       },
                       child: Text("Ver candidatos"),
-                    ):Text("Progreso: ${projectList[index].progress}%"),
+                    ):Text("Progreso: ${projectList[index].progress}%")
                   ],
                 ),
                 tileColor: Colors.grey[300],

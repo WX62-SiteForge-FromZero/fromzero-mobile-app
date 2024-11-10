@@ -1,7 +1,141 @@
 import 'package:flutter/material.dart';
+import 'package:fromzero_app/api/profilesService.dart';
+import 'package:fromzero_app/api/projectsService.dart';
 
-class AcceptDeveloperWidget extends StatelessWidget {
-  const AcceptDeveloperWidget({super.key});
+import '../../models/developer_model.dart';
+
+class AcceptDeveloperWidget extends StatefulWidget {
+  final Function() refreshProjects;
+  final List<dynamic> candidates;
+  final int projectId;
+  const AcceptDeveloperWidget({
+    super.key,
+    required this.candidates,
+    required this.projectId,
+    required this.refreshProjects
+  });
+
+  @override
+  State<AcceptDeveloperWidget> createState() => _AcceptDeveloperWidgetState();
+}
+
+class _AcceptDeveloperWidgetState extends State<AcceptDeveloperWidget> {
+  List<Developer> developers=[];
+
+  Future<void> fetchCandidates()async{
+    var service =ProfilesService();
+
+    for(var profileId in widget.candidates){
+      final response = await service.getDeveloper(profileId);
+      developers.add(response);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchCandidates();
+  }
+
+  Future<void> acceptDeveloper(BuildContext context,String developerId, bool accepted)async{
+    var service = ProjectsService();
+    final response = await service.setDeveloperToProject(
+        widget.projectId,
+        developerId,
+        accepted
+    );
+    if(response.statusCode==200) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text("Lista de candidatos actualizada")
+          )
+      );
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text("Error")
+          )
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return developers.isNotEmpty?ListView.builder(
+        itemCount: developers.length,
+        itemBuilder: (BuildContext context, int index){
+          return Card(
+            margin: EdgeInsets.all(8),
+            elevation: 5,
+            child: ListTile(
+              leading: CircleAvatar(
+                backgroundImage:
+                  NetworkImage(
+                    developers[index].profileImgUrl
+                  ),
+              ),
+              title: Text(
+                  developers[index].firstName+" "+developers[index].lastName
+              ),
+              subtitle: Column(
+                children: [
+                  Text(developers[index].description),
+                  Text(developers[index].specialties),
+                  Expanded(
+                      child: Row(
+                        children: [
+                          ElevatedButton(
+                              onPressed: (){
+                                acceptDeveloper(
+                                    context,
+                                    developers[index].profileId,
+                                    true
+                                );
+                                widget.refreshProjects;
+                                Navigator.pop(context);
+                              },
+                              child: Text("Aceptar"),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green,
+                                foregroundColor: Colors.white
+                              ),
+                          ),
+                          ElevatedButton(
+                              onPressed: (){
+                                acceptDeveloper(
+                                    context,
+                                    developers[index].profileId,
+                                    false
+                                );
+                                widget.refreshProjects;
+                                Navigator.pop(context);
+                              },
+                              child: Text("Rechazar"),
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.red,
+                                  foregroundColor: Colors.white
+                              ),
+                          )
+                        ],
+                      )
+                  )
+                ],
+              ),
+            ),
+          );
+        }
+    ):Text(
+      "Aún no hay postulantes a este proyecto",
+      textAlign: TextAlign.center,
+    );
+  }
+}
+
+
+/*class AcceptDeveloperWidget extends StatelessWidget {
+  List<dynamic> candidates=[];
+
+  AcceptDeveloperWidget({super.key});
 
   void goBackToProject(BuildContext context){
     Navigator.pop(context);
@@ -11,11 +145,15 @@ class AcceptDeveloperWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Aceptar Desarrollador"),
+        title: const Text("Postulantes al proyecto"),
       ),
-      body: ListView(
+      body: ListView.builder(
+
+          itemBuilder: itemBuilder
+      )
+      */
+      /*ListView(
         children: [
-          // Primer ListTile con contenido y una imagen rectangular
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0), // Espacio a los lados
             child: ListTile(
@@ -106,251 +244,8 @@ class AcceptDeveloperWidget extends StatelessWidget {
               tileColor: Colors.grey[300], // Fondo gris claro
             ),
           ),
-          // Segundo ListTile
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: ListTile(
-              leading: Container(
-                width: 100,
-                height: 80,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Image.network(
-                  'https://i0.wp.com/sangiaophotography.com/wp-content/uploads/2018/03/book-fotografico-Laura-006.jpg?w=1024&ssl=1',
-                  fit: BoxFit.cover,
-                ),
-              ),
-              title: const Text(
-                "Carla Flores Villanueva",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Especialista en Desarrollador Móvil con perfil en dominio en Kotlin",
-                    style: TextStyle(fontSize: 12),
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            side: const BorderSide(color: Colors.blue),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            foregroundColor: Colors.blue,
-                            backgroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 12), // Aumentar el padding vertical
-                          ),
-                          onPressed: () {
-                            goBackToProject(context);
-                          },
-                          child: const Text(
-                            "Aceptar",
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            side: const BorderSide(color: Colors.red),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            foregroundColor: Colors.red,
-                            backgroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 12), // Aumentar el padding vertical
-                          ),
-                          onPressed: () {
-                            goBackToProject(context);
-                          },
-                          child: const Text(
-                            "Rechazar",
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              tileColor: Colors.grey[300],
-            ),
-          ),
-          // Tercer ListTile
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: ListTile(
-              leading: Container(
-                width: 100,
-                height: 80,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Image.network(
-                  'https://i0.wp.com/sangiaophotography.com/wp-content/uploads/2016/11/20160401-4-1752-Foto-de-perfil-para-redes-sociales-y-curriculum-Madrid-.jpg?w=1024&ssl=1',
-                  fit: BoxFit.cover,
-                ),
-              ),
-              title: const Text(
-                "Carlos Espinoza Beltran",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Soy Desarrollador Móvil con especialidad en lenguajes Kotlin - Swift - Flutter",
-                    style: TextStyle(fontSize: 12),
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            side: const BorderSide(color: Colors.blue),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            foregroundColor: Colors.blue,
-                            backgroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 12), // Aumentar el padding vertical
-                          ),
-                          onPressed: () {
-                            goBackToProject(context);
-                          },
-                          child: const Text(
-                            "Aceptar",
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            side: const BorderSide(color: Colors.red),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            foregroundColor: Colors.red,
-                            backgroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 12), // Aumentar el padding vertical
-                          ),
-                          onPressed: () {
-                            goBackToProject(context);
-                          },
-                          child: const Text(
-                            "Rechazar",
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              tileColor: Colors.grey[300],
-            ),
-          ),
-          // Cuarto ListTile
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: ListTile(
-              leading: Container(
-                width: 100,
-                height: 80,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                child: Image.network(
-                  'https://www.shutterstock.com/image-photo/portrait-young-man-ready-job-600nw-2272433909.jpg',
-                  fit: BoxFit.cover,
-                ),
-              ),
-              title: const Text(
-                "Pedro Gomez Segovia",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    "Soy Desarrollador web con especialidad en lenguaje Java - JavaScript",
-                    style: TextStyle(fontSize: 12),
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            side: const BorderSide(color: Colors.blue),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            foregroundColor: Colors.blue,
-                            backgroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 12), // Aumentar el padding vertical
-                          ),
-                          onPressed: () {
-                            goBackToProject(context);
-                          },
-                          child: const Text(
-                            "Aceptar",
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: OutlinedButton(
-                          style: OutlinedButton.styleFrom(
-                            side: const BorderSide(color: Colors.red),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            foregroundColor: Colors.red,
-                            backgroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 12), // Aumentar el padding vertical
-                          ),
-                          onPressed: () {
-                            goBackToProject(context);
-                          },
-                          child: const Text(
-                            "Rechazar",
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              tileColor: Colors.grey[300],
-            ),
-          ),
         ],
-      ),
-    );
+      ),*/
+/*    );
   }
-}
+}*/

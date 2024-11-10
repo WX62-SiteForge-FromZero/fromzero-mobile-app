@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:fromzero_app/api/deliverablesService.dart';
-import 'package:fromzero_app/models/create_deliverable_model.dart';
 import 'package:fromzero_app/models/deliverable_model.dart';
 import 'CreateDeliverableWidget.dart';
 import 'DeliverableDetails.dart';
 
 class DeliverablesSchedule extends StatefulWidget {
   final int projectId;
-  const DeliverablesSchedule({super.key, required this.projectId});
+  final String role;
+  const DeliverablesSchedule({
+    super.key,
+    required this.projectId,
+    required this.role
+  });
 
   @override
   State<DeliverablesSchedule> createState() => _DeliverablesScheduleState();
 }
 
 class _DeliverablesScheduleState extends State<DeliverablesSchedule> {
-  //List<CreateDeliverableData> deliverablesList=[];
   List<Deliverable> deliverablesList=[];
   int currentSection = 1;
-  //CreateDeliverableData deliverable = CreateDeliverableData();
   late Deliverable deliverable;
 
   Future<void> fetchDeliverables()async{
@@ -35,31 +37,39 @@ class _DeliverablesScheduleState extends State<DeliverablesSchedule> {
   }
 
   Widget currentWidget() {
-    if (currentSection == 2) {
-      return DeliverableDetailsWidget(
-        deliverable: deliverable,
-        goBackToDeliverables: () {
-          setState(() {
-            //deliverable = CreateDeliverableData();
-            currentSection = 1;
-          });
-        },
-      );
-    } else if (currentSection == 1) {
-      return ListDeliverablesWidget(
-        deliverables: deliverablesList,
-        onUpdatedDeliverable: (Deliverable newValue) {
-          setState(() {
-            deliverable = newValue;
-            currentSection = 2;
-          });
-        },
-      );
-    } else if (currentSection == 3) {
-      return CreateDeliverableWidget();
-    } else {
-      return Container();
+    switch(currentSection){
+      case 1:
+        return ListDeliverablesWidget(
+          deliverables: deliverablesList,
+          onUpdatedDeliverable: (Deliverable newValue) {
+            setState(() {
+              deliverable = newValue;
+              currentSection = 2;
+            });
+          },
+        );
+      case 2:
+        return DeliverableDetailsWidget(
+          refreshDeliverables: (){
+            fetchDeliverables();
+          },
+          role: widget.role,
+          deliverable: deliverable,
+          goBackToDeliverables: () {
+            setState(() {
+
+              currentSection = 1;
+            });
+          },
+        );
+
+      case 3:
+        return CreateDeliverableWidget();
+
+      default:
+        return Container();
     }
+
   }
 
   @override
@@ -85,7 +95,6 @@ class _DeliverablesScheduleState extends State<DeliverablesSchedule> {
                             icon: Icon(Icons.arrow_back),
                             onPressed: () {
                               setState(() {
-                                //deliverable = CreateDeliverableData();
                                 currentSection = 1;
                               });
                             },
@@ -101,16 +110,16 @@ class _DeliverablesScheduleState extends State<DeliverablesSchedule> {
               : null,
         ),
         body: currentWidget(),
-        floatingActionButton: currentSection == 1
-            ? ElevatedButton(
-                child: Icon(Icons.add, size: 40, color: Colors.green),
-                onPressed: () {
-                  setState(() {
-                    currentSection = 3;
-                  });
-                },
-              )
-            : null);
+        floatingActionButton: currentSection == 1 && widget.role == "COMPANY"
+            ? FloatingActionButton(
+            child: Icon(Icons.add, size: 40, color: Colors.green),
+            onPressed: (){
+              setState(() {
+                currentSection = 3;
+              });
+            }
+        ) : null
+    );
   }
 }
 
