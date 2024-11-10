@@ -4,11 +4,12 @@ import 'package:fromzero_app/prefs/authProvider.dart';
 import 'package:fromzero_app/prefs/user_prefs.dart';
 import 'package:fromzero_app/views/ProfileWidget/EditProfileWidget.dart';
 import 'package:fromzero_app/views/ProfileWidget/PaymentMethodWidget.dart';
+import 'package:fromzero_app/views/messages/Message.dart';
 import 'package:provider/provider.dart';
 
 class MenuWidget extends StatelessWidget {
-
-  const MenuWidget({super.key});
+  final dynamic profile;
+  const MenuWidget({super.key, this.profile});
 
   Future<void> clearPrefs()async{
     await clearData();
@@ -24,7 +25,15 @@ class MenuWidget extends StatelessWidget {
           children: [
             DrawerHeader(
                 child: Text("Menu",style: TextStyle(fontSize: 40),)),
-            const ProfilePic(),
+            /*const ProfilePic(),*/
+            SizedBox(
+              height: 115,
+              width: 115,
+              child: CircleAvatar(
+                backgroundImage:
+                NetworkImage(profile.profileImgUrl),
+              ),
+            ),
             const SizedBox(height: 20),
             ProfileMenu(
               text: "Payment Methods",
@@ -39,7 +48,15 @@ class MenuWidget extends StatelessWidget {
             ProfileMenu(
               text: "Chat",
               icon: Icons.chat,
-              press: () => {},
+              press: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context)=>Message(
+                            companyName: "companyName")
+                    )
+                );
+              },
             ),
             ProfileMenu(
               text: "Log Out",

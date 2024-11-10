@@ -4,6 +4,7 @@ import 'package:fromzero_app/api/baseUrl.dart';
 import 'package:fromzero_app/models/create_project_model.dart';
 import 'package:fromzero_app/prefs/user_prefs.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/project_model.dart';
 
@@ -12,11 +13,9 @@ class ProjectsService{
 
   Future<http.Response> createProject(CreateProjectData data)async{
     try{
-      Map<String,String> userData = await loadData();
-
-      String companyId = userData['profileId']!;
-      String token = userData['token']!;
-
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String companyId = prefs.getString("profileId")??"";
+      String token = prefs.getString("token")??"";
       final response = await http.post(
         Uri.parse("$url"),
         body: jsonEncode({
@@ -45,9 +44,8 @@ class ProjectsService{
 
   Future<List<Project>> getAllProjectsByState(String projectState)async{
     try {
-      Map<String, String> userData = await loadData();
-      String token = userData['token']!;
-
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String token = prefs.getString("token")??"";
       final response = await http.get(
           Uri.parse("$url/by-state?state=$projectState"),
           headers: {
@@ -67,9 +65,9 @@ class ProjectsService{
 
   Future<http.Response> applyToProject(int projectId)async{
     try {
-      Map<String, String> userData = await loadData();
-      String developerId = userData['profileId']!;
-      String token = userData['token']!;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String developerId = prefs.getString("profileId")??"";
+      String token = prefs.getString("token")??"";
       final response = await http.patch(
           Uri.parse('$url/$projectId/add-candidate'),
           body: jsonEncode({
@@ -86,11 +84,11 @@ class ProjectsService{
     }
   }
 
-  Future<List<Project>> getProjectByCompanyId()async{
+  Future<List<Project>> getProjectsByCompanyId()async{
     try{
-      Map<String, String> userData = await loadData();
-      String companyId = userData['profileId']!;
-      String token = userData['token']!;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String companyId = prefs.getString("profileId")??"";
+      String token = prefs.getString("token")??"";
       final response = await http.get(
         Uri.parse("$url/company/$companyId"),
           headers: {
@@ -109,9 +107,9 @@ class ProjectsService{
 
   Future<List<Project>> getProjectsByDeveloperId()async{
     try{
-      Map<String, String> userData = await loadData();
-      String developerId = userData['profileId']!;
-      String token = userData['token']!;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String developerId = prefs.getString("profileId")??"";
+      String token = prefs.getString("token")??"";
       final response = await http.get(
           Uri.parse("$url/developer/$developerId"),
           headers: {

@@ -17,7 +17,7 @@ class _YourProjectsWidgetState extends State<YourProjectsWidget> {
   List<Project> projectList =[];
   Future<void> fetchProjectsByProfileId()async{
     var service = ProjectsService();
-    final response = await service.getProjectByCompanyId();
+    final response = await service.getProjectsByCompanyId();
     setState(() {
       projectList=response;
     });

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:fromzero_app/models/company_model.dart';
 import 'package:fromzero_app/views/ProfileWidget/YourProjectsWidget.dart';
+import 'package:fromzero_app/views/projectsViews/projectsList.dart';
 
 class ProfileWidget extends StatelessWidget {
   final Company profile;
@@ -16,7 +17,14 @@ class ProfileWidget extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  ProfilePic(urlToImage: profile.profileImgUrl,),
+                  SizedBox(
+                    height: 115,
+                    width: 115,
+                    child: CircleAvatar(
+                      backgroundImage:
+                      NetworkImage(profile.profileImgUrl),
+                    ),
+                  ),
                   const SizedBox(width: 20),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,7 +44,9 @@ class ProfileWidget extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context)=>
-                                      YourProjectsWidget()
+                                      ProjectsList()
+                                      //YourProjectsWidget()
+
                               )
                           );
                         },
@@ -104,7 +114,7 @@ class ProfileWidget extends StatelessWidget {
   }
 }
 
-class ProfilePic extends StatelessWidget {
+/*class ProfilePic extends StatelessWidget {
   final String urlToImage="https://cdn-icons-png.flaticon.com/512/3237/3237472.png";
 
   ProfilePic({required urlToImage});
@@ -120,4 +130,4 @@ class ProfilePic extends StatelessWidget {
       ),
     );
   }
-}
+}*/
