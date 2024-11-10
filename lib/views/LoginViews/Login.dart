@@ -5,7 +5,6 @@ import 'package:fromzero_app/api/authService.dart';
 import 'package:fromzero_app/api/profilesService.dart';
 import 'package:fromzero_app/api/usersService.dart';
 import 'package:fromzero_app/prefs/authProvider.dart';
-import 'package:fromzero_app/prefs/user_prefs.dart';
 import 'package:provider/provider.dart';
 
 class LoginWidget extends StatefulWidget {
@@ -45,7 +44,7 @@ class _LoginWidgetState extends State<LoginWidget> {
       if(!mounted)return;
 
       Provider.of<AuthProvider>(context,listen: false).login(token, profileId, role);
-
+      Navigator.pop(context);
     }else return;
 
   }

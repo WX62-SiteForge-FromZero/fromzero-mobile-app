@@ -1,9 +1,7 @@
 import 'dart:convert';
-
 import 'package:fromzero_app/models/deliverable_model.dart';
 import 'package:http/http.dart' as http;
-
-import '../prefs/user_prefs.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'baseUrl.dart';
 
 class DeliverablesService{
@@ -11,8 +9,8 @@ class DeliverablesService{
   
   Future<List<Deliverable>> getDeliverablesByProjectId(int projectId)async{
     try{
-      Map<String, String> userData = await loadData();
-      String token = userData['token']!;
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String token = prefs.getString("token")??"";
       
       final response = await http.get(
         Uri.parse("$url/project/$projectId"),

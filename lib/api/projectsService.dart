@@ -1,8 +1,6 @@
 import 'dart:convert';
-
 import 'package:fromzero_app/api/baseUrl.dart';
 import 'package:fromzero_app/models/create_project_model.dart';
-import 'package:fromzero_app/prefs/user_prefs.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 

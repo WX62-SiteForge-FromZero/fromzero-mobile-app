@@ -1,9 +1,7 @@
 import 'dart:convert';
-
 import 'package:fromzero_app/api/baseUrl.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../models/company_model.dart';
 import '../models/developer_model.dart';
 
