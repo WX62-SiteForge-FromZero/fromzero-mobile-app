@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fromzero_app/api/profilesService.dart';
-import 'package:fromzero_app/prefs/user_prefs.dart';
+import 'package:fromzero_app/prefs/authProvider.dart';
 import 'package:fromzero_app/views/ProfileWidget/MenuWidget.dart';
 import 'package:fromzero_app/views/ProfileWidget/ProfileDevWidget.dart';
 import 'package:fromzero_app/views/ProfileWidget/ProfileWidget.dart';
@@ -8,10 +8,11 @@ import 'package:fromzero_app/views/applyToProjectViews/ListProjects.dart';
 import 'package:fromzero_app/views/createProjectViews/CreateProjectWidget.dart';
 import 'package:fromzero_app/views/highlightProjects/highlightProjectsWidget.dart';
 import 'package:fromzero_app/views/searchProjectsViews/ProjectMainList.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Navbar extends StatefulWidget {
-  final VoidCallback toggleLogin;
-  const Navbar({super.key, required this.toggleLogin});
+  const Navbar({super.key});
 
   @override
   State<Navbar> createState() => _NavbarState();
@@ -20,24 +21,26 @@ class Navbar extends StatefulWidget {
 class _NavbarState extends State<Navbar> {
   int selectedView = 0;
   String role = "";
-  String profileId = "";
-  String token = "";
   dynamic currentUser;
+
   Future<void> setUser()async{
-    Map<String,String> userData = await loadData();
-    setState(() {
-      role=userData['role']!;
-      profileId=userData['profileId']!;
-      token = userData['token']!;
-    });
+    try{
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      role = prefs.getString("role")??"";
+    }catch(e){
+      Provider.of<AuthProvider>(context,listen: false).logout();
+      throw Exception(e);
+    }
+
     var service = ProfilesService();
+
     if(role=="COMPANY"){
-      final response = await service.getCompanyByProfileId(profileId, token);
+      final response = await service.getCompanyByProfileId();
       setState(() {
         currentUser=response;
       });
     }else{
-      final response = await service.getDeveloperByProfileId(profileId, token);
+      final response = await service.getDeveloperByProfileId();
       setState(() {
         currentUser=response;
       });
@@ -143,7 +146,7 @@ class _NavbarState extends State<Navbar> {
         ),
         title: setViewTitle(),
       ),
-      drawer: MenuWidget(toggleLogin: widget.toggleLogin,),
+      drawer: MenuWidget(),
       body: IndexedStack(
         index: selectedView,
         children: views,

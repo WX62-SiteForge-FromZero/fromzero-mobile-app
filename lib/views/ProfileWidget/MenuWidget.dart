@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:fromzero_app/main.dart';
+import 'package:fromzero_app/prefs/authProvider.dart';
 import 'package:fromzero_app/prefs/user_prefs.dart';
 import 'package:fromzero_app/views/ProfileWidget/EditProfileWidget.dart';
 import 'package:fromzero_app/views/ProfileWidget/PaymentMethodWidget.dart';
+import 'package:provider/provider.dart';
 
 class MenuWidget extends StatelessWidget {
-  final VoidCallback toggleLogin;
-  const MenuWidget({super.key, required this.toggleLogin});
+
+  const MenuWidget({super.key});
 
   Future<void> clearPrefs()async{
     await clearData();
@@ -41,7 +44,12 @@ class MenuWidget extends StatelessWidget {
             ProfileMenu(
               text: "Log Out",
               icon: Icons.logout,
-              press: toggleLogin,
+              press: (){
+                Provider.of<AuthProvider>(context,listen: false).logout();
+
+                // esto va ?
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>const AuthHandler()));
+              },
             ),
           ],
         ),
@@ -73,16 +81,16 @@ class ProfilePic extends StatelessWidget {
 }
 
 class ProfileMenu extends StatelessWidget {
+  final String text;
+  final IconData icon;
+  final VoidCallback? press;
+
   const ProfileMenu({
     Key? key,
     required this.text,
     required this.icon,
     this.press,
   }) : super(key: key);
-
-  final String text;
-  final IconData icon;
-  final VoidCallback? press;
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +124,7 @@ class ProfileMenu extends StatelessWidget {
 
           }else if(text=="Log Out"){
             //Navigator.pop(context);
-            press?.call();
+            press;
 
           }
         },

@@ -1,42 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:fromzero_app/prefs/authProvider.dart';
 import 'package:fromzero_app/views/LoginViews/Inicio.dart';
-import 'package:fromzero_app/prefs/user_prefs.dart';
+import 'package:provider/provider.dart';
 import 'navbar.dart';
 
 void main(){
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  bool isLoggedIn = false;
-
-  Future<void> cleatPrefs()async{
-    await clearData();
-  }
-
-  void toggleLogin(){
-    setState(() {
-      if(isLoggedIn==true){
-        cleatPrefs();
-      }
-
-      isLoggedIn=!isLoggedIn;
-
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: isLoggedIn?Navbar(toggleLogin: toggleLogin,):GetStartedScreen(toggleLogin: toggleLogin,),
+    return ChangeNotifierProvider(
+        create: (context)=>AuthProvider(),
+        child: MaterialApp(
+          home: const AuthHandler(),
+        ),
     );
   }
 }
 
+class AuthHandler extends StatelessWidget {
+  const AuthHandler({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context);
+    return authProvider.isLoggedIn?Navbar():GetStartedScreen();
+  }
+}

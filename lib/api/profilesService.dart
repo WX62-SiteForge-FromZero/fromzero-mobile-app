@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:fromzero_app/api/baseUrl.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/company_model.dart';
 import '../models/developer_model.dart';
@@ -48,9 +49,12 @@ class ProfilesService{
       throw Exception("$e");
     }
   }
-  
-  Future<Company> getCompanyByProfileId(String profileId,String token)async{
+
+  Future<Company> getCompanyByProfileId()async{
     try{
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String profileId = prefs.getString("profileId")??"";
+      String token = prefs.getString("token")??"";
       final response = await http.get(
         Uri.parse("$url/company/$profileId"),
         headers: {
@@ -69,8 +73,11 @@ class ProfilesService{
     }
   }
 
-  Future<Developer> getDeveloperByProfileId(String profileId,String token)async{
+  Future<Developer> getDeveloperByProfileId()async{
     try{
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String profileId = prefs.getString("profileId")??"";
+      String token = prefs.getString("token")??"";
       final response = await http.get(
           Uri.parse("$url/developer/$profileId"),
           headers: {
