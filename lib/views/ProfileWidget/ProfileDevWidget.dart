@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fromzero_app/models/developer_model.dart';
-import 'package:fromzero_app/views/ProfileWidget/YourProjectsWidget.dart';
-
-import 'YourProjectsDevWidget.dart';
+import '../projectsViews/projectsList.dart';
 
 class ProfileDevWidget extends StatelessWidget {
   final Developer profile;
@@ -18,7 +16,15 @@ class ProfileDevWidget extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  ProfilePic(urlToImage: profile.profileImgUrl,),
+                  /*ProfilePic(urlToImage: profile.profileImgUrl,),*/
+                  SizedBox(
+                    height: 115,
+                    width: 115,
+                    child: CircleAvatar(
+                      backgroundImage:
+                      NetworkImage(profile.profileImgUrl),
+                    ),
+                  ),
                   const SizedBox(width: 20),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,7 +44,7 @@ class ProfileDevWidget extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context)=>
-                                      YourProjectsDevWidget()
+                                      ProjectsList()
                               )
                           );
                         },

@@ -46,7 +46,7 @@ class ProjectDetailsWidget extends StatelessWidget {
           TextFormField(
             controller: descController,
             decoration: const InputDecoration(),
-            keyboardType: TextInputType.text,
+            maxLines: null,
           )
         ]),
         const SizedBox(height: 40),

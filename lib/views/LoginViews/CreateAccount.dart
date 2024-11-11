@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fromzero_app/api/authService.dart';
 
-
 class CreateAccountWidget extends StatefulWidget {
+  const CreateAccountWidget({super.key});
+
   @override
   _CreateAccountWidgetState createState() => _CreateAccountWidgetState();
 }
@@ -15,7 +16,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   final TextEditingController passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   String? selectedProfile;
-  bool _obscurePassword = true; // Variable para controlar la visibilidad de la contraseña
+  bool _obscurePassword = true;
 
   Future<void> registerUser(BuildContext context)async{
     var service = AuthService();
@@ -29,6 +30,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text("Usuario Empresa creado"))
         );
+        Navigator.pop(context);
       }else{
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Ocurrió un error"))
@@ -45,6 +47,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Usuario Desarrollador creado"))
         );
+        Navigator.pop(context);
       }else{
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text("Ocurrió un error"))
@@ -69,9 +72,9 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Text(
-                    "Create\nAccount", // Dividir el texto en dos líneas
+                    "Create\nAccount",
                     style: TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.left, // Alinear a la izquierda
+                    textAlign: TextAlign.left,
                   ),
                   SizedBox(height: 40),
                   _buildInputContainer(
@@ -87,7 +90,6 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  // Mostrar campos de First Name y Last Name solo si "Desarrollador" es seleccionado
                   if (selectedProfile == "Desarrollador") ...[
                     _buildInputContainer(
                       child: TextFormField(
@@ -132,10 +134,10 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                   _buildInputContainer(
                     child: TextFormField(
                       controller: passwordController,
-                      obscureText: _obscurePassword, // Usar la variable para el texto oculto
+                      obscureText: _obscurePassword,
                       decoration: InputDecoration(
                         labelText: "Password",
-                        labelStyle: TextStyle(color: Colors.grey[800]), // Color gris oscuro para la letra
+                        labelStyle: TextStyle(color: Colors.grey[800]),
                         filled: true,
                         fillColor: Colors.grey[200],
                         border: OutlineInputBorder(
@@ -157,7 +159,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                           ),
                           onPressed: () {
                             setState(() {
-                              _obscurePassword = !_obscurePassword; // Alternar la visibilidad
+                              _obscurePassword = !_obscurePassword;
                             });
                           },
                         ),
@@ -172,19 +174,19 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                   ),
                   SizedBox(height: 10),
                   _buildInputContainer(
-                    child: Container( // Añadir un Container para quitar el subrayado
+                    child: Container(
                       decoration: BoxDecoration(
-                        color: Colors.grey[200], // Fondo gris suave
+                        color: Colors.grey[200],
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                       child: DropdownButtonFormField<String>(
                         value: selectedProfile,
                         hint: Padding(
-                          padding: const EdgeInsets.only(left: 10.0), // Ajusta el valor según lo necesites
+                          padding: const EdgeInsets.only(left: 10.0),
                           child: Text("Profile"),
                         ),
                         decoration: InputDecoration(
-                          border: InputBorder.none, // Sin borde
+                          border: InputBorder.none,
                         ),
                         items: [
                           DropdownMenuItem(
@@ -198,7 +200,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                         ],
                         onChanged: (value) {
                           setState(() {
-                            selectedProfile = value; // Cambiar el estado seleccionado
+                            selectedProfile = value;
                           });
                         },
                         validator: (value) {
@@ -213,8 +215,8 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                   SizedBox(height: 20),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Color(0xFF004CFF), // Color de fondo
-                      foregroundColor: Colors.white, // Color del texto
+                      backgroundColor: Color(0xFF004CFF),
+                      foregroundColor: Colors.white,
                     ),
                     child: Text("Registrarse"),
                     onPressed: () {
@@ -223,21 +225,10 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                           SnackBar(content: Text("No válido")),
                         );
                       } else {
-                        // Acción para crear la cuenta
                         registerUser(context);
                       }
                     },
                   ),
-                  /*SizedBox(height: 1),
-                  TextButton(
-                    onPressed: () {
-                      // Acción para cancelar
-                    },
-                    child: Text(
-                      "Cancel",
-                      style: TextStyle(color: Color(0xFF004CFF)),
-                    ),
-                  ),*/
                 ],
               ),
             ),
@@ -249,14 +240,14 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   Widget _buildInputContainer({required Widget child}) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.grey[200], // Fondo gris suave
+        color: Colors.grey[200],
         borderRadius: BorderRadius.circular(8.0),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.2),
             spreadRadius: 2,
             blurRadius: 5,
-            offset: Offset(0, 3), // Cambia la posición de la sombra
+            offset: Offset(0, 3),
           ),
         ],
       ),
@@ -267,20 +258,20 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   InputDecoration _inputDecoration(String label) {
     return InputDecoration(
       labelText: label,
-      labelStyle: TextStyle(color: Colors.grey[800]), // Color gris oscuro para la letra
-      filled: true, // Para llenar el fondo
-      fillColor: Colors.grey[200], // Color de fondo del campo
+      labelStyle: TextStyle(color: Colors.grey[800]),
+      filled: true,
+      fillColor: Colors.grey[200],
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
-        borderSide: BorderSide(color: Colors.transparent), // Sin borde visible
+        borderSide: BorderSide(color: Colors.transparent),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
-        borderSide: BorderSide(color: Colors.transparent), // Sin borde visible
+        borderSide: BorderSide(color: Colors.transparent),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.0),
-        borderSide: BorderSide(color: Colors.transparent), // Sin borde visible
+        borderSide: BorderSide(color: Colors.transparent),
       ),
     );
   }

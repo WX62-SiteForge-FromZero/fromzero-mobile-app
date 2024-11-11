@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import '../../models/developer_model.dart';
 import 'developerProjects.dart';
 
 class PreviewDeveloper extends StatelessWidget {
-  final Map<String, dynamic> developer;
+  final Developer developer;
 
-  const PreviewDeveloper({Key? key, required this.developer}) : super(key: key);
+  const PreviewDeveloper({
+    super.key,
+    required this.developer
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +23,12 @@ class PreviewDeveloper extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(
-              backgroundImage: NetworkImage(developer['profileImgUrl']),
+              backgroundImage: NetworkImage(developer.profileImgUrl),
               radius: 60,
             ),
             const SizedBox(height: 16),
             Text(
-              '${developer['firstName']} ${developer['lastName']}',
+              '${developer.firstName} ${developer.lastName}',
               style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -32,9 +36,26 @@ class PreviewDeveloper extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              developer['description'],
+              developer.description,
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 16),
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton(
+                onPressed: (){
+                  // navigator push a messageWidget
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.lightGreen,
+                  padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 12),
+                ),
+                child: Text(
+                  "Chatear",
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.white
+                  ),
+                )
             ),
             const SizedBox(height: 24),
             ElevatedButton(
@@ -43,7 +64,7 @@ class PreviewDeveloper extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                     builder: (context) => DeveloperProjectsScreen(
-                      developerId: int.parse(developer['id'].toString()),
+                      developerId: developer.profileId,
                     ),
                   ),
                 );
@@ -54,7 +75,7 @@ class PreviewDeveloper extends StatelessWidget {
               ),
               child: const Text(
                 'Ver Proyectos',
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 18,color: Colors.white),
               ),
             ),
           ],

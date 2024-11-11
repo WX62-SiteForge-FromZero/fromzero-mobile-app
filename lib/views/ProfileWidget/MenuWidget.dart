@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:fromzero_app/prefs/user_prefs.dart';
+import 'package:fromzero_app/prefs/authProvider.dart';
 import 'package:fromzero_app/views/ProfileWidget/EditProfileWidget.dart';
 import 'package:fromzero_app/views/ProfileWidget/PaymentMethodWidget.dart';
+import 'package:fromzero_app/views/messages/Message.dart';
+import 'package:provider/provider.dart';
 
 class MenuWidget extends StatelessWidget {
-  final VoidCallback toggleLogin;
-  const MenuWidget({super.key, required this.toggleLogin});
-
-  Future<void> clearPrefs()async{
-    await clearData();
-
-  }
+  const MenuWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,27 +17,22 @@ class MenuWidget extends StatelessWidget {
           children: [
             DrawerHeader(
                 child: Text("Menu",style: TextStyle(fontSize: 40),)),
-            const ProfilePic(),
             const SizedBox(height: 20),
             ProfileMenu(
               text: "Payment Methods",
-              icon: Icons.credit_card,
-              press: () => {},
+              icon: Icons.credit_card
             ),
             ProfileMenu(
               text: "Edit Profile",
-              icon: Icons.edit,
-              press: () => {},
+              icon: Icons.edit
             ),
             ProfileMenu(
               text: "Chat",
-              icon: Icons.chat,
-              press: () => {},
+              icon: Icons.chat
             ),
             ProfileMenu(
               text: "Log Out",
-              icon: Icons.logout,
-              press: toggleLogin,
+              icon: Icons.logout
             ),
           ],
         ),
@@ -50,39 +41,15 @@ class MenuWidget extends StatelessWidget {
   }
 }
 
-class ProfilePic extends StatelessWidget {
-  const ProfilePic({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 115,
-      width: 115,
-      child: Stack(
-        fit: StackFit.expand,
-        children: const [
-          CircleAvatar(
-            backgroundImage: NetworkImage(
-              "https://cdn-icons-png.flaticon.com/512/3237/3237472.png",
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class ProfileMenu extends StatelessWidget {
+  final String text;
+  final IconData icon;
+
   const ProfileMenu({
     Key? key,
     required this.text,
-    required this.icon,
-    this.press,
+    required this.icon
   }) : super(key: key);
-
-  final String text;
-  final IconData icon;
-  final VoidCallback? press;
 
   @override
   Widget build(BuildContext context) {
@@ -113,11 +80,15 @@ class ProfileMenu extends StatelessWidget {
                 )
             );
           }else if(text=="Chat"){
-
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context)=>Message(
+                        companyName: "companyName")
+                )
+            );
           }else if(text=="Log Out"){
-            //Navigator.pop(context);
-            press?.call();
-
+            Provider.of<AuthProvider>(context,listen: false).logout();
           }
         },
         child: Row(

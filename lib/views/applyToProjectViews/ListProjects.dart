@@ -14,22 +14,18 @@ class ApplyToProjects extends StatefulWidget {
 class _ApplyToProjectsState extends State<ApplyToProjects> {
   List<Project> projectsList = [];
 
+  Future<void> _fetchProjects() async{
+    var service = ProjectsService();
+    final response = await service.getAllProjectsByState("EN_BUSQUEDA");
+    setState(() {
+      projectsList=response;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     _fetchProjects();
-  }
-
-  Future<void> _fetchProjects() async{
-    try{
-      var service = ProjectsService();
-      List<Project> list = await service.getAllProjectsByState("EN_BUSQUEDA");
-      setState(() {
-        projectsList=list??[];
-      });
-    }catch(e){
-      throw Exception(e);
-    }
   }
 
   @override

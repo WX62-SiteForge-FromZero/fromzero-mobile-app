@@ -145,7 +145,7 @@ class _SetMethodologiesWidgetState extends State<SetMethodologiesWidget> {
                 TextFormField(
                   controller: descController,
                   decoration: const InputDecoration(),
-                  keyboardType: TextInputType.text,
+                  maxLines: null,
                 )
               ],
             ),
