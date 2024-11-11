@@ -74,7 +74,6 @@ class CreateDeliverableWidget extends StatelessWidget {
                 DatePickerWidget(
                   context: context,
                   updateDeadline:(DateTime deadline){
-                    //createDeliverableData=CreateDeliverableData();
                     createDeliverableData.date=deadline;
                   }
                 ),

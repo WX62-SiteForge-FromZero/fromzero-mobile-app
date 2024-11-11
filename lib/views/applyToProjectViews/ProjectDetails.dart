@@ -27,54 +27,54 @@ class ProjectDetails extends StatelessWidget {
       appBar: AppBar(
         title: Text("Detalles del proyecto"),
       ),
-      body: Column(
-        children: [
-          Text(project.name),
-          Text("Descripción"),
-          Text(project.description),
-          Text("Presupuesto: ${project.budget}"),
-          Text("Tecnologías"),
-          Expanded(
-            child: Row(
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Text(project.name),
+            Text("Descripción"),
+            Text(project.description),
+            Text("Presupuesto: ${project.budget}"),
+            Text("Tecnologías"),
+            Row(
               children: [
                 Expanded(
-                    child: ListView.builder(
-                        itemCount: project.languages.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return ListTile(
-                            title: Text(
-                              project.languages[index],
-                              textAlign: TextAlign.center,
-                            ),
-                          );
-                        })),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: project.languages.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ListTile(
+                        title: Text(
+                          project.languages[index],
+                          textAlign: TextAlign.center,
+                        ),
+                      );
+                    },
+                  ),
+                ),
                 Expanded(
-                    child: ListView.builder(
-                        itemCount: project.frameworks.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return ListTile(
-                            title: Text(
-                              project.frameworks[index],
-                              textAlign: TextAlign.center,
-                            ),
-                          );
-                        }))
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: project.frameworks.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return ListTile(
+                        title: Text(
+                          project.frameworks[index],
+                          textAlign: TextAlign.center,
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ],
             ),
-          ),
-          ElevatedButton(
-            child: Text("Postular"),
-            onPressed: (){
-              apply(context);
-            },
-          )
-
-          //Text("Procesos y metodologías"),
-          /*ListView.builder(
-                itemCount: // list deliverables by project id,
-                itemBuilder: itemBuilder
-            )*/
-        ],
+            ElevatedButton(
+              child: Text("Postular"),
+              onPressed: () {
+                apply(context);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
