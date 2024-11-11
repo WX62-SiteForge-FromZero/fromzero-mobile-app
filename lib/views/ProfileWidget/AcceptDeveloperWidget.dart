@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fromzero_app/api/profilesService.dart';
 import 'package:fromzero_app/api/projectsService.dart';
-
 import '../../models/developer_model.dart';
 
 class AcceptDeveloperWidget extends StatefulWidget {
@@ -27,7 +26,10 @@ class _AcceptDeveloperWidgetState extends State<AcceptDeveloperWidget> {
 
     for(var profileId in widget.candidates){
       final response = await service.getDeveloper(profileId);
-      developers.add(response);
+      setState(() {
+        developers.add(response);
+      });
+
     }
   }
 
@@ -61,53 +63,60 @@ class _AcceptDeveloperWidgetState extends State<AcceptDeveloperWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return developers.isNotEmpty?ListView.builder(
-        itemCount: developers.length,
-        itemBuilder: (BuildContext context, int index){
-          return Card(
-            margin: EdgeInsets.all(8),
-            elevation: 5,
-            child: ListTile(
-              leading: CircleAvatar(
-                backgroundImage:
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Postulantes del proyecto"),
+      ),
+      body: developers.isNotEmpty?ListView.builder(
+          itemCount: developers.length,
+          itemBuilder: (BuildContext context, int index){
+            return Card(
+              margin: EdgeInsets.all(8),
+              elevation: 5,
+              child: ListTile(
+                leading: CircleAvatar(
+                  backgroundImage:
                   NetworkImage(
-                    developers[index].profileImgUrl
+                      developers[index].profileImgUrl
                   ),
-              ),
-              title: Text(
-                  developers[index].firstName+" "+developers[index].lastName
-              ),
-              subtitle: Column(
-                children: [
-                  Text(developers[index].description),
-                  Text(developers[index].specialties),
-                  Expanded(
-                      child: Row(
-                        children: [
-                          ElevatedButton(
-                              onPressed: (){
-                                acceptDeveloper(
+                ),
+                title: Text(
+                  developers[index].firstName+" "+developers[index].lastName,
+                  textAlign: TextAlign.center,
+                ),
+                subtitle: Column(
+                  children: [
+                    Text(developers[index].description),
+                    Text(developers[index].specialties),
+                    /*Expanded(
+                        child:*/
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            ElevatedButton(
+                              onPressed: ()async{
+                                await acceptDeveloper(
                                     context,
                                     developers[index].profileId,
                                     true
                                 );
-                                widget.refreshProjects;
+                                await widget.refreshProjects.call();
                                 Navigator.pop(context);
                               },
                               child: Text("Aceptar"),
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.green,
-                                foregroundColor: Colors.white
+                                  backgroundColor: Colors.green,
+                                  foregroundColor: Colors.white
                               ),
-                          ),
-                          ElevatedButton(
-                              onPressed: (){
-                                acceptDeveloper(
+                            ),
+                            ElevatedButton(
+                              onPressed: ()async {
+                                await acceptDeveloper(
                                     context,
                                     developers[index].profileId,
                                     false
                                 );
-                                widget.refreshProjects;
+                                await widget.refreshProjects.call();
                                 Navigator.pop(context);
                               },
                               child: Text("Rechazar"),
@@ -115,18 +124,21 @@ class _AcceptDeveloperWidgetState extends State<AcceptDeveloperWidget> {
                                   backgroundColor: Colors.red,
                                   foregroundColor: Colors.white
                               ),
-                          )
-                        ],
-                      )
-                  )
-                ],
+                            )
+                          ],
+                        )
+                    /*)*/
+                  ],
+                ),
               ),
-            ),
-          );
-        }
-    ):Text(
-      "Aún no hay postulantes a este proyecto",
-      textAlign: TextAlign.center,
+            );
+          }
+      ):Center(
+        child: Text(
+          "Aún no hay postulantes a este proyecto",
+          textAlign: TextAlign.center,
+        ),
+      )
     );
   }
 }

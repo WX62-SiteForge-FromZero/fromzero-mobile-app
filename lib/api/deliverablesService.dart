@@ -8,7 +8,7 @@ import 'baseUrl.dart';
 class DeliverablesService{
   static const String url = "${BaseUrlApi.url}/deliverables";
 
-  /*Future<http.Response> createDeliverable(CreateDeliverableData data)async{
+  Future<http.Response> createDeliverable(CreateDeliverableData data)async{
     try{
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String token = prefs.getString("token")??"";
@@ -18,12 +18,18 @@ class DeliverablesService{
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token'
         },
-        body:
+        body: jsonEncode({
+          'name':data.name,
+          'description':data.description,
+          'date':data.date.toIso8601String().split('T').first,
+          'projectId':data.projectId
+        })
       );
+      return response;
     }catch(e){
       throw Exception("$e");
     }
-  }*/
+  }
 
   Future<List<Deliverable>> getDeliverablesByProjectId(int projectId)async{
     try{

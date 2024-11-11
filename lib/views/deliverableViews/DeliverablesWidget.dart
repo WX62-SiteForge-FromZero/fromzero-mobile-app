@@ -5,12 +5,14 @@ import 'CreateDeliverableWidget.dart';
 import 'DeliverableDetails.dart';
 
 class DeliverablesSchedule extends StatefulWidget {
+  final Function() refreshProjects;
   final int projectId;
   final String role;
   const DeliverablesSchedule({
     super.key,
     required this.projectId,
-    required this.role
+    required this.role,
+    required this.refreshProjects
   });
 
   @override
@@ -50,21 +52,26 @@ class _DeliverablesScheduleState extends State<DeliverablesSchedule> {
         );
       case 2:
         return DeliverableDetailsWidget(
-          refreshDeliverables: (){
-            fetchDeliverables();
-          },
+          refreshDeliverables: fetchDeliverables,
           role: widget.role,
           deliverable: deliverable,
           goBackToDeliverables: () {
             setState(() {
-
               currentSection = 1;
             });
           },
         );
 
       case 3:
-        return CreateDeliverableWidget();
+        return CreateDeliverableWidget(
+          refreshDeliverables: fetchDeliverables,
+          projectId: widget.projectId,
+          goBackToDeliverables:(){
+            setState(() {
+              currentSection=1;
+            });
+          }
+        );
 
       default:
         return Container();
@@ -80,6 +87,13 @@ class _DeliverablesScheduleState extends State<DeliverablesSchedule> {
             "Cronograma de entregables",
             style: TextStyle(fontSize: 20),
           ),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: ()async{
+              await widget.refreshProjects.call();
+              Navigator.pop(context);
+            },
+          ),
           backgroundColor: Colors.lightBlue,
           toolbarHeight: 100,
           bottom: currentSection == 2 || currentSection == 3
@@ -93,7 +107,8 @@ class _DeliverablesScheduleState extends State<DeliverablesSchedule> {
                         children: [
                           IconButton(
                             icon: Icon(Icons.arrow_back),
-                            onPressed: () {
+                            onPressed: ()async {
+                              await fetchDeliverables();
                               setState(() {
                                 currentSection = 1;
                               });

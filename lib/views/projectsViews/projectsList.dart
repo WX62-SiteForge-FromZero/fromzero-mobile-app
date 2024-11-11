@@ -54,6 +54,7 @@ class _ProjectsListState extends State<ProjectsList> {
         MaterialPageRoute(
             builder: (context)=>
                 DeliverablesSchedule(
+                  refreshProjects: _fetchProjects,
                   projectId: projectId,
                   role: role,
                 )
@@ -69,9 +70,7 @@ class _ProjectsListState extends State<ProjectsList> {
                 AcceptDeveloperWidget(
                   projectId: projectId,
                   candidates: candidates,
-                  refreshProjects: (){
-                    _fetchProjects();
-                  },
+                  refreshProjects:  _fetchProjects
                 )
         )
     );
@@ -103,7 +102,7 @@ class _ProjectsListState extends State<ProjectsList> {
                         );
                       },
                       child: Text("Ver candidatos"),
-                    ):Text("Progreso: ${projectList[index].progress}%")
+                    ):Text("Progreso: ${projectList[index].progress.toStringAsFixed(2)}%")
                   ],
                 ),
                 tileColor: Colors.grey[300],
@@ -124,7 +123,7 @@ class _ProjectsListState extends State<ProjectsList> {
                   children: [
                     Text(projectList[index].description),
                     const SizedBox(height: 10),
-                    Text("Progreso: ${projectList[index].progress}%")
+                    Text("Progreso: ${projectList[index].progress.toStringAsFixed(2)}%")
                   ],
                 ),
                 tileColor: Colors.grey[300],
@@ -144,7 +143,16 @@ class _ProjectsListState extends State<ProjectsList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Tus proyectos"),
+        title: Text("Tus proyectos",
+            style: TextStyle(fontSize: 20)
+        ),
+        /*leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: ()async{
+            await widget.refreshProjects.call();
+          },
+        ),*/
+        backgroundColor: Colors.lightBlue,
       ),
       body: projectList.length!=0?_listProjects():emptyProjects(),
       floatingActionButton: FloatingActionButton(

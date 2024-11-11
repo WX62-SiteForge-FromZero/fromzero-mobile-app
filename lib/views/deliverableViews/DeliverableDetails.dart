@@ -1,8 +1,5 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:fromzero_app/api/deliverablesService.dart';
-import 'package:fromzero_app/models/create_deliverable_model.dart';
 import 'package:fromzero_app/models/deliverable_model.dart';
 
 class DeliverableDetailsWidget extends StatelessWidget {
@@ -86,9 +83,9 @@ class DeliverableDetailsWidget extends StatelessWidget {
                     "Rechazar",
                     style: TextStyle(fontSize: 20, color: Colors.black),
                   ),
-                  onPressed: () {
-                    reviewDeliverable(context, false);
-                    refreshDeliverables();
+                  onPressed: ()async {
+                    await reviewDeliverable(context, false);
+                    await refreshDeliverables.call();
                     goBackToDeliverables();
                   },
                 ),
@@ -100,9 +97,9 @@ class DeliverableDetailsWidget extends StatelessWidget {
                     "Aceptar",
                     style: TextStyle(fontSize: 20, color: Colors.black),
                   ),
-                  onPressed: () {
-                    reviewDeliverable(context, true);
-                    refreshDeliverables();
+                  onPressed: () async{
+                    await reviewDeliverable(context, true);
+                    await refreshDeliverables.call();
                     goBackToDeliverables();
                   },
                 ),
@@ -135,10 +132,10 @@ class DeliverableDetailsWidget extends StatelessWidget {
                         content: Text("¿Desea enviar este entregable a revisión?"),
                         actions: [
                           TextButton(
-                              onPressed: (){
-                                sendDeliverable(context);
+                              onPressed: ()async{
+                                await sendDeliverable(context);
                                 Navigator.of(context).pop();
-                                refreshDeliverables();
+                                await refreshDeliverables();
                                 goBackToDeliverables();
                                 //Navigator.of(context).pop();
                               },
