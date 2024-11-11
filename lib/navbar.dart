@@ -6,8 +6,8 @@ import 'package:fromzero_app/views/ProfileWidget/ProfileDevWidget.dart';
 import 'package:fromzero_app/views/ProfileWidget/ProfileWidget.dart';
 import 'package:fromzero_app/views/applyToProjectViews/ListProjects.dart';
 import 'package:fromzero_app/views/createProjectViews/CreateProjectWidget.dart';
+import 'package:fromzero_app/views/exploreDevelopersViews/ProjectMainList.dart';
 import 'package:fromzero_app/views/highlightProjects/highlightProjectsWidget.dart';
-import 'package:fromzero_app/views/searchProjectsViews/ProjectMainList.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -58,7 +58,10 @@ class _CompletedProjectsListState extends State<CompletedProjectsList> {
         itemCount: projects.length,
         itemBuilder: (BuildContext context, int index){
           return ListTile(
-            title: Text(projects[index].name),
+            title: Text(
+              projects[index].name,
+              textAlign: TextAlign.center,
+            ),
             subtitle: Column(
               children: [
                 Text(
@@ -80,7 +83,10 @@ class _CompletedProjectsListState extends State<CompletedProjectsList> {
             },
           );
         }
-    ):Text("Aún no hay proyectos completados");
+    ):Text(
+      "Aún no hay proyectos completados",
+      textAlign: TextAlign.center,
+    );
   }
 }
 

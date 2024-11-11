@@ -115,5 +115,25 @@ class ProfilesService{
       throw Exception("$e");
     }
   }
+  
+  Future<List<Developer>> getAllDevelopers()async{
+    try{
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String token = prefs.getString("token")??"";
+      final response = await http.get(
+        Uri.parse("$url/developers"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        }
+      );
+      final List<dynamic> jsonData = jsonDecode(response.body);
+      return jsonData.map((data)=>
+          Developer.fromJson(data))
+          .toList();
+    }catch(e){
+      throw Exception("$e");
+    }
+  }
 
 }

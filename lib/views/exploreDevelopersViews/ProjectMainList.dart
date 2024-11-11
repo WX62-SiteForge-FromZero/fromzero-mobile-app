@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:fromzero_app/views/searchProjectsViews/previewDevelopers.dart';
+import 'package:fromzero_app/api/profilesService.dart';
+import 'package:fromzero_app/models/developer_model.dart';
+import 'package:fromzero_app/views/exploreDevelopersViews/previewDevelopers.dart';
 
 class DeveloperListScreen extends StatefulWidget {
-  const DeveloperListScreen({Key? key}) : super(key: key);
+  const DeveloperListScreen({super.key});
 
   @override
-  _DeveloperListScreenState createState() => _DeveloperListScreenState();
+  State<DeveloperListScreen> createState() => _DeveloperListScreenState();
 }
 
 class _DeveloperListScreenState extends State<DeveloperListScreen> {
-  List developers = [];
+  List<Developer> developers = [];
 
   @override
   void initState() {
@@ -20,19 +20,11 @@ class _DeveloperListScreenState extends State<DeveloperListScreen> {
   }
 
   Future<void> fetchDevelopers() async {
-    try {
-      final response = await http.get(Uri.parse('http://10.0.2.2:3000/developers'));
-
-      if (response.statusCode == 200) {
-        setState(() {
-          developers = json.decode(response.body);
-        });
-      } else {
-        throw Exception('Failed to load developers');
-      }
-    } catch (e) {
-      print('Error fetching developers: $e');
-    }
+    var service = ProfilesService();
+    final response = await service.getAllDevelopers();
+    setState(() {
+      developers=response;
+    });
   }
 
   @override
@@ -43,37 +35,36 @@ class _DeveloperListScreenState extends State<DeveloperListScreen> {
           : ListView.builder(
         itemCount: developers.length,
         itemBuilder: (context, index) {
-          final developer = developers[index];
           return Card(
             margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: ListTile(
               leading: CircleAvatar(
-                backgroundImage: NetworkImage(developer['profileImgUrl']),
+                backgroundImage: NetworkImage(developers[index].profileImgUrl),
                 radius: 30,
               ),
               title: Text(
-                '${developer['firstName']} ${developer['lastName']}',
+                '${developers[index].firstName} ${developers[index].lastName}',
                 style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
               ),
               subtitle: Text(
-                'Proyectos Completados: ${developer['completedProjects']}',
+                'Proyectos Completados: ${developers[index].completedProjects}',
               ),
               trailing: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => PreviewDeveloper(developer: developer),
+                      builder: (context) => PreviewDeveloper(developer: developers[index]),
                     ),
                   );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
                 ),
-                child: const Text('Review'),
+                child: const Text('Ver perfil',style: TextStyle(color: Colors.white)),
               ),
             ),
           );

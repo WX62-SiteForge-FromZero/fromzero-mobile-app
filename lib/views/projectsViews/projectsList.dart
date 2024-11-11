@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../api/projectsService.dart';
 import '../../models/project_model.dart';
-import '../ProfileWidget/AcceptDeveloperWidget.dart';
+import 'AcceptDeveloperWidget.dart';
 import '../deliverableViews/DeliverablesWidget.dart';
 
 class ProjectsList extends StatefulWidget {

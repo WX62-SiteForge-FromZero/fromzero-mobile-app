@@ -146,4 +146,24 @@ class ProjectsService{
     }
   }
 
+  Future<List<Project>> getProjectsByDeveloperIdV2(String developerId)async{
+    try{
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String token = prefs.getString("token")??"";
+      final response = await http.get(
+          Uri.parse("$url/developer/$developerId"),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+          }
+      );
+      final List<dynamic> jsonData = jsonDecode(response.body);
+      return jsonData.map((data)=>
+          Project.fromJson(data))
+          .toList();
+    }catch(e){
+      throw Exception("Error al obtener proyectos$e");
+    }
+  }
+
 }

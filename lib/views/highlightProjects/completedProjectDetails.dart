@@ -49,11 +49,6 @@ class CompletedProjectDetails extends StatelessWidget {
               ],
             ),
           ),
-          //Text("Procesos y metodologías"),
-          /*ListView.builder(
-                itemCount: // list deliverables by project id,
-                itemBuilder: itemBuilder
-            )*/
         ],
       ),
     );
