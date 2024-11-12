@@ -1,37 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:fromzero_app/api/projectsService.dart';
 import 'package:fromzero_app/views/highlightProjects/completedProjectDetails.dart';
-
 import '../../models/project_model.dart';
 
-class HighlightProjects extends StatelessWidget {
+class HighlightProjects extends StatefulWidget {
   const HighlightProjects({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            Text("Botones y buscar"),
-            Expanded(
-                child: CompletedProjectsList()
-            )
-          ],
-        ),
-      ),
-    );
-  }
+  State<HighlightProjects> createState() => _HighlightProjectsState();
 }
 
-class CompletedProjectsList extends StatefulWidget {
-  const CompletedProjectsList({super.key});
-
-  @override
-  State<CompletedProjectsList> createState() => _CompletedProjectsListState();
-}
-
-class _CompletedProjectsListState extends State<CompletedProjectsList> {
+class _HighlightProjectsState extends State<HighlightProjects> {
+  List<Project> filteredProjects=[];
   List<Project> projects=[];
 
   Future<void> fetchProjects()async{
@@ -39,7 +19,8 @@ class _CompletedProjectsListState extends State<CompletedProjectsList> {
       var service = ProjectsService();
       List<Project> response = await service.getAllProjectsByState("COMPLETADO");
       setState(() {
-        projects=response;
+        filteredProjects=response;
+        projects=filteredProjects;
       });
     }catch(e){
       throw Exception(e);
@@ -52,41 +33,106 @@ class _CompletedProjectsListState extends State<CompletedProjectsList> {
     fetchProjects();
   }
 
+  void filterByProjectType(String type){
+    if(type!="") {
+      setState(() {
+        filteredProjects =
+            projects.where((project) => project.type == type).toList();
+      });
+    }else {
+      setState(() {
+        filteredProjects = projects;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return projects.length!=0?ListView.builder(
-        itemCount: projects.length,
-        itemBuilder: (BuildContext context, int index){
-          return ListTile(
-            title: Text(
-              projects[index].name,
-              textAlign: TextAlign.center,
-            ),
-            subtitle: Column(
+    return Scaffold(
+      body: Center(
+        child: Column(
+          children: [
+          Wrap(
+            spacing: 8,
+              runSpacing: 4.0,
+              alignment: WrapAlignment.center,
               children: [
-                Text(
-                  projects[index].type,
-                  textAlign: TextAlign.center
+                TextButton(
+                    onPressed: (){
+                      filterByProjectType("WEB_APPLICATION");
+                    },
+                    child: Text("Aplicación web")
                 ),
-                Text(projects[index].description)
+                TextButton(
+                    onPressed: (){
+                      filterByProjectType("MOBILE_APPLICATION");
+                    },
+                    child: Text("Aplicación móvil")
+                ),
+                TextButton(
+                    onPressed: (){
+                      filterByProjectType("LANDING_PAGE");
+                    },
+                    child: Text("Landing Page")
+                ),
+                TextButton(
+                    onPressed: (){
+                      filterByProjectType("DESKTOP_APPLICATION");
+                    },
+                    child: Text("Aplicación de escritorio")
+                ),
+                TextButton(
+                    onPressed: (){
+                      filterByProjectType("");
+                    },
+                    child: Text("Borrar filtros")
+                ),
               ],
             ),
-            onTap: (){
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context)=>CompletedProjectDetails(
-                          project: projects[index]
-                      )
-                  )
-              );
-            },
-          );
-        }
-    ):Text(
-      "Aún no hay proyectos completados",
-      textAlign: TextAlign.center,
+            Expanded(
+                child: filteredProjects.length!=0?ListView.builder(
+                    itemCount: filteredProjects.length,
+                    itemBuilder: (BuildContext context, int index){
+                      return ListTile(
+                        title: Text(
+                          filteredProjects[index].name,
+                          textAlign: TextAlign.center,
+                        ),
+                        subtitle: Column(
+                          children: [
+                            Text(
+                                filteredProjects[index].type,
+                                textAlign: TextAlign.center
+                            ),
+                            Text(filteredProjects[index].description)
+                          ],
+                        ),
+                        onTap: (){
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context)=>CompletedProjectDetails(
+                                      project: filteredProjects[index]
+                                  )
+                              )
+                          );
+                        },
+                      );
+                    }
+                ):Text(
+                  "Aún no hay proyectos completados",
+                  textAlign: TextAlign.center,
+                )
+            )
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          fetchProjects();
+        },
+        child: const Icon(Icons.refresh),
+      ),
     );
   }
 }
-

@@ -6,7 +6,11 @@ import 'package:fromzero_app/views/messages/Message.dart';
 import 'package:provider/provider.dart';
 
 class MenuWidget extends StatelessWidget {
-  const MenuWidget({super.key});
+  final String role;
+  const MenuWidget({
+    super.key,
+    required this.role
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,18 +23,22 @@ class MenuWidget extends StatelessWidget {
                 child: Text("Menu",style: TextStyle(fontSize: 40),)),
             const SizedBox(height: 20),
             ProfileMenu(
+              role: role,
               text: "Payment Methods",
               icon: Icons.credit_card
             ),
             ProfileMenu(
+              role: role,
               text: "Edit Profile",
               icon: Icons.edit
             ),
             ProfileMenu(
+              role: role,
               text: "Chat",
               icon: Icons.chat
             ),
             ProfileMenu(
+              role: role,
               text: "Log Out",
               icon: Icons.logout
             ),
@@ -42,14 +50,16 @@ class MenuWidget extends StatelessWidget {
 }
 
 class ProfileMenu extends StatelessWidget {
+  final String role;
   final String text;
   final IconData icon;
 
   const ProfileMenu({
-    Key? key,
+    super.key,
     required this.text,
-    required this.icon
-  }) : super(key: key);
+    required this.icon,
+    required this.role
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +86,7 @@ class ProfileMenu extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context)=>EditProfileWidget()
+                    builder: (context)=>EditProfileWidget(role: role,)
                 )
             );
           }else if(text=="Chat"){

@@ -17,9 +17,11 @@ class _ApplyToProjectsState extends State<ApplyToProjects> {
   Future<void> _fetchProjects() async{
     var service = ProjectsService();
     final response = await service.getAllProjectsByState("EN_BUSQUEDA");
-    setState(() {
-      projectsList=response;
-    });
+    if(mounted) {
+      setState(() {
+        projectsList = response;
+      });
+    }
   }
 
   @override
