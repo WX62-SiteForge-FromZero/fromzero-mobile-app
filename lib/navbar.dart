@@ -22,6 +22,7 @@ class _NavbarState extends State<Navbar> {
   int selectedView = 0;
   String role = "";
   dynamic currentUser;
+  List<Widget> views =[];
 
   Future<void> setUser()async{
     try{
@@ -38,12 +39,26 @@ class _NavbarState extends State<Navbar> {
       final response = await service.getCompanyByProfileId();
       setState(() {
         currentUser=response;
+        views = [
+          currentUser!=null?ProfileWidget(profile:currentUser,):Container(),
+          const DeveloperListScreen(),
+          HighlightProjects(),
+          const CreateProjectApp(),
+        ];
       });
-    }else{
+    }else if(role=="DEVELOPER"){
       final response = await service.getDeveloperByProfileId();
       setState(() {
         currentUser=response;
+        views = [
+          currentUser!=null?ProfileDevWidget(profile: currentUser,):Container(),
+          const ApplyToProjects(),
+          HighlightProjects(),
+        ];
       });
+    }else{
+      Provider.of<AuthProvider>(context,listen: false).logout();
+      print("Rol desconocido");
     }
   }
 
@@ -108,29 +123,6 @@ class _NavbarState extends State<Navbar> {
 
   @override
   Widget build(BuildContext context) {
-
-    List<Widget> views =[];
-
-    if(role=="COMPANY"){
-      setState(() {
-        views = [
-          currentUser!=null?ProfileWidget(profile:currentUser,):Container(),
-          const DeveloperListScreen(),
-          const HighlightProjects(),
-          const CreateProjectApp(),
-        ];
-      });
-    }else {
-      setState(() {
-        views = [
-          currentUser!=null?ProfileDevWidget(profile: currentUser,):Container(),
-          const ApplyToProjects(),
-          const HighlightProjects(),
-        ];
-      });
-    }
-
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightBlue,
@@ -146,7 +138,7 @@ class _NavbarState extends State<Navbar> {
         ),
         title: setViewTitle(),
       ),
-      drawer: MenuWidget(),
+      drawer: MenuWidget(role: role,),
       body: IndexedStack(
         index: selectedView,
         children: views,
