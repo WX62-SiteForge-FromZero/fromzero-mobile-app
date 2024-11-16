@@ -1,14 +1,29 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class EditProfileWidget extends StatefulWidget {
-  const EditProfileWidget({super.key});
+  final String role;
+  const EditProfileWidget({
+    super.key,
+    required this.role
+  });
 
   @override
-  _EditProfileWidgetState createState() => _EditProfileWidgetState();
+  State<EditProfileWidget> createState() => _EditProfileWidgetState();
 }
 
 class _EditProfileWidgetState extends State<EditProfileWidget> {
-  bool _isEditing = false; // Controla el estado de edición
+
+  TextEditingController description= TextEditingController();
+  TextEditingController country= TextEditingController();
+  TextEditingController ruc= TextEditingController();
+  TextEditingController phone= TextEditingController();
+  TextEditingController website= TextEditingController();
+  TextEditingController profileImgUrl= TextEditingController();
+  TextEditingController sector= TextEditingController();
+  TextEditingController specialties= TextEditingController();
+
+  bool _isEditing = false;
   String _country = "Perú";
   String _razonSocial = "2024252658";
   String _telefono = "987654321";
@@ -30,22 +45,20 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
+              Wrap(
+                spacing: 8,
+                runSpacing: 4.0,
+                alignment: WrapAlignment.center,
                 children: [
-                  const ProfilePic(),
-                  const SizedBox(width: 20),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Empresa",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 24,
-                        ),
-                      ),
-                    ],
+                  CircleAvatar(
+                    backgroundImage:
+                    NetworkImage("https://cdn-icons-png.flaticon.com/512/3237/3237472.png"),
                   ),
+                  TextFormField(
+                    controller: profileImgUrl,
+                    decoration: InputDecoration(),
+                    keyboardType: TextInputType.text,
+                  )
                 ],
               ),
               const SizedBox(height: 20),

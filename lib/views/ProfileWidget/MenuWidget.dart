@@ -27,14 +27,17 @@ class MenuWidget extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             ProfileMenu(
+              role: role,
               text: "Payment Methods",
               icon: Icons.credit_card,
             ),
             ProfileMenu(
+              role: role,
               text: "Edit Profile",
               icon: Icons.edit,
             ),
             ProfileMenu(
+              role: role,
               text: "Chat",
               icon: Icons.chat,
               onTap: () {
@@ -47,6 +50,7 @@ class MenuWidget extends StatelessWidget {
               },
             ),
             ProfileMenu(
+              role: role,
               text: "Log Out",
               icon: Icons.logout,
               onTap: () {
@@ -61,16 +65,19 @@ class MenuWidget extends StatelessWidget {
 }
 
 class ProfileMenu extends StatelessWidget {
+  final String role;
   final String text;
   final IconData icon;
   final VoidCallback? onTap;
 
   const ProfileMenu({
-    Key? key,
+    super.key,
     required this.text,
     required this.icon,
     this.onTap,
-  }) : super(key: key);
+    //}) : super(key: key);
+    //required this.role
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -86,6 +93,35 @@ class ProfileMenu extends StatelessWidget {
           backgroundColor: const Color(0xFFF5F6F9),
         ),
         onPressed: onTap,
+
+        /*onPressed: (){
+          if(text=="Payment Methods"){
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context)=>PaymentMethodWidget()
+                )
+            );
+          }else if(text=="Edit Profile"){
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context)=>EditProfileWidget(role: role,)
+                )
+            );
+          }else if(text=="Chat"){
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context)=>Message(
+                        companyName: "companyName")
+                )
+            );
+          }else if(text=="Log Out"){
+            Provider.of<AuthProvider>(context,listen: false).logout();
+          }
+        },*/
+
         child: Row(
           children: [
             Icon(

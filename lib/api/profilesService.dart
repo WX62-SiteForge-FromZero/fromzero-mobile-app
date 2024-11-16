@@ -8,6 +8,72 @@ import '../models/developer_model.dart';
 class ProfilesService{
   static const String url = "${BaseUrlApi.url}/profiles";
 
+  Future<http.Response> editCompanyProfile(
+      String description,
+      String country,
+      String ruc,
+      String phone,
+      String website,
+      String profileImgUrl,
+      String sector
+      )async{
+    try{
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String profileId = prefs.getString("profileId")??"";
+      String token = prefs.getString("token")??"";
+      final response = await http.put(
+        Uri.parse("$url/company/$profileId"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token'
+        },
+        body: jsonEncode({
+          'description':description,
+          'country':country,
+          'ruc':ruc,
+          'phone':phone,
+          'website':website,
+          'profileImgUrl':profileImgUrl,
+          'sector':sector
+        })
+      );
+      return response;
+    }catch(e){
+      throw Exception("$e");
+    }
+  }
+
+  Future<http.Response> editDeveloperProfile(
+      String description,
+      String country,
+      String phone,
+      String specialties,
+      String profileImgUrl,
+      )async{
+    try{
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String profileId = prefs.getString("profileId")??"";
+      String token = prefs.getString("token")??"";
+      final response = await http.put(
+          Uri.parse("$url/developer/$profileId"),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+          },
+          body: jsonEncode({
+            'description':description,
+            'country':country,
+            'phone':phone,
+            'specialties':specialties,
+            'profileImgUrl':profileImgUrl
+          })
+      );
+      return response;
+    }catch(e){
+      throw Exception("$e");
+    }
+  }
+
   Future<String> getCompanyProfileIdByEmail(String email,String token)async{
     try{
       final response = await http.get(

@@ -25,6 +25,7 @@ class _NavbarState extends State<Navbar> {
   String role = "";
   dynamic currentUser;
   String userId = "";
+  List<Widget> views =[];
 
   Future<void> setUser()async{
     try{
@@ -43,13 +44,27 @@ class _NavbarState extends State<Navbar> {
       setState(() {
         currentUser=response;
         userId = response.profileId;
+        views = [
+          currentUser!=null?ProfileWidget(profile:currentUser,):Container(),
+          const DeveloperListScreen(),
+          HighlightProjects(),
+          const CreateProjectApp(),
+        ];
       });
-    }else{
+    }else if(role=="DEVELOPER"){
       final response = await service.getDeveloperByProfileId();
       setState(() {
         currentUser=response;
         userId = response.profileId;
+        views = [
+          currentUser!=null?ProfileDevWidget(profile: currentUser,):Container(),
+          const ApplyToProjects(),
+          HighlightProjects(),
+        ];
       });
+    }else{
+      Provider.of<AuthProvider>(context,listen: false).logout();
+      print("Rol desconocido");
     }
   }
 
@@ -114,29 +129,6 @@ class _NavbarState extends State<Navbar> {
 
   @override
   Widget build(BuildContext context) {
-
-    List<Widget> views =[];
-
-    if(role=="COMPANY"){
-      setState(() {
-        views = [
-          currentUser!=null?ProfileWidget(profile:currentUser,):Container(),
-          currentUser != null ? DeveloperListScreen(currentUser: currentUser) : Container(),
-          const HighlightProjects(),
-          const CreateProjectApp(),
-        ];
-      });
-    }else {
-      setState(() {
-        views = [
-          currentUser!=null?ProfileDevWidget(profile: currentUser,):Container(),
-          const ApplyToProjects(),
-          const HighlightProjects(),
-        ];
-      });
-    }
-
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.lightBlue,
