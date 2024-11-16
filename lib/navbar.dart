@@ -12,6 +12,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Navbar extends StatefulWidget {
+
+
   const Navbar({super.key});
 
   @override
@@ -22,11 +24,13 @@ class _NavbarState extends State<Navbar> {
   int selectedView = 0;
   String role = "";
   dynamic currentUser;
+  String userId = "";
 
   Future<void> setUser()async{
     try{
       SharedPreferences prefs = await SharedPreferences.getInstance();
       role = prefs.getString("role")??"";
+      print(role);
     }catch(e){
       Provider.of<AuthProvider>(context,listen: false).logout();
       throw Exception(e);
@@ -38,11 +42,13 @@ class _NavbarState extends State<Navbar> {
       final response = await service.getCompanyByProfileId();
       setState(() {
         currentUser=response;
+        userId = response.profileId;
       });
     }else{
       final response = await service.getDeveloperByProfileId();
       setState(() {
         currentUser=response;
+        userId = response.profileId;
       });
     }
   }
@@ -115,7 +121,7 @@ class _NavbarState extends State<Navbar> {
       setState(() {
         views = [
           currentUser!=null?ProfileWidget(profile:currentUser,):Container(),
-          const DeveloperListScreen(),
+          currentUser != null ? DeveloperListScreen(currentUser: currentUser) : Container(),
           const HighlightProjects(),
           const CreateProjectApp(),
         ];
@@ -146,7 +152,7 @@ class _NavbarState extends State<Navbar> {
         ),
         title: setViewTitle(),
       ),
-      drawer: MenuWidget(),
+      drawer: MenuWidget(currentUser: userId, role: role),
       body: IndexedStack(
         index: selectedView,
         children: views,
