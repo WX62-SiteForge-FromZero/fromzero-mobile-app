@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../messages/ChatListView.dart';
 import '../paymentViews/DeveloperPaymentStatusView.dart';
 import '../paymentViews/CompanyPendingPaymentsView.dart';
+import 'EditProfileWidget.dart';
 
 class MenuWidget extends StatelessWidget {
   final String currentUser;
@@ -27,7 +28,6 @@ class MenuWidget extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             ProfileMenu(
-              role: role,
               text: "Payment Methods",
               icon: Icons.credit_card,
               onTap: () {
@@ -49,12 +49,18 @@ class MenuWidget extends StatelessWidget {
               },
             ),
             ProfileMenu(
-              role: role,
               text: "Edit Profile",
               icon: Icons.edit,
+              onTap: (){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context)=>EditProfileWidget(role: role,)
+                    )
+                );
+              },
             ),
             ProfileMenu(
-              role: role,
               text: "Chat",
               icon: Icons.chat,
               onTap: () {
@@ -67,7 +73,6 @@ class MenuWidget extends StatelessWidget {
               },
             ),
             ProfileMenu(
-              role: role,
               text: "Log Out",
               icon: Icons.logout,
               onTap: () {
@@ -82,7 +87,6 @@ class MenuWidget extends StatelessWidget {
 }
 
 class ProfileMenu extends StatelessWidget {
-  final String role;
   final String text;
   final IconData icon;
   final VoidCallback? onTap;
@@ -92,8 +96,6 @@ class ProfileMenu extends StatelessWidget {
     required this.text,
     required this.icon,
     this.onTap,
-    //}) : super(key: key);
-    //required this.role
   });
 
   @override
@@ -110,35 +112,6 @@ class ProfileMenu extends StatelessWidget {
           backgroundColor: const Color(0xFFF5F6F9),
         ),
         onPressed: onTap,
-
-        /*onPressed: (){
-          if(text=="Payment Methods"){
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context)=>PaymentMethodWidget()
-                )
-            );
-          }else if(text=="Edit Profile"){
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context)=>EditProfileWidget(role: role,)
-                )
-            );
-          }else if(text=="Chat"){
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context)=>Message(
-                        companyName: "companyName")
-                )
-            );
-          }else if(text=="Log Out"){
-            Provider.of<AuthProvider>(context,listen: false).logout();
-          }
-        },*/
-
         child: Row(
           children: [
             Icon(

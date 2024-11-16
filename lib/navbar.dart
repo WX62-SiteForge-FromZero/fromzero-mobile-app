@@ -46,7 +46,7 @@ class _NavbarState extends State<Navbar> {
         userId = response.profileId;
         views = [
           currentUser!=null?ProfileWidget(profile:currentUser,):Container(),
-          const DeveloperListScreen(),
+          DeveloperListScreen(currentUser: currentUser,),
           HighlightProjects(),
           const CreateProjectApp(),
         ];
