@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:fromzero_app/prefs/authProvider.dart';
-import 'package:fromzero_app/views/ProfileWidget/EditProfileWidget.dart';
-import 'package:fromzero_app/views/ProfileWidget/PaymentMethodWidget.dart';
 import 'package:provider/provider.dart';
 import '../messages/ChatListView.dart';
+import '../paymentViews/DeveloperPaymentStatusView.dart';
+import '../paymentViews/CompanyPendingPaymentsView.dart';
 
 class MenuWidget extends StatelessWidget {
   final String currentUser;
@@ -29,6 +29,23 @@ class MenuWidget extends StatelessWidget {
             ProfileMenu(
               text: "Payment Methods",
               icon: Icons.credit_card,
+              onTap: () {
+                if (role == "DEVELOPER") {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => DeveloperPaymentStatusView(developerId: currentUser),
+                    ),
+                  );
+                } else if (role == "COMPANY") {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CompanyPendingPaymentsView(companyId: currentUser),
+                    ),
+                  );
+                }
+              },
             ),
             ProfileMenu(
               text: "Edit Profile",
