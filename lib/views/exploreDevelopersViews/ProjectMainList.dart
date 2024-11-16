@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:fromzero_app/api/profilesService.dart';
+import 'package:fromzero_app/models/company_model.dart';
 import 'package:fromzero_app/models/developer_model.dart';
 import 'package:fromzero_app/views/exploreDevelopersViews/previewDevelopers.dart';
 
 class DeveloperListScreen extends StatefulWidget {
-  const DeveloperListScreen({super.key});
+  final Company currentUser;
+  const DeveloperListScreen({
+    super.key,
+    required this.currentUser
+  });
 
   @override
   State<DeveloperListScreen> createState() => _DeveloperListScreenState();
@@ -57,7 +62,7 @@ class _DeveloperListScreenState extends State<DeveloperListScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => PreviewDeveloper(developer: developers[index]),
+                      builder: (context) => PreviewDeveloper(developer: developers[index], currentUser: widget.currentUser),
                     ),
                   );
                 },

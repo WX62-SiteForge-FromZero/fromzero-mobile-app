@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:fromzero_app/prefs/authProvider.dart';
 import 'package:fromzero_app/views/ProfileWidget/EditProfileWidget.dart';
 import 'package:fromzero_app/views/ProfileWidget/PaymentMethodWidget.dart';
-import 'package:fromzero_app/views/messages/Message.dart';
 import 'package:provider/provider.dart';
+import '../messages/ChatListView.dart';
 
 class MenuWidget extends StatelessWidget {
+  final String currentUser;
   final String role;
+
   const MenuWidget({
     super.key,
-    required this.role
+    required this.currentUser,
+    required this.role,
   });
 
   @override
@@ -20,27 +23,39 @@ class MenuWidget extends StatelessWidget {
         child: Column(
           children: [
             DrawerHeader(
-                child: Text("Menu",style: TextStyle(fontSize: 40),)),
+              child: Text("Menu", style: TextStyle(fontSize: 40)),
+            ),
             const SizedBox(height: 20),
             ProfileMenu(
               role: role,
               text: "Payment Methods",
-              icon: Icons.credit_card
+              icon: Icons.credit_card,
             ),
             ProfileMenu(
               role: role,
               text: "Edit Profile",
-              icon: Icons.edit
+              icon: Icons.edit,
             ),
             ProfileMenu(
               role: role,
               text: "Chat",
-              icon: Icons.chat
+              icon: Icons.chat,
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ChatListView(profileId: currentUser, role: role),
+                  ),
+                );
+              },
             ),
             ProfileMenu(
               role: role,
               text: "Log Out",
-              icon: Icons.logout
+              icon: Icons.logout,
+              onTap: () {
+                Provider.of<AuthProvider>(context, listen: false).logout();
+              },
             ),
           ],
         ),
@@ -53,12 +68,15 @@ class ProfileMenu extends StatelessWidget {
   final String role;
   final String text;
   final IconData icon;
+  final VoidCallback? onTap;
 
   const ProfileMenu({
     super.key,
     required this.text,
     required this.icon,
-    required this.role
+    this.onTap,
+    //}) : super(key: key);
+    //required this.role
   });
 
   @override
@@ -74,7 +92,9 @@ class ProfileMenu extends StatelessWidget {
           ),
           backgroundColor: const Color(0xFFF5F6F9),
         ),
-        onPressed: (){
+        onPressed: onTap,
+
+        /*onPressed: (){
           if(text=="Payment Methods"){
             Navigator.push(
                 context,
@@ -100,7 +120,8 @@ class ProfileMenu extends StatelessWidget {
           }else if(text=="Log Out"){
             Provider.of<AuthProvider>(context,listen: false).logout();
           }
-        },
+        },*/
+
         child: Row(
           children: [
             Icon(
