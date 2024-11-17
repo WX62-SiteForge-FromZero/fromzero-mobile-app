@@ -167,7 +167,7 @@ class _NavbarState extends State<Navbar> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.star),
-            label: "Destacados",
+            label: "Proyectos",
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.drive_file_rename_outline),
@@ -184,7 +184,7 @@ class _NavbarState extends State<Navbar> {
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.star),
-            label: "Destacados",
+            label: "Proyectos",
           ),
         ],
         selectedItemColor: Colors.blue,
