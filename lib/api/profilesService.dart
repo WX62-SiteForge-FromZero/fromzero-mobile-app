@@ -181,7 +181,29 @@ class ProfilesService{
       throw Exception("$e");
     }
   }
-  
+
+  Future<Company> getCompany(String profileId) async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String token = prefs.getString("token") ?? "";
+      final response = await http.get(
+          Uri.parse("$url/company/$profileId"),
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token'
+          }
+      );
+      if (response.statusCode == 200) {
+        final dynamic data = jsonDecode(response.body);
+        return Company.fromJson(data);
+      } else {
+        throw Exception("Error");
+      }
+    } catch (e) {
+      throw Exception("$e");
+    }
+  }
+
   Future<List<Developer>> getAllDevelopers()async{
     try{
       SharedPreferences prefs = await SharedPreferences.getInstance();
