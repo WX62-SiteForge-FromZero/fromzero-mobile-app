@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fromzero_app/api/profilesService.dart';
 import 'package:fromzero_app/models/company_model.dart';
 import 'package:fromzero_app/models/developer_model.dart';
+import 'package:fromzero_app/models/create_project_model.dart';
 import 'package:fromzero_app/views/exploreDevelopersViews/previewDevelopers.dart';
 
 class DeveloperListScreen extends StatefulWidget {
@@ -21,7 +22,11 @@ class _DeveloperListScreenState extends State<DeveloperListScreen> {
   String searchQuery = '';
   String selectedCountry = 'All';
   String selectedSpecialty = 'All';
+  String selectedFramework = 'All';
+  String selectedLanguage = 'All';
   List<String> countries = ['All'];
+  List<String> frameworks = ['All'];
+  List<String> languages = ['All'];
 
   @override
   void initState() {
@@ -36,6 +41,8 @@ class _DeveloperListScreenState extends State<DeveloperListScreen> {
       developers = response;
       filteredDevelopers = response;
       countries.addAll(response.map((dev) => dev.country).toSet().toList());
+      frameworks.addAll(Frameworks.values.map((f) => f.name).toList());
+      languages.addAll(Languages.values.map((l) => l.name).toList());
     });
   }
 
@@ -45,7 +52,9 @@ class _DeveloperListScreenState extends State<DeveloperListScreen> {
         final matchesSearchQuery = developer.specialties.toLowerCase().contains(searchQuery.toLowerCase());
         final matchesCountry = selectedCountry == 'All' || developer.country == selectedCountry;
         final matchesSpecialty = selectedSpecialty == 'All' || developer.specialties.contains(selectedSpecialty);
-        return matchesSearchQuery && matchesCountry && matchesSpecialty;
+        final matchesFramework = selectedFramework == 'All' || developer.specialties.contains(selectedFramework);
+        final matchesLanguage = selectedLanguage == 'All' || developer.specialties.contains(selectedLanguage);
+        return matchesSearchQuery && matchesCountry && matchesSpecialty && matchesFramework && matchesLanguage;
       }).toList();
     });
   }
@@ -104,6 +113,48 @@ class _DeveloperListScreenState extends State<DeveloperListScreen> {
                     },
                     items: <String>['All', 'Flutter', 'React', 'Node.js', 'Python']
                         .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  child: DropdownButton<String>(
+                    value: selectedFramework,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedFramework = value!;
+                        filterDevelopers();
+                      });
+                    },
+                    items: frameworks.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: DropdownButton<String>(
+                    value: selectedLanguage,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedLanguage = value!;
+                        filterDevelopers();
+                      });
+                    },
+                    items: languages.map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
