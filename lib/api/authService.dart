@@ -49,20 +49,25 @@ class AuthService{
       String email,
       String password,
       String companyName
-      )async{
-    try{
+      ) async {
+    try {
       final response = await http.post(
-        Uri.parse("$url/register-company"),
-        body: jsonEncode({
-          'mail':email,
-          'password':password,
-          'companyName':companyName
-        }),
-        headers: {'Content-Type':'application/json'}
+          Uri.parse("$url/register-company"),
+          body: jsonEncode({
+            'email': email,
+            'password': password,
+            'companyName': companyName
+          }),
+          headers: {'Content-Type': 'application/json'}
       );
-      return response;
-    }catch(e){
-      throw Exception("Error");
+
+      if (response.statusCode == 200) {
+        return response;
+      } else {
+        throw Exception("Failed to register company: ${response.body}");
+      }
+    } catch (e) {
+      throw Exception("Error registering company: $e");
     }
   }
 

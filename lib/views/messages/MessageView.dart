@@ -52,7 +52,6 @@ class _MessagesViewState extends State<MessagesView> {
   Future<void> _loadMessages() async {
     try {
       List<Message> messages = await _messageService.getMessagesByChatId(widget.chatId);
-      print("Messages: $messages");
       for (var message in messages) {
         if (message.senderId == companyId) {
           final company = await _profilesService.getCompany(companyId!);
@@ -102,16 +101,31 @@ class _MessagesViewState extends State<MessagesView> {
               itemCount: _messages.length,
               itemBuilder: (context, index) {
                 final message = _messages[index];
-                final senderName = message.senderId == companyId
-                    ? companyName ?? 'Unknown'
-                    : message.senderId == developerId
-                    ? developerName ?? 'Developer'
-                    : 'Unknown';
                 final isCurrentUser = message.senderId == widget.senderId;
-                return ListTile(
-                  tileColor: isCurrentUser ? Colors.blue[100] : null,
-                  title: Text(message.content),
-                  subtitle: Text("Sender: $senderName"),
+                return Align(
+                  alignment: isCurrentUser ? Alignment.centerRight : Alignment.centerLeft,
+                  child: Container(
+                    margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    padding: EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      color: isCurrentUser ? Colors.blue[100] : Colors.grey[300],
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          message.content,
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          isCurrentUser ? "You" : (message.senderId == companyId ? companyName : developerName) ?? 'Unknown',
+                          style: TextStyle(fontSize: 12, color: Colors.black54),
+                        ),
+                      ],
+                    ),
+                  ),
                 );
               },
             )
@@ -124,7 +138,12 @@ class _MessagesViewState extends State<MessagesView> {
                 Expanded(
                   child: TextField(
                     controller: _messageController,
-                    decoration: InputDecoration(hintText: "Enter message..."),
+                    decoration: InputDecoration(
+                      hintText: "Enter message...",
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
                   ),
                 ),
                 IconButton(

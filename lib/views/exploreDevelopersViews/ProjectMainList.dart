@@ -19,9 +19,7 @@ class DeveloperListScreen extends StatefulWidget {
 class _DeveloperListScreenState extends State<DeveloperListScreen> {
   List<Developer> developers = [];
   List<Developer> filteredDevelopers = [];
-  String searchQuery = '';
   String selectedCountry = 'All';
-  String selectedSpecialty = 'All';
   String selectedFramework = 'All';
   String selectedLanguage = 'All';
   List<String> countries = ['All'];
@@ -49,12 +47,10 @@ class _DeveloperListScreenState extends State<DeveloperListScreen> {
   void filterDevelopers() {
     setState(() {
       filteredDevelopers = developers.where((developer) {
-        final matchesSearchQuery = developer.specialties.toLowerCase().contains(searchQuery.toLowerCase());
         final matchesCountry = selectedCountry == 'All' || developer.country == selectedCountry;
-        final matchesSpecialty = selectedSpecialty == 'All' || developer.specialties.contains(selectedSpecialty);
         final matchesFramework = selectedFramework == 'All' || developer.specialties.contains(selectedFramework);
         final matchesLanguage = selectedLanguage == 'All' || developer.specialties.contains(selectedLanguage);
-        return matchesSearchQuery && matchesCountry && matchesSpecialty && matchesFramework && matchesLanguage;
+        return matchesCountry && matchesFramework && matchesLanguage;
       }).toList();
     });
   }
@@ -69,19 +65,6 @@ class _DeveloperListScreenState extends State<DeveloperListScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              decoration: InputDecoration(
-                labelText: 'Search by specialties',
-                border: OutlineInputBorder(),
-              ),
-              onChanged: (value) {
-                searchQuery = value;
-                filterDevelopers();
-              },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
             child: Row(
               children: [
                 Expanded(
@@ -94,25 +77,6 @@ class _DeveloperListScreenState extends State<DeveloperListScreen> {
                       });
                     },
                     items: countries.map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: DropdownButton<String>(
-                    value: selectedSpecialty,
-                    onChanged: (value) {
-                      setState(() {
-                        selectedSpecialty = value!;
-                        filterDevelopers();
-                      });
-                    },
-                    items: <String>['All', 'Flutter', 'React', 'Node.js', 'Python']
-                        .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),

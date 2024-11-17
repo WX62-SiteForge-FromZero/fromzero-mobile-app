@@ -62,17 +62,28 @@ class _ChatListViewState extends State<ChatListView> {
         itemBuilder: (context, index) {
           final chat = _chats[index];
           final chatName = _chatNames[chat.id] ?? "Unknown";
-          return ListTile(
-            title: Text("Chat with $chatName"),
-            subtitle: Text("Created at: ${chat.createdAt}"),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => MessagesView(chatId: chat.id, senderId: widget.profileId),
+          return Column(
+            children: [
+              Card(
+                margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                child: ListTile(
+                  leading: CircleAvatar(
+                    child: Icon(Icons.person),
+                  ),
+                  title: Text(chatName),
+                  subtitle: Text("Created at: ${chat.createdAt}"),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MessagesView(chatId: chat.id, senderId: widget.profileId),
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
+              ),
+              Divider(),
+            ],
           );
         },
       ),

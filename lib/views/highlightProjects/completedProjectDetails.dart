@@ -14,42 +14,73 @@ class CompletedProjectDetails extends StatelessWidget {
       appBar: AppBar(
         title: Text("Detalles del proyecto"),
       ),
-      body: Column(
-        children: [
-          Text(project.name),
-          Text("Descripción"),
-          Text(project.description),
-          Text("Presupuesto: ${project.budget}"),
-          Text("Tecnologías"),
-          Expanded(
-            child: Row(
-              children: [
-                Expanded(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              project.name,
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 16),
+            Text(
+              "Descripción",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            Text(project.description),
+            SizedBox(height: 16),
+            Text(
+              "Presupuesto: ${project.budget}",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 16),
+            Text(
+              "Tecnologías",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            Expanded(
+              child: Row(
+                children: [
+                  Expanded(
                     child: ListView.builder(
-                        itemCount: project.languages.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return ListTile(
-                            title: Text(
+                      itemCount: project.languages.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Card(
+                          margin: EdgeInsets.symmetric(vertical: 4),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
                               project.languages[index],
                               textAlign: TextAlign.center,
                             ),
-                          );
-                        })),
-                Expanded(
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                  Expanded(
                     child: ListView.builder(
-                        itemCount: project.frameworks.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return ListTile(
-                            title: Text(
+                      itemCount: project.frameworks.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Card(
+                          margin: EdgeInsets.symmetric(vertical: 4),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
                               project.frameworks[index],
                               textAlign: TextAlign.center,
                             ),
-                          );
-                        }))
-              ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -11,18 +11,18 @@ class HighlightProjects extends StatefulWidget {
 }
 
 class _HighlightProjectsState extends State<HighlightProjects> {
-  List<Project> filteredProjects=[];
-  List<Project> projects=[];
+  List<Project> filteredProjects = [];
+  List<Project> projects = [];
 
-  Future<void> fetchProjects()async{
-    try{
+  Future<void> fetchProjects() async {
+    try {
       var service = ProjectsService();
       List<Project> response = await service.getAllProjectsByState("COMPLETADO");
       setState(() {
-        filteredProjects=response;
-        projects=filteredProjects;
+        filteredProjects = response;
+        projects = filteredProjects;
       });
-    }catch(e){
+    } catch (e) {
       throw Exception(e);
     }
   }
@@ -33,13 +33,12 @@ class _HighlightProjectsState extends State<HighlightProjects> {
     fetchProjects();
   }
 
-  void filterByProjectType(String type){
-    if(type!="") {
+  void filterByProjectType(String type) {
+    if (type != "") {
       setState(() {
-        filteredProjects =
-            projects.where((project) => project.type == type).toList();
+        filteredProjects = projects.where((project) => project.type == type).toList();
       });
-    }else {
+    } else {
       setState(() {
         filteredProjects = projects;
       });
@@ -49,86 +48,97 @@ class _HighlightProjectsState extends State<HighlightProjects> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      appBar: AppBar(title: Text("Proyectos Destacados")),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-          Wrap(
-            spacing: 8,
+            Wrap(
+              spacing: 8,
               runSpacing: 4.0,
               alignment: WrapAlignment.center,
               children: [
                 TextButton(
-                    onPressed: (){
-                      filterByProjectType("WEB_APPLICATION");
-                    },
-                    child: Text("Aplicación web")
+                  onPressed: () {
+                    filterByProjectType("WEB_APPLICATION");
+                  },
+                  child: Text("Aplicación web"),
                 ),
                 TextButton(
-                    onPressed: (){
-                      filterByProjectType("MOBILE_APPLICATION");
-                    },
-                    child: Text("Aplicación móvil")
+                  onPressed: () {
+                    filterByProjectType("MOBILE_APPLICATION");
+                  },
+                  child: Text("Aplicación móvil"),
                 ),
                 TextButton(
-                    onPressed: (){
-                      filterByProjectType("LANDING_PAGE");
-                    },
-                    child: Text("Landing Page")
+                  onPressed: () {
+                    filterByProjectType("LANDING_PAGE");
+                  },
+                  child: Text("Landing Page"),
                 ),
                 TextButton(
-                    onPressed: (){
-                      filterByProjectType("DESKTOP_APPLICATION");
-                    },
-                    child: Text("Aplicación de escritorio")
+                  onPressed: () {
+                    filterByProjectType("DESKTOP_APPLICATION");
+                  },
+                  child: Text("Aplicación de escritorio"),
                 ),
                 TextButton(
-                    onPressed: (){
-                      filterByProjectType("");
-                    },
-                    child: Text("Borrar filtros")
+                  onPressed: () {
+                    filterByProjectType("");
+                  },
+                  child: Text("Borrar filtros"),
                 ),
               ],
             ),
             Expanded(
-                child: filteredProjects.length!=0?ListView.builder(
-                    itemCount: filteredProjects.length,
-                    itemBuilder: (BuildContext context, int index){
-                      return ListTile(
-                        title: Text(
-                          filteredProjects[index].name,
-                          textAlign: TextAlign.center,
-                        ),
-                        subtitle: Column(
-                          children: [
-                            Text(
-                                filteredProjects[index].type,
-                                textAlign: TextAlign.center
+              child: filteredProjects.isNotEmpty
+                  ? ListView.builder(
+                itemCount: filteredProjects.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Card(
+                    margin: EdgeInsets.symmetric(vertical: 8),
+                    child: ListTile(
+                      title: Text(
+                        filteredProjects[index].name,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            filteredProjects[index].type,
+                            textAlign: TextAlign.center,
+                          ),
+                          Text(filteredProjects[index].description),
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CompletedProjectDetails(
+                              project: filteredProjects[index],
                             ),
-                            Text(filteredProjects[index].description)
-                          ],
-                        ),
-                        onTap: (){
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context)=>CompletedProjectDetails(
-                                      project: filteredProjects[index]
-                                  )
-                              )
-                          );
-                        },
-                      );
-                    }
-                ):Text(
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+              )
+                  : Center(
+                child: Text(
                   "Aún no hay proyectos completados",
                   textAlign: TextAlign.center,
-                )
-            )
+                ),
+              ),
+            ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
+        onPressed: () {
           fetchProjects();
         },
         child: const Icon(Icons.refresh),
