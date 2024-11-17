@@ -14,17 +14,15 @@ class CompanyPendingPaymentsView extends StatelessWidget {
     final projectsService = ProjectsService();
     final paymentService = PaymentService();
 
-    // Get all projects by company ID
     final projects = await projectsService.getProjectsByCompanyId();
 
-    // Get payments for each project
     List<Payment> payments = [];
     for (Project project in projects) {
       try {
         final payment = await paymentService.getProjectPayment(project.id);
         payments.add(payment);
       } catch (e) {
-        // Handle error or skip if no payment found
+        print("Error getting payment for project ${project.id}: $e");
       }
     }
     return payments;
@@ -103,7 +101,6 @@ class CompanyPendingPaymentsView extends StatelessWidget {
                       );
 
                       if (result == true) {
-                        // Refresh the list after payment
                         (context as Element).reassemble();
                       }
                     },

@@ -84,7 +84,7 @@ class _MessagesViewState extends State<MessagesView> {
         _messageController.text,
       );
       _messageController.clear();
-      _loadMessages(); // Refresh messages after sending
+      _loadMessages();
     } catch (e) {
       print("Error sending message: $e");
     }

@@ -4,72 +4,44 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/company_model.dart';
 import '../models/developer_model.dart';
+import '../models/update_company_model.dart';
+import '../models/update_developer_model.dart';
 
 class ProfilesService{
   static const String url = "${BaseUrlApi.url}/profiles";
 
-  Future<http.Response> editCompanyProfile(
-      String description,
-      String country,
-      String ruc,
-      String phone,
-      String website,
-      String profileImgUrl,
-      String sector
-      )async{
-    try{
+  Future<http.Response> editCompanyProfile(String id, UpdateCompanyProfileResource resource) async {
+    try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      String profileId = prefs.getString("profileId")??"";
-      String token = prefs.getString("token")??"";
+      String token = prefs.getString("token") ?? "";
       final response = await http.put(
-        Uri.parse("$url/company/$profileId"),
+        Uri.parse("$url/company/$id"),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token'
+          'Authorization': 'Bearer $token',
         },
-        body: jsonEncode({
-          'description':description,
-          'country':country,
-          'ruc':ruc,
-          'phone':phone,
-          'website':website,
-          'profileImgUrl':profileImgUrl,
-          'sector':sector
-        })
+        body: jsonEncode(resource.toJson()),
       );
       return response;
-    }catch(e){
+    } catch (e) {
       throw Exception("$e");
     }
   }
 
-  Future<http.Response> editDeveloperProfile(
-      String description,
-      String country,
-      String phone,
-      String specialties,
-      String profileImgUrl,
-      )async{
-    try{
+  Future<http.Response> editDeveloperProfile(String id, UpdateDeveloperProfileResource resource) async {
+    try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      String profileId = prefs.getString("profileId")??"";
-      String token = prefs.getString("token")??"";
+      String token = prefs.getString("token") ?? "";
       final response = await http.put(
-          Uri.parse("$url/developer/$profileId"),
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $token'
-          },
-          body: jsonEncode({
-            'description':description,
-            'country':country,
-            'phone':phone,
-            'specialties':specialties,
-            'profileImgUrl':profileImgUrl
-          })
+        Uri.parse("$url/developer/$id"),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer $token',
+        },
+        body: jsonEncode(resource.toJson()),
       );
       return response;
-    }catch(e){
+    } catch (e) {
       throw Exception("$e");
     }
   }
@@ -223,5 +195,7 @@ class ProfilesService{
       throw Exception("$e");
     }
   }
+
+
 
 }

@@ -1,11 +1,17 @@
-//import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fromzero_app/api/profilesService.dart';
+import 'package:fromzero_app/models/update_company_model.dart';
+import 'package:fromzero_app/models/update_developer_model.dart';
+import 'package:fromzero_app/navbar.dart';
 
 class EditProfileWidget extends StatefulWidget {
   final String role;
+  final String currentUser;
+
   const EditProfileWidget({
     super.key,
-    required this.role
+    required this.role,
+    required this.currentUser,
   });
 
   @override
@@ -13,31 +19,88 @@ class EditProfileWidget extends StatefulWidget {
 }
 
 class _EditProfileWidgetState extends State<EditProfileWidget> {
+  final ProfilesService _profilesService = ProfilesService();
 
-  TextEditingController description= TextEditingController();
-  TextEditingController country= TextEditingController();
-  TextEditingController ruc= TextEditingController();
-  TextEditingController phone= TextEditingController();
-  TextEditingController website= TextEditingController();
-  TextEditingController profileImgUrl= TextEditingController();
-  TextEditingController sector= TextEditingController();
-  TextEditingController specialties= TextEditingController();
+  TextEditingController description = TextEditingController();
+  TextEditingController country = TextEditingController();
+  TextEditingController ruc = TextEditingController();
+  TextEditingController phone = TextEditingController();
+  TextEditingController website = TextEditingController();
+  TextEditingController profileImgUrl = TextEditingController();
+  TextEditingController sector = TextEditingController();
+  TextEditingController specialties = TextEditingController();
 
   bool _isEditing = false;
-  String _country = "Perú";
-  String _razonSocial = "2024252658";
-  String _telefono = "987654321";
-  String _correo = "correo@gmail.com";
-  String _sitioWeb = "geekit.pe";
-  String _sector = "Ropa";
-  String _descripcion =
-      "Geskit es una plataforma donde puedes encontrar ropa y diseños que en el mercado actual no puedes encontrar con facilidad.";
+
+  @override
+  void initState() {
+    super.initState();
+    _loadProfileData();
+  }
+
+  Future<void> _loadProfileData() async {
+    if (widget.role == "COMPANY") {
+      final company = await _profilesService.getCompany(widget.currentUser);
+      setState(() {
+        description.text = company.description;
+        country.text = company.country;
+        ruc.text = company.ruc;
+        phone.text = company.phone;
+        website.text = company.website;
+        profileImgUrl.text = company.profileImgUrl;
+        sector.text = company.sector;
+      });
+    } else if (widget.role == "DEVELOPER") {
+      final developer = await _profilesService.getDeveloper(widget.currentUser);
+      setState(() {
+        description.text = developer.description;
+        country.text = developer.country;
+        phone.text = developer.phone;
+        specialties.text = developer.specialties;
+        profileImgUrl.text = developer.profileImgUrl;
+      });
+    }
+  }
+  Future<void> _saveProfile() async {
+    if (widget.role == "COMPANY") {
+      final resource = UpdateCompanyProfileResource(
+        description: description.text,
+        country: country.text,
+        ruc: ruc.text,
+        phone: phone.text,
+        website: website.text,
+        profileImgUrl: profileImgUrl.text,
+        sector: sector.text,
+      );
+      await _profilesService.editCompanyProfile(widget.currentUser, resource);
+    } else if (widget.role == "DEVELOPER") {
+      final resource = UpdateDeveloperProfileResource(
+        description: description.text,
+        country: country.text,
+        phone: phone.text,
+        specialties: specialties.text,
+        profileImgUrl: profileImgUrl.text,
+      );
+      await _profilesService.editDeveloperProfile(widget.currentUser, resource);
+    }
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Navbar(),
+      ),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('Changes saved')),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Editar perfil"),
+        title: Text("Edit Profile"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -51,44 +114,17 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                 alignment: WrapAlignment.center,
                 children: [
                   CircleAvatar(
-                    backgroundImage:
-                    NetworkImage("https://cdn-icons-png.flaticon.com/512/3237/3237472.png"),
+                    backgroundImage: NetworkImage(profileImgUrl.text),
                   ),
                   TextFormField(
                     controller: profileImgUrl,
-                    decoration: InputDecoration(),
+                    decoration: InputDecoration(labelText: "Profile Image URL"),
                     keyboardType: TextInputType.text,
                   )
                 ],
               ),
               const SizedBox(height: 20),
-              Table(
-                columnWidths: const {
-                  0: FlexColumnWidth(1),
-                  1: FlexColumnWidth(2),
-                },
-                children: [
-                  _buildTableRow("País", _isEditing ? _buildTextField(_country, (value) => _country = value) : Text(_country)),
-                  _buildTableRow("Razón Social", _isEditing ? _buildTextField(_razonSocial, (value) => _razonSocial = value) : Text(_razonSocial)),
-                  _buildTableRow("Teléfono", _isEditing ? _buildTextField(_telefono, (value) => _telefono = value) : Text(_telefono)),
-                  _buildTableRow("Correo", _isEditing ? _buildTextField(_correo, (value) => _correo = value) : Text(_correo)),
-                  _buildTableRow("Sitio web", _isEditing ? _buildTextField(_sitioWeb, (value) => _sitioWeb = value) : Text(_sitioWeb)),
-                  _buildTableRow("Sector", _isEditing ? _buildTextField(_sector, (value) => _sector = value) : Text(_sector)),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Text(
-                "Descripción",
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-              ),
-              const SizedBox(height: 8),
-              _isEditing
-                  ? _buildTextField(_descripcion, (value) => _descripcion = value, maxLines: 3)
-                  : Text(
-                _descripcion,
-                textAlign: TextAlign.justify,
-                style: TextStyle(fontSize: 16),
-              ),
+              _buildProfileForm(),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -103,7 +139,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                       backgroundColor: const Color(0xFF004CFF),
                     ),
                     child: Text(
-                      'Editar Cambios',
+                      'Edit',
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -111,19 +147,12 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _isEditing = false;
-                      });
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Cambios guardados')),
-                      );
-                    },
+                    onPressed: _saveProfile,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFF004CFF),
                     ),
                     child: Text(
-                      'Guardar Cambios',
+                      'Save',
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -139,76 +168,41 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
     );
   }
 
-  Widget _buildTextField(String initialValue, Function(String) onChanged, {int maxLines = 1}) {
-    return TextField(
-      controller: TextEditingController(text: initialValue),
-      onChanged: onChanged,
-      maxLines: maxLines,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(),
-        contentPadding: EdgeInsets.all(8.0),
-      ),
-    );
-  }
-
-  TableRow _buildTableRow(String key, Widget value) {
-    return TableRow(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            key,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: value,
-        ),
-      ],
-    );
-  }
-}
-
-class ProfilePic extends StatelessWidget {
-  const ProfilePic({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 115,
-      width: 115,
-      child: Stack(
-        fit: StackFit.expand,
-        clipBehavior: Clip.none,
+  Widget _buildProfileForm() {
+    if (widget.role == "COMPANY") {
+      return Column(
         children: [
-          const CircleAvatar(
-            backgroundImage:
-            NetworkImage("https://cdn-icons-png.flaticon.com/512/3237/3237472.png"),
-          ),
-          Positioned(
-            right: -16,
-            bottom: 0,
-            child: SizedBox(
-              height: 46,
-              width: 46,
-              child: TextButton(
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    side: const BorderSide(color: Colors.white),
-                  ),
-                  backgroundColor: const Color(0xFFF5F6F9),
-                ),
-                onPressed: () {},
-                child: Icon(Icons.camera_alt, color: Colors.black), // Ícono de cámara
-              ),
-            ),
-          ),
+          _buildTextField("Description", description),
+          _buildTextField("Country", country),
+          _buildTextField("RUC", ruc),
+          _buildTextField("Phone", phone),
+          _buildTextField("Website", website),
+          _buildTextField("Sector", sector),
         ],
+      );
+    } else if (widget.role == "DEVELOPER") {
+      return Column(
+        children: [
+          _buildTextField("Description", description),
+          _buildTextField("Country", country),
+          _buildTextField("Phone", phone),
+          _buildTextField("Specialties", specialties),
+        ],
+      );
+    } else {
+      return Container();
+    }
+  }
+
+  Widget _buildTextField(String label, TextEditingController controller) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(),
+        ),
       ),
     );
   }
