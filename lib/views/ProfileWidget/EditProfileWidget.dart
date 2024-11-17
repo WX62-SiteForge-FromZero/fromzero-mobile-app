@@ -27,6 +27,9 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
   TextEditingController phone = TextEditingController();
   TextEditingController profileImgUrl = TextEditingController();
   TextEditingController specialties = TextEditingController();
+  TextEditingController ruc = TextEditingController();
+  TextEditingController website = TextEditingController();
+  TextEditingController sector = TextEditingController();
 
   List<Languages> selectedLanguages = [];
   List<Frameworks> selectedFrameworks = [];
@@ -49,6 +52,17 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
         specialties.text = developer.specialties;
         profileImgUrl.text = developer.profileImgUrl;
       });
+    } else if (widget.role == "COMPANY") {
+      final company = await _profilesService.getCompany(widget.currentUser);
+      setState(() {
+        description.text = company.description;
+        country.text = company.country;
+        phone.text = company.phone;
+        profileImgUrl.text = company.profileImgUrl;
+        ruc.text = company.ruc;
+        website.text = company.website;
+        sector.text = company.sector;
+      });
     }
   }
 
@@ -62,6 +76,17 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
         profileImgUrl: profileImgUrl.text,
       );
       await _profilesService.editDeveloperProfile(widget.currentUser, resource);
+    } else if (widget.role == "COMPANY") {
+      final resource = UpdateCompanyProfileResource(
+        description: description.text,
+        country: country.text,
+        phone: phone.text,
+        profileImgUrl: profileImgUrl.text,
+        ruc: ruc.text,
+        website: website.text,
+        sector: sector.text,
+      );
+      await _profilesService.editCompanyProfile(widget.currentUser, resource);
     }
 
     Navigator.pushReplacement(
@@ -112,7 +137,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
               const SizedBox(height: 20),
               _buildProfileForm(),
               const SizedBox(height: 20),
-              _buildSpecialtiesForm(),
+              if (widget.role == "DEVELOPER") _buildSpecialtiesForm(),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -162,6 +187,11 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
         _buildTextField("Description", description),
         _buildTextField("Country", country),
         _buildTextField("Phone", phone),
+        if (widget.role == "COMPANY") ...[
+          _buildTextField("RUC", ruc),
+          _buildTextField("Website", website),
+          _buildTextField("Sector", sector),
+        ],
       ],
     );
   }
@@ -203,8 +233,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
     );
   }
 
-  Widget _buildDropdown<T>(
-      String label, List<T> items, List<T> selectedItems, ValueChanged<T?> onChanged) {
+  Widget _buildDropdown<T>(String label, List<T> items, List<T> selectedItems, ValueChanged<T?> onChanged) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
