@@ -111,7 +111,9 @@ class ProfileMenu extends StatelessWidget {
           ),
           backgroundColor: const Color(0xFFF5F6F9),
         ),
-        onPressed: onTap,
+        onPressed: (){
+          onTap?.call();
+        },
         child: Row(
           children: [
             Icon(
