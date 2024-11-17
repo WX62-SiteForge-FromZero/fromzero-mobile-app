@@ -96,7 +96,7 @@ class _NavbarState extends State<Navbar> {
           );
         case 2:
           return const Text(
-            "Proyectos Destacados",
+            "Proyectos Terminados",
             style: TextStyle(fontSize: 35),
           );
         default:
@@ -120,7 +120,7 @@ class _NavbarState extends State<Navbar> {
           );
         default:
           return const Text(
-            "Proyectos Destacados",
+            "Proyectos Terminados",
             style: TextStyle(fontSize: 35),
           );
       }
