@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:fromzero_app/models/company_model.dart';
-import 'package:fromzero_app/views/projectsViews/projectsList.dart';
+import 'package:fromzero_app/models/developer_model.dart';
+import '../projectsViews/projectsList.dart';
 
-class ProfileWidget extends StatelessWidget {
-  final Company profile;
-  const ProfileWidget({super.key,required this.profile});
+class ProfileDevWidget extends StatelessWidget {
+  final Developer profile;
+  const ProfileDevWidget({super.key,required this.profile});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,6 +16,7 @@ class ProfileWidget extends StatelessWidget {
             children: [
               Row(
                 children: [
+                  /*ProfilePic(urlToImage: profile.profileImgUrl,),*/
                   SizedBox(
                     height: 115,
                     width: 115,
@@ -29,7 +30,7 @@ class ProfileWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        profile.companyName,
+                        profile.firstName+" "+profile.lastName,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 24,
@@ -44,7 +45,6 @@ class ProfileWidget extends StatelessWidget {
                               MaterialPageRoute(
                                   builder: (context)=>
                                       ProjectsList()
-
                               )
                           );
                         },
@@ -53,8 +53,8 @@ class ProfileWidget extends StatelessWidget {
                           padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                         ),
                         child: Text("Ver Proyectos",style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.black
+                            fontSize: 20,
+                            color: Colors.black
                         ),),
                       ),
                     ],
@@ -71,9 +71,7 @@ class ProfileWidget extends StatelessWidget {
                   _buildTableRow("País", profile.country),
                   _buildTableRow("Correo", profile.email),
                   _buildTableRow("Teléfono", profile.phone),
-                  _buildTableRow("RUC", profile.ruc),
-                  _buildTableRow("Sitio web", profile.website),
-                  _buildTableRow("Sector", profile.sector),
+                  _buildTableRow("Especialidades", profile.specialties),
                 ],
               ),
               const SizedBox(height: 16),
@@ -112,7 +110,7 @@ class ProfileWidget extends StatelessWidget {
   }
 }
 
-/*class ProfilePic extends StatelessWidget {
+class ProfilePic extends StatelessWidget {
   final String urlToImage="https://cdn-icons-png.flaticon.com/512/3237/3237472.png";
 
   ProfilePic({required urlToImage});
@@ -128,4 +126,4 @@ class ProfileWidget extends StatelessWidget {
       ),
     );
   }
-}*/
+}

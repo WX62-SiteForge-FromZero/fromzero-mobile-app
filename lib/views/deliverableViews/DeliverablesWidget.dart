@@ -1,61 +1,82 @@
 import 'package:flutter/material.dart';
+import 'package:fromzero_app/api/deliverablesService.dart';
 import 'package:fromzero_app/models/deliverable_model.dart';
 import 'CreateDeliverableWidget.dart';
 import 'DeliverableDetails.dart';
 
-
-List<Deliverable> deliverablesList = [
-  Deliverable(id: 1, name: "Entregable1", description: "Descripcion1", date: DateTime(2024, 10, 21), state: DeliverableState.PENDIENTE, projectId: 1),
-  Deliverable(
-      id: 2,
-      name: "Entregable2",
-      description: "Descripcion2",
-      date: DateTime(2024, 10, 29),
-      state: DeliverableState.ESPERANDO_REVISION,
-      projectId: 1),
-  Deliverable(id: 3, name: "Entregable3", description: "Descripcion3", date: DateTime(2024, 11, 6), state: DeliverableState.RECHAZADO, projectId: 1),
-  Deliverable(
-      id: 4, name: "Entregable4", description: "Descripcion4", date: DateTime(2024, 11, 13), state: DeliverableState.COMPLETADO, projectId: 1),
-  Deliverable(
-      id: 5, name: "Entregable5", description: "Descripcion5", date: DateTime(2024, 11, 21), state: DeliverableState.COMPLETADO, projectId: 1),
-];
-
 class DeliverablesSchedule extends StatefulWidget {
-  const DeliverablesSchedule({super.key});
+  final Function() refreshProjects;
+  final int projectId;
+  final String role;
+  const DeliverablesSchedule({
+    super.key,
+    required this.projectId,
+    required this.role,
+    required this.refreshProjects
+  });
 
   @override
   State<DeliverablesSchedule> createState() => _DeliverablesScheduleState();
 }
 
 class _DeliverablesScheduleState extends State<DeliverablesSchedule> {
+  List<Deliverable> deliverablesList=[];
   int currentSection = 1;
-  Deliverable deliverable = Deliverable();
+  late Deliverable deliverable;
+
+  Future<void> fetchDeliverables()async{
+    final service = DeliverablesService();
+    final response = await service.getDeliverablesByProjectId(widget.projectId);
+    setState(() {
+      deliverablesList=response;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDeliverables();
+  }
 
   Widget currentWidget() {
-    if (currentSection == 2) {
-      return DeliverableDetailsWidget(
-        deliverable: deliverable,
-        goBackToDeliverables: () {
-          setState(() {
-            deliverable = Deliverable();
-            currentSection = 1;
-          });
-        },
-      );
-    } else if (currentSection == 1) {
-      return ListDeliverablesWidget(
-        onUpdatedDeliverable: (Deliverable newValue) {
-          setState(() {
-            deliverable = newValue;
-            currentSection = 2;
-          });
-        },
-      );
-    } else if (currentSection == 3) {
-      return CreateDeliverableWidget();
-    } else {
-      return Container();
+    switch(currentSection){
+      case 1:
+        return ListDeliverablesWidget(
+          deliverables: deliverablesList,
+          onUpdatedDeliverable: (Deliverable newValue) {
+            setState(() {
+              deliverable = newValue;
+              currentSection = 2;
+            });
+          },
+        );
+      case 2:
+        return DeliverableDetailsWidget(
+          refreshDeliverables: fetchDeliverables,
+          role: widget.role,
+          deliverable: deliverable,
+          goBackToDeliverables: () {
+            setState(() {
+              currentSection = 1;
+            });
+          },
+        );
+
+      case 3:
+        return CreateDeliverableWidget(
+          refreshDeliverables: fetchDeliverables,
+          projectId: widget.projectId,
+          goBackToDeliverables:(){
+            setState(() {
+              currentSection=1;
+            });
+          }
+        );
+
+      default:
+        return Container();
     }
+
   }
 
   @override
@@ -65,6 +86,13 @@ class _DeliverablesScheduleState extends State<DeliverablesSchedule> {
           title: Text(
             "Cronograma de entregables",
             style: TextStyle(fontSize: 20),
+          ),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: ()async{
+              await widget.refreshProjects.call();
+              Navigator.pop(context);
+            },
           ),
           backgroundColor: Colors.lightBlue,
           toolbarHeight: 100,
@@ -79,9 +107,9 @@ class _DeliverablesScheduleState extends State<DeliverablesSchedule> {
                         children: [
                           IconButton(
                             icon: Icon(Icons.arrow_back),
-                            onPressed: () {
+                            onPressed: ()async {
+                              await fetchDeliverables();
                               setState(() {
-                                deliverable = Deliverable();
                                 currentSection = 1;
                               });
                             },
@@ -97,23 +125,23 @@ class _DeliverablesScheduleState extends State<DeliverablesSchedule> {
               : null,
         ),
         body: currentWidget(),
-        floatingActionButton: currentSection == 1
-            ? ElevatedButton(
-                child: Icon(Icons.add, size: 40, color: Colors.green),
-                onPressed: () {
-                  setState(() {
-                    currentSection = 3;
-                  });
-                },
-              )
-            : null);
+        floatingActionButton: currentSection == 1 && widget.role == "COMPANY"
+            ? FloatingActionButton(
+            child: Icon(Icons.add, size: 40, color: Colors.green),
+            onPressed: (){
+              setState(() {
+                currentSection = 3;
+              });
+            }
+        ) : null
+    );
   }
 }
 
 class ListDeliverablesWidget extends StatefulWidget {
   final Function(Deliverable) onUpdatedDeliverable;
-
-  const ListDeliverablesWidget({super.key, required this.onUpdatedDeliverable});
+  final List<Deliverable> deliverables;
+  const ListDeliverablesWidget({super.key, required this.onUpdatedDeliverable, required this.deliverables});
 
   @override
   State<ListDeliverablesWidget> createState() => _ListDeliverablesWidgetState();
@@ -121,13 +149,13 @@ class ListDeliverablesWidget extends StatefulWidget {
 
 class _ListDeliverablesWidgetState extends State<ListDeliverablesWidget> {
   Color deliverableState(Deliverable value) {
-    if (value.state.name == DeliverableState.PENDIENTE.name) {
+    if (value.state == "PENDIENTE") {
       return Colors.yellow;
-    } else if (value.state.name == DeliverableState.ESPERANDO_REVISION.name) {
+    } else if (value.state == "ESPERANDO_REVISION") {
       return Colors.orange;
-    } else if (value.state.name == DeliverableState.RECHAZADO.name) {
+    } else if (value.state == "RECHAZADO") {
       return Colors.red;
-    } else if (value.state.name == DeliverableState.COMPLETADO.name) {
+    } else if (value.state == "COMPLETADO") {
       return Colors.green;
     } else {
       return Colors.grey;
@@ -139,7 +167,7 @@ class _ListDeliverablesWidgetState extends State<ListDeliverablesWidget> {
     return Container(
         padding: EdgeInsets.all(30),
         child: ListView(
-          children: deliverablesList.map<Widget>((Deliverable value) {
+          children: widget.deliverables.map<Widget>((Deliverable value) {
             return ListTile(
               leading: Icon(
                 Icons.circle,
@@ -150,7 +178,7 @@ class _ListDeliverablesWidgetState extends State<ListDeliverablesWidget> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(value.date.toString(), style: TextStyle(fontSize: 20)),
-                  Text("Estado: " + value.state.name, style: TextStyle(fontSize: 20))
+                  Text("Estado: " + value.state, style: TextStyle(fontSize: 20))
                 ],
               ),
               trailing: Icon(Icons.arrow_forward_ios_outlined),

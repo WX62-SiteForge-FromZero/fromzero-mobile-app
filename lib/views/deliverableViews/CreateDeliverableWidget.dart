@@ -1,13 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:fromzero_app/models/deliverable_model.dart';
+import 'package:fromzero_app/api/deliverablesService.dart';
+import 'package:fromzero_app/models/create_deliverable_model.dart';
 
 class CreateDeliverableWidget extends StatelessWidget {
-  final Deliverable newDeliverable = Deliverable();
+  final Function() goBackToDeliverables;
+  final int projectId;
+  final Function() refreshDeliverables;
+  final CreateDeliverableData createDeliverableData=CreateDeliverableData();
   final TextEditingController nameController = TextEditingController();
   final TextEditingController descController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
-  CreateDeliverableWidget({super.key});
+  CreateDeliverableWidget({
+    super.key,
+    required this.refreshDeliverables,
+    required this.projectId,
+    required this.goBackToDeliverables
+  });
+
+  Future<void> createDeliverable(BuildContext context,CreateDeliverableData data)async{
+
+    var service = DeliverablesService();
+    final response = await service.createDeliverable(data);
+    if(response.statusCode==201){
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+            content: Text("Entregable creado")
+        )
+      );
+      await refreshDeliverables.call();
+      goBackToDeliverables.call();
+    }else{
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text("Error")
+          )
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,10 +68,14 @@ class CreateDeliverableWidget extends StatelessWidget {
                     }
                     return null;
                   },
+                  maxLines: null,
                 ),
                 SizedBox(height: 80),
                 DatePickerWidget(
                   context: context,
+                  updateDeadline:(DateTime deadline){
+                    createDeliverableData.date=deadline;
+                  }
                 ),
                 SizedBox(height: 80),
                 ElevatedButton(
@@ -49,9 +83,15 @@ class CreateDeliverableWidget extends StatelessWidget {
                   onPressed: () {
                     if (!formKey.currentState!.validate()) {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("No valido")));
+                      return;
                     }
                     //Post de entregable
-                    // y volver a Lista
+                    createDeliverableData.name=nameController.text;
+                    createDeliverableData.description=descController.text;
+                    createDeliverableData.projectId=projectId;
+
+                    createDeliverable(context,createDeliverableData);
+
                   },
                 )
               ],
@@ -63,8 +103,12 @@ class CreateDeliverableWidget extends StatelessWidget {
 
 class DatePickerWidget extends StatefulWidget {
   final BuildContext context;
-
-  const DatePickerWidget({super.key, required this.context});
+  final Function(DateTime) updateDeadline;
+  const DatePickerWidget({
+    super.key,
+    required this.context,
+    required this.updateDeadline
+  });
 
   @override
   State<DatePickerWidget> createState() => _DatePickerWidgetState();
@@ -87,7 +131,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
             selectDeadline();
           },
         ),
-        deadline != null ? Text("Fecha límite de entrega: " + deadline.toString()) : Container()
+        deadline != null ? Text("Fecha límite de entrega: " + deadline!.toIso8601String().split('T').first) : Container()
       ],
     ));
   }
@@ -98,6 +142,9 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
     if (selected != null) {
       setState(() {
         deadline = selected;
+        if(deadline!=null) {
+          widget.updateDeadline.call(deadline!);
+        }
       });
     }
   }

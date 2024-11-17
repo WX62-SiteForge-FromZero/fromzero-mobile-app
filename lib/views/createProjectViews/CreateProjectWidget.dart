@@ -3,7 +3,7 @@ import 'package:fromzero_app/views/createProjectViews/FirstWidget.dart';
 import 'package:fromzero_app/views/createProjectViews/FourthWidget.dart';
 import 'package:fromzero_app/views/createProjectViews/SecondWidget.dart';
 import 'package:fromzero_app/views/createProjectViews/ThirdWidget.dart';
-import '../../models/project_model.dart';
+import '../../models/create_project_model.dart';
 
 class CreateProjectApp extends StatefulWidget {
   const CreateProjectApp({super.key});
@@ -28,6 +28,13 @@ class _CreateProjectAppState extends State<CreateProjectApp> {
     });
   }
 
+  void resetProjectCreation() {
+    setState(() {
+      currentSection = 1;
+      projectData = CreateProjectData();
+    });
+  }
+
   Widget currentWidget() {
     if (currentSection == 1) {
       return ProjectDetailsWidget(
@@ -45,7 +52,9 @@ class _CreateProjectAppState extends State<CreateProjectApp> {
           onUpdatedProjectData: updateProjectData,
           onUpdateSection: updateCurrentSection);
     } else if (currentSection == 4) {
-      return ShowProjectData(projectData: projectData);
+      return ShowProjectData(
+          projectData: projectData,
+          resetProjectCreation: resetProjectCreation);
     } else {
       return Container(child: Center(child: Text("Error")));
     }

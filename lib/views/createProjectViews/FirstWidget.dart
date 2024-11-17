@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fromzero_app/models/project_model.dart';
+import 'package:fromzero_app/models/create_project_model.dart';
 
 class ProjectDetailsWidget extends StatelessWidget {
   final CreateProjectData projectData;
@@ -46,7 +46,7 @@ class ProjectDetailsWidget extends StatelessWidget {
           TextFormField(
             controller: descController,
             decoration: const InputDecoration(),
-            keyboardType: TextInputType.text,
+            maxLines: null,
           )
         ]),
         const SizedBox(height: 40),

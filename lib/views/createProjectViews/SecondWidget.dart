@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fromzero_app/models/project_model.dart';
+import 'package:fromzero_app/models/create_project_model.dart';
 
 class ProjectTechnologiesWidget extends StatelessWidget {
   final CreateProjectData projectData;
@@ -84,11 +84,12 @@ class LanguagesWidget extends StatefulWidget {
   final Function(Languages) onLanguageDeleted;
   final List<Languages> currentLanguagesList;
 
-  const LanguagesWidget(
-      {super.key,
-      required this.currentLanguagesList,
-      required this.onLanguageSelected,
-      required this.onLanguageDeleted});
+  const LanguagesWidget({
+    super.key,
+    required this.currentLanguagesList,
+    required this.onLanguageSelected,
+    required this.onLanguageDeleted
+  });
 
   @override
   State<LanguagesWidget> createState() => _LanguagesWidgetState();
@@ -104,7 +105,6 @@ class _LanguagesWidgetState extends State<LanguagesWidget> {
     return Column(children: [
       DropdownButton(
           menuMaxHeight: 150,
-          menuWidth: double.infinity,
           hint: Text("Selecciona un lenguaje"),
           underline: Container(
             height: 2,
@@ -156,11 +156,12 @@ class FrameworksWidget extends StatefulWidget {
   final Function(Frameworks) onFrameworkDeleted;
   final List<Frameworks> currentFrameworksList;
 
-  const FrameworksWidget(
-      {super.key,
-      required this.currentFrameworksList,
-      required this.onFrameworkSelected,
-      required this.onFrameworkDeleted});
+  const FrameworksWidget({
+    super.key,
+    required this.currentFrameworksList,
+    required this.onFrameworkSelected,
+    required this.onFrameworkDeleted
+  });
 
   @override
   State<FrameworksWidget> createState() => _FrameworksWidgetState();
@@ -177,7 +178,6 @@ class _FrameworksWidgetState extends State<FrameworksWidget> {
       children: [
         DropdownButton(
             menuMaxHeight: 150,
-            menuWidth: double.infinity,
             hint: Text("Selecciona un framework"),
             underline: Container(
               height: 2,
