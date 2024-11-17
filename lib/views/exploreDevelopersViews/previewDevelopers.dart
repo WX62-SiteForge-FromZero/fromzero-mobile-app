@@ -19,13 +19,15 @@ class PreviewDeveloper extends StatelessWidget {
     final ChatService chatService = ChatService();
     try {
       // Check if a chat already exists
-      final chat = await chatService.getChatByDeveloperAndCompany(currentUser.profileId, developer.profileId);
+      final chat = await chatService.getChatByDeveloperAndCompany(
+          developer.profileId,currentUser.profileId);
       if (chat != null) {
         return chat;
       }
 
       // If no existing chat, create a new one
-      final newChat = await chatService.createChat(developer.profileId, currentUser.profileId);
+      final newChat = await chatService.createChat(
+          currentUser.profileId, developer.profileId);
       return newChat;
     } catch (e) {
       print("Error creating or opening chat: $e");

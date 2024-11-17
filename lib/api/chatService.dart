@@ -25,7 +25,7 @@ class ChatService {
         }),
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         final responseData = jsonDecode(response.body);
         return Chat.fromJson(responseData);
       } else {
@@ -96,7 +96,6 @@ class ChatService {
           'Authorization': 'Bearer $token',
         },
       );
-
       if (response.statusCode == 200) {
         final responseData = jsonDecode(response.body);
         return Chat.fromJson(responseData);
