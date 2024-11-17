@@ -4,30 +4,29 @@ import 'package:fromzero_app/models/create_project_model.dart';
 
 class ShowProjectData extends StatelessWidget {
   final CreateProjectData projectData;
+  final Function() resetProjectCreation;
 
   const ShowProjectData({
     super.key,
     required this.projectData,
+    required this.resetProjectCreation
   });
 
-  Future<void> createProject(BuildContext context)async{
-    try{
+  Future<void> createProject(BuildContext context) async {
+    try {
       var service = ProjectsService();
       final response = await service.createProject(this.projectData);
-      if(response.statusCode == 201){
+      if (response.statusCode == 201) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text("Proyecto publicado")
-          )
+            const SnackBar(content: Text("Proyecto publicado"))
         );
-      }else{
+        resetProjectCreation();
+      } else {
         ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                content: Text("Ocurrió un error")
-            )
+            const SnackBar(content: Text("Ocurrió un error"))
         );
       }
-    }catch(e){
+    } catch (e) {
       throw Exception(e);
     }
   }
@@ -36,46 +35,26 @@ class ShowProjectData extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(
-          this.projectData.name,
-          style: TextStyle(fontSize: 25),
-        ),
-        Text(
-          this.projectData.type.name,
-          style: TextStyle(fontSize: 25),
-        ),
-        Text(
-          this.projectData.description,
-          style: TextStyle(fontSize: 20),
-        ),
+        Text(this.projectData.name, style: TextStyle(fontSize: 25)),
+        Text(this.projectData.type.name, style: TextStyle(fontSize: 25)),
+        Text(this.projectData.description, style: TextStyle(fontSize: 20)),
         Row(
           children: [
+            Text("Presupuesto: ", style: TextStyle(fontSize: 25)),
             Text(
-              "Presupuesto: ",
-              style: TextStyle(fontSize: 25),
-            ),
-            Text(
-              this.projectData.budget.toString() +
-                  " " +
-                  this.projectData.currency.name,
+              this.projectData.budget.toString() + " " + this.projectData.currency.name,
               style: TextStyle(fontSize: 25),
             )
           ],
         ),
-        Text(
-          "Lenguajes y tecnologías:",
-          style: TextStyle(fontSize: 25),
-        ),
+        Text("Lenguajes y tecnologías:", style: TextStyle(fontSize: 25)),
         Row(
           children: [
             Expanded(
               child: Container(
                 child: Column(
                   children: this.projectData.languages.map((language) {
-                    return Text(
-                      language.name,
-                      style: TextStyle(fontSize: 25),
-                    );
+                    return Text(language.name, style: TextStyle(fontSize: 25));
                   }).toList(),
                 ),
               ),
@@ -84,44 +63,32 @@ class ShowProjectData extends StatelessWidget {
               child: Container(
                 child: Column(
                   children: this.projectData.frameworks.map((framework) {
-                    return Text(
-                      framework.name,
-                      style: TextStyle(fontSize: 25),
-                    );
+                    return Text(framework.name, style: TextStyle(fontSize: 25));
                   }).toList(),
                 ),
               ),
             )
           ],
         ),
-        Text(
-          "Metodologías:",
-          style: TextStyle(fontSize: 25),
-        ),
+        Text("Metodologías:", style: TextStyle(fontSize: 25)),
         !this.projectData.methodologies.isEmpty
             ? Container(
-                child: Column(
-                  children: this.projectData.methodologies.map((item) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          item.name,
-                          style: TextStyle(fontSize: 25),
-                        ),
-                        Text(
-                          item.description,
-                          style: TextStyle(fontSize: 25),
-                        ),
-                      ],
-                    );
-                  }).toList(),
-                ),
-              )
+          child: Column(
+            children: this.projectData.methodologies.map((item) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(item.name, style: TextStyle(fontSize: 25)),
+                  Text(item.description, style: TextStyle(fontSize: 25)),
+                ],
+              );
+            }).toList(),
+          ),
+        )
             : Text(
-                "Se elegirán metodologías en base al tipo de proyecto elegido",
-                style: TextStyle(fontSize: 20),
-              ),
+          "Se elegirán metodologías en base al tipo de proyecto elegido",
+          style: TextStyle(fontSize: 20),
+        ),
         SizedBox(
           width: double.infinity,
           child: ElevatedButton(

@@ -5,9 +5,47 @@ enum ProjectType {
   MOBILE_APPLICATION
 }
 
-enum Languages { Javascript, Typescript, HTML, CSS }
+enum Languages {
+  Javascript,
+  Typescript,
+  HTML,
+  CSS,
+  Python,
+  PHP,
+  Java,
+  C_Sharp,
+  C_PLUS_PLUS,
+  C,
+  Kotlin,
+  Swift,
+  Dart,
+  Ruby
+}
 
-enum Frameworks { Vue_Js, Angular, React }
+enum Frameworks {
+  Vue_Js,
+  Angular,
+  React,
+  Bootstrap,
+  Tailwind_CSS,
+  Express,
+  Django,
+  Flask,
+  Laravel,
+  Svelte,
+  Spring_Boot,
+  ASP_NET,
+  Flutter,
+  Jetpack_Compose,
+  React_Native,
+  Xamarin,
+  Tkinter,
+  Qt,
+  Swing,
+  JavaFX,
+  WPF,
+  Electron
+}
 
 class MethodologyResource {
   String name;

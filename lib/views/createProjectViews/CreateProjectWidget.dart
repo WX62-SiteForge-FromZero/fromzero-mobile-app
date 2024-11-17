@@ -28,6 +28,13 @@ class _CreateProjectAppState extends State<CreateProjectApp> {
     });
   }
 
+  void resetProjectCreation() {
+    setState(() {
+      currentSection = 1;
+      projectData = CreateProjectData();
+    });
+  }
+
   Widget currentWidget() {
     if (currentSection == 1) {
       return ProjectDetailsWidget(
@@ -45,7 +52,9 @@ class _CreateProjectAppState extends State<CreateProjectApp> {
           onUpdatedProjectData: updateProjectData,
           onUpdateSection: updateCurrentSection);
     } else if (currentSection == 4) {
-      return ShowProjectData(projectData: projectData);
+      return ShowProjectData(
+          projectData: projectData,
+          resetProjectCreation: resetProjectCreation);
     } else {
       return Container(child: Center(child: Text("Error")));
     }

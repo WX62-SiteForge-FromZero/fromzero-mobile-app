@@ -4,6 +4,8 @@ import '../../api/projectsService.dart';
 import '../../models/project_model.dart';
 import 'AcceptDeveloperWidget.dart';
 import '../deliverableViews/DeliverablesWidget.dart';
+import '../../models/company_model.dart';
+import '../../api/profilesService.dart';
 
 class ProjectsList extends StatefulWidget {
   const ProjectsList({super.key});
@@ -62,17 +64,22 @@ class _ProjectsListState extends State<ProjectsList> {
     );
   }
 
-  void checkDevelopers(BuildContext context,int projectId,List<dynamic> candidates){
+  void checkDevelopers(BuildContext context, int projectId, List<dynamic> candidates) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String profileId = prefs.getString("profileId") ?? "";
+    var service = ProfilesService();
+    Company currentUser = await service.getCompany(profileId);
+
     Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context)=>
-                AcceptDeveloperWidget(
-                  projectId: projectId,
-                  candidates: candidates,
-                  refreshProjects:  _fetchProjects
-                )
-        )
+      context,
+      MaterialPageRoute(
+        builder: (context) => AcceptDeveloperWidget(
+          projectId: projectId,
+          candidates: candidates,
+          refreshProjects: _fetchProjects,
+          currentUser: currentUser,
+        ),
+      ),
     );
   }
 
