@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fromzero_app/api/profilesService.dart';
+import 'package:fromzero_app/main.dart';
 import 'package:fromzero_app/models/create_project_model.dart';
 import 'package:fromzero_app/models/update_company_model.dart';
 import 'package:fromzero_app/models/update_developer_model.dart';
@@ -92,7 +93,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => Navbar(),
+        builder: (context) => AuthHandler(),
       ),
     );
 

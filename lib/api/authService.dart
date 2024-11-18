@@ -60,12 +60,14 @@ class AuthService{
           }),
           headers: {'Content-Type': 'application/json'}
       );
+      return response;
 
+      /*
       if (response.statusCode == 200) {
         return response;
       } else {
         throw Exception("Failed to register company: ${response.body}");
-      }
+      }*/
     } catch (e) {
       throw Exception("Error registering company: $e");
     }

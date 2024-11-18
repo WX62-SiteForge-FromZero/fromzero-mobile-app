@@ -13,8 +13,11 @@ class GetStartedScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image(image: AssetImage('lib/assets/FromZero.png')),
-            const SizedBox(height: 100),
+            Flexible(
+                child: Image(
+                    image: AssetImage('lib/assets/FromZero.png')
+                )
+            ),
             const Text(
               'Magnificent user interface for\ncreating software development',
               textAlign: TextAlign.center,
@@ -24,7 +27,7 @@ class GetStartedScreen extends StatelessWidget {
                 fontFamily: 'NunitoSans',
               ),
             ),
-            const SizedBox(height: 80),
+            const SizedBox(height: 30),
             Center(
               child: ElevatedButton(
                 child: const Text(

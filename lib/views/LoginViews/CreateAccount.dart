@@ -61,7 +61,7 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Create Account"),
+          title: Text("Sign Up"),
         ),
         body: SingleChildScrollView(
           child: Container(
@@ -78,6 +78,46 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                   ),
                   SizedBox(height: 40),
                   _buildInputContainer(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: DropdownButtonFormField<String>(
+                        value: selectedProfile,
+                        hint: Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: Text("Profile"),
+                        ),
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                        ),
+                        items: [
+                          DropdownMenuItem(
+                            child: Text("Empresa"),
+                            value: "Empresa",
+                          ),
+                          DropdownMenuItem(
+                            child: Text("Desarrollador"),
+                            value: "Desarrollador",
+                          ),
+                        ],
+                        onChanged: (value) {
+                          setState(() {
+                            selectedProfile = value;
+                          });
+                        },
+                        validator: (value) {
+                          if (value == null) {
+                            return "Seleccione un perfil";
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  _buildInputContainer(
                     child: TextFormField(
                       controller: emailController,
                       decoration: _inputDecoration("Email"),
@@ -90,47 +130,6 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  if (selectedProfile == "Desarrollador") ...[
-                    _buildInputContainer(
-                      child: TextFormField(
-                        controller: firstNameController,
-                        decoration: _inputDecoration("First Name"),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Este campo es obligatorio";
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    _buildInputContainer(
-                      child: TextFormField(
-                        controller: lastNameController,
-                        decoration: _inputDecoration("Last Name"),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Este campo es obligatorio";
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                  ]else if(selectedProfile == "Empresa")...[
-                    _buildInputContainer(
-                      child: TextFormField(
-                        controller: companyNameController,
-                        decoration: _inputDecoration("Company Name"),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return "Este campo es obligatorio";
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ],
                   _buildInputContainer(
                     child: TextFormField(
                       controller: passwordController,
@@ -173,45 +172,46 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                     ),
                   ),
                   SizedBox(height: 10),
-                  _buildInputContainer(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(8.0),
-                      ),
-                      child: DropdownButtonFormField<String>(
-                        value: selectedProfile,
-                        hint: Padding(
-                          padding: const EdgeInsets.only(left: 10.0),
-                          child: Text("Profile"),
-                        ),
-                        decoration: InputDecoration(
-                          border: InputBorder.none,
-                        ),
-                        items: [
-                          DropdownMenuItem(
-                            child: Text("Empresa"),
-                            value: "Empresa",
-                          ),
-                          DropdownMenuItem(
-                            child: Text("Desarrollador"),
-                            value: "Desarrollador",
-                          ),
-                        ],
-                        onChanged: (value) {
-                          setState(() {
-                            selectedProfile = value;
-                          });
-                        },
+                  if (selectedProfile == "Desarrollador") ...[
+                    _buildInputContainer(
+                      child: TextFormField(
+                        controller: firstNameController,
+                        decoration: _inputDecoration("First Name"),
                         validator: (value) {
-                          if (value == null) {
-                            return "Seleccione un perfil";
+                          if (value == null || value.isEmpty) {
+                            return "Este campo es obligatorio";
                           }
                           return null;
                         },
                       ),
                     ),
-                  ),
+                    SizedBox(height: 10),
+                    _buildInputContainer(
+                      child: TextFormField(
+                        controller: lastNameController,
+                        decoration: _inputDecoration("Last Name"),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Este campo es obligatorio";
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ]else if(selectedProfile == "Empresa")...[
+                    _buildInputContainer(
+                      child: TextFormField(
+                        controller: companyNameController,
+                        decoration: _inputDecoration("Company Name"),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Este campo es obligatorio";
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ],
                   SizedBox(height: 20),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(

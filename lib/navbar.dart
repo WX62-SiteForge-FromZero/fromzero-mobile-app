@@ -92,17 +92,17 @@ class _NavbarState extends State<Navbar> {
         case 1:
           return const Text(
             "Buscar Desarrolladores",
-            style: TextStyle(fontSize: 35),
+            style: TextStyle(fontSize: 25),
           );
         case 2:
           return const Text(
             "Proyectos Terminados",
-            style: TextStyle(fontSize: 35),
+            style: TextStyle(fontSize: 25),
           );
         default:
           return const Text(
             "Crear Proyecto",
-            style: TextStyle(fontSize: 35),
+            style: TextStyle(fontSize: 30),
           );
       }
     }else{
@@ -116,12 +116,12 @@ class _NavbarState extends State<Navbar> {
         case 1:
           return const Text(
             "Buscar Proyectos",
-            style: TextStyle(fontSize: 35),
+            style: TextStyle(fontSize: 25),
           );
         default:
           return const Text(
             "Proyectos Terminados",
-            style: TextStyle(fontSize: 35),
+            style: TextStyle(fontSize: 25),
           );
       }
     }

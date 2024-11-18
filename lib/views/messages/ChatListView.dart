@@ -57,7 +57,7 @@ class _ChatListViewState extends State<ChatListView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Chats")),
-      body: ListView.builder(
+      body: _chats.isNotEmpty?ListView.builder(
         itemCount: _chats.length,
         itemBuilder: (context, index) {
           final chat = _chats[index];
@@ -86,7 +86,7 @@ class _ChatListViewState extends State<ChatListView> {
             ],
           );
         },
-      ),
+      ):Center(child: Text("Aún no hay contactos"),),
     );
   }
 }

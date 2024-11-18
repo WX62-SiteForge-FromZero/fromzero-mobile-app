@@ -138,6 +138,7 @@ class _ProjectsListState extends State<ProjectsList> {
       ),
       body: projectList.isNotEmpty ? _listProjects() : emptyProjects(),
       floatingActionButton: FloatingActionButton(
+        heroTag: "refresh_available_projects",
         child: Icon(Icons.refresh),
         backgroundColor: Colors.lightBlueAccent,
         onPressed: () {

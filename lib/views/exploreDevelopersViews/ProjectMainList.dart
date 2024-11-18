@@ -58,9 +58,6 @@ class _DeveloperListScreenState extends State<DeveloperListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Developers'),
-      ),
       body: Column(
         children: [
           Padding(

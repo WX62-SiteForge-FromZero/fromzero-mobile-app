@@ -98,7 +98,7 @@ class ProfileDevWidget extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Text(
             key,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
           ),
         ),
         Padding(
