@@ -48,7 +48,12 @@ class _HighlightProjectsState extends State<HighlightProjects> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Proyectos Destacados")),
+      appBar: AppBar(
+          title: Text(
+              "Proyectos terminados",
+            style: TextStyle(fontSize: 18),
+          )
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -138,6 +143,7 @@ class _HighlightProjectsState extends State<HighlightProjects> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: "refresh_finished_projects",
         onPressed: () {
           fetchProjects();
         },

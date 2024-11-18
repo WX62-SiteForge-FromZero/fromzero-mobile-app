@@ -92,7 +92,7 @@ class _MessagesViewState extends State<MessagesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Messages")),
+      appBar: AppBar(title: Text("Mensajes")),
       body: Column(
         children: [
           Expanded(
