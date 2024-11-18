@@ -111,7 +111,12 @@ class ProfileMenu extends StatelessWidget {
           ),
           backgroundColor: const Color(0xFFF5F6F9),
         ),
-        onPressed: onTap,
+        onPressed: (){
+          onTap?.call();
+          if(text=="Log Out"){
+            Provider.of<AuthProvider>(context, listen: false).logout();
+          }
+        },
         child: Row(
           children: [
             Icon(
