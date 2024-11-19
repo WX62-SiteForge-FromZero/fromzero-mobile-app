@@ -35,14 +35,17 @@ class _DeveloperProjectsScreenState extends State<DeveloperProjectsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.lightBlue,
         foregroundColor: Colors.black,
         title: const Text('Proyectos'),
         elevation: 0,
       ),
       body: projects.isEmpty
           ? const Center(
-              child: Text("Este desarrollador aún no ha completado proyectos en esta plataforma"))
+              child: Text(
+                "Este desarrollador aún no ha completado proyectos en esta plataforma",
+                textAlign: TextAlign.center
+              ))
           : ListView.builder(
               itemCount: projects.length,
               itemBuilder: (context, index) {

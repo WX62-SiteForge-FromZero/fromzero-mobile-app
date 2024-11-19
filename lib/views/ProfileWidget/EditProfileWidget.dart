@@ -4,7 +4,6 @@ import 'package:fromzero_app/main.dart';
 import 'package:fromzero_app/models/create_project_model.dart';
 import 'package:fromzero_app/models/update_company_model.dart';
 import 'package:fromzero_app/models/update_developer_model.dart';
-import 'package:fromzero_app/navbar.dart';
 
 class EditProfileWidget extends StatefulWidget {
   final String role;
@@ -34,8 +33,6 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
 
   List<Languages> selectedLanguages = [];
   List<Frameworks> selectedFrameworks = [];
-
-  bool _isEditing = false;
 
   @override
   void initState() {
@@ -112,7 +109,8 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Edit Profile"),
+        title: Text("Editar Perfil"),
+        backgroundColor: Colors.lightBlue,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -140,40 +138,20 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
               const SizedBox(height: 20),
               if (widget.role == "DEVELOPER") _buildSpecialtiesForm(),
               const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        _isEditing = true;
-                      });
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF004CFF),
-                    ),
-                    child: Text(
-                      'Edit',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
+              Center(
+                child: ElevatedButton(
+                  onPressed: _saveProfile,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF004CFF),
+                  ),
+                  child: Text(
+                    'Save',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: _saveProfile,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF004CFF),
-                    ),
-                    child: Text(
-                      'Save',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ],
+                ),
               ),
             ],
           ),

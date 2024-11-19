@@ -26,6 +26,7 @@ class ProjectDetails extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Detalles del proyecto"),
+        backgroundColor: Colors.lightBlue,
       ),
       body: SingleChildScrollView(
         child: Column(

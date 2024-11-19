@@ -56,7 +56,10 @@ class _ChatListViewState extends State<ChatListView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Chats")),
+      appBar: AppBar(
+          title: Text("Chats"),
+        backgroundColor: Colors.lightBlue,
+      ),
       body: _chats.isNotEmpty?ListView.builder(
         itemCount: _chats.length,
         itemBuilder: (context, index) {

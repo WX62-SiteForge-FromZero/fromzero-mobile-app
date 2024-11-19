@@ -104,7 +104,10 @@ class _CompanyPendingPaymentsViewState extends State<CompanyPendingPaymentsView>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Pending Payments")),
+      appBar: AppBar(
+          title: Text("Pagos pendientes"),
+        backgroundColor: Colors.lightBlue,
+      ),
       body: FutureBuilder<List<Payment>>(
         future: _pendingPayments,
         builder: (context, snapshot) {

@@ -18,7 +18,10 @@ class DeveloperPaymentStatusView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Payment Status")),
+      appBar: AppBar(
+          title: Text("Pagos recibidos"),
+          backgroundColor: Colors.lightBlue,
+      ),
       body: FutureBuilder<Map<int, String>>(
         future: _getProjectNames(),
         builder: (context, projectSnapshot) {

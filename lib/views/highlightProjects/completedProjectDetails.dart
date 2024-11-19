@@ -13,6 +13,7 @@ class CompletedProjectDetails extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Detalles del proyecto"),
+        backgroundColor: Colors.lightBlue,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
