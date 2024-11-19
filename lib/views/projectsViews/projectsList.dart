@@ -109,10 +109,10 @@ class _ProjectsListState extends State<ProjectsList> {
                         projectList[index].candidates,
                       );
                     },
-                    child: Text("View Candidates"),
+                    child: Text("Ver Candidatos"),
                   )
                 else
-                  Text("Progress: ${projectList[index].progress.toStringAsFixed(2)}%"),
+                  Text("Progreso: ${projectList[index].progress.toStringAsFixed(2)}%"),
               ],
             ),
             trailing: Icon(Icons.arrow_forward_ios),
@@ -131,7 +131,7 @@ class _ProjectsListState extends State<ProjectsList> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Your Projects",
+          "Tus Proyectos",
           style: TextStyle(fontSize: 20),
         ),
         backgroundColor: Colors.lightBlue,

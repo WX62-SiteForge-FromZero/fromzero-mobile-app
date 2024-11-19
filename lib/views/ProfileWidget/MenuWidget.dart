@@ -28,7 +28,7 @@ class MenuWidget extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             ProfileMenu(
-              text: "Payment Methods",
+              text: "Pagos",
               icon: Icons.credit_card,
               onTap: () {
                 if (role == "DEVELOPER") {
@@ -49,7 +49,7 @@ class MenuWidget extends StatelessWidget {
               },
             ),
             ProfileMenu(
-              text: "Edit Profile",
+              text: "Editar Perfil",
               icon: Icons.edit,
               onTap: (){
                 Navigator.push(

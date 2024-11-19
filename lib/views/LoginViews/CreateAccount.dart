@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fromzero_app/api/authService.dart';
 
 class CreateAccountWidget extends StatefulWidget {
@@ -17,6 +18,12 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
   final formKey = GlobalKey<FormState>();
   String? selectedProfile;
   bool _obscurePassword = true;
+  String terms = "";
+  bool isTAndCChecked = false;
+
+  Future<String> loadTAndC()async{
+    return await rootBundle.loadString('lib/assets/Terms_And_Conditions_Fromzero.txt');
+  }
 
   Future<void> registerUser(BuildContext context)async{
     var service = AuthService();
@@ -55,6 +62,39 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
       }
     }
 
+  }
+
+  String? validateCheckbox(bool? value) {
+    if (value == null || !value) {
+      return 'Debes aceptar los Términos y Condiciones';
+    }
+    return null;
+  }
+
+  void showTermsAndConditions(BuildContext context)async{
+    terms= await loadTAndC();
+    showDialog(
+        context: context,
+        builder: (BuildContext context){
+          return AlertDialog(
+            title: Text("Términos y Condiciones"),
+            content: SingleChildScrollView(
+              child: terms==""?CircularProgressIndicator():Text(
+                terms,
+                style: TextStyle(fontSize: 14),
+              ),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: (){
+                    Navigator.of(context).pop();
+                  },
+                  child: Text("Cerrar")
+              )
+            ],
+          );
+        }
+    );
   }
 
   @override
@@ -212,7 +252,34 @@ class _CreateAccountWidgetState extends State<CreateAccountWidget> {
                       ),
                     ),
                   ],
+                  SizedBox(height: 15),
+                  Row(
+                    children: [
+                      Checkbox(
+                          value: isTAndCChecked,
+                          onChanged: (bool? value){
+                            setState(() {
+                              isTAndCChecked=value??false;
+                            });
+                          }
+                      ),
+                      GestureDetector(
+                        onTap: ()=>showTermsAndConditions(context),
+                        child: Text(
+                          "Acepto los Términos y Condiciones",
+                          style: TextStyle(
+                            color: Colors.blue,
+                            decoration: TextDecoration.underline
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
                   SizedBox(height: 20),
+                  TextFormField(
+                    enabled: false,
+                    validator: (value)=>validateCheckbox(isTAndCChecked),
+                  ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xFF004CFF),
