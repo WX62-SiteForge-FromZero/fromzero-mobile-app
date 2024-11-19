@@ -1,4 +1,3 @@
 class BaseUrlApi{
-  static const String url="http://192.168.56.1:8080/v1/api";
-  // static const String url="http://localhost:8080/v1/api";
+  static const String url="https://fromzero-18803638789.us-central1.run.app/v1/api";
 }
